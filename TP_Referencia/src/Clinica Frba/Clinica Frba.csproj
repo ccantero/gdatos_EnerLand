@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{71DE9239-635F-437B-BF7D-1D898AB408DD}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Clinica_Frba</RootNamespace>
+    <AssemblyName>Clinica Frba</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abm de Afiliado\AddModAfiliado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Afiliado\AddModAfiliado.designer.cs">
+      <DependentUpon>AddModAfiliado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Afiliado\Afiliado.cs" />
+    <Compile Include="Abm de Afiliado\SearchAfiliado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Afiliado\SearchAfiliado.designer.cs">
+      <DependentUpon>SearchAfiliado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Especialidades Medicas\MostrarEspecialidades.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Especialidades Medicas\MostrarEspecialidades.Designer.cs">
+      <DependentUpon>MostrarEspecialidades.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Planes\MostrarPlanes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Planes\MostrarPlanes.Designer.cs">
+      <DependentUpon>MostrarPlanes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Profesional\AddModProfesional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Profesional\AddModProfesional.Designer.cs">
+      <DependentUpon>AddModProfesional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Profesional\BuscarProfesional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Profesional\BuscarProfesional.Designer.cs">
+      <DependentUpon>BuscarProfesional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Rol\AddModRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Rol\AddModRol.Designer.cs">
+      <DependentUpon>AddModRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Rol\Roles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Rol\Roles.Designer.cs">
+      <DependentUpon>Roles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Rol\SearchRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Rol\SearchRol.designer.cs">
+      <DependentUpon>SearchRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cancelar Atencion\CancelacionAfiliadoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\CancelacionAfiliadoForm.Designer.cs">
+      <DependentUpon>CancelacionAfiliadoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cancelar Atencion\CancelacionProfesionalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\CancelacionProfesionalForm.Designer.cs">
+      <DependentUpon>CancelacionProfesionalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compra de Bono\BuscarAfiliado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compra de Bono\BuscarAfiliado.Designer.cs">
+      <DependentUpon>BuscarAfiliado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compra de Bono\CompraBonoConsulta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compra de Bono\CompraBonoConsulta.Designer.cs">
+      <DependentUpon>CompraBonoConsulta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compra de Bono\CompraBonoFarmacia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compra de Bono\CompraBonoFarmacia.Designer.cs">
+      <DependentUpon>CompraBonoFarmacia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForm.designer.cs">
+      <DependentUpon>DialogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuPrincipal.Designer.cs">
+      <DependentUpon>MenuPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Profesional.cs" />
+    <Compile Include="Registrar Agenda\SearchProfesional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registrar Agenda\SearchProfesional.Designer.cs">
+      <DependentUpon>SearchProfesional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro de Llegada\IngresoAfiliado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro de Llegada\IngresoAfiliado.Designer.cs">
+      <DependentUpon>IngresoAfiliado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro de Usuario\RegistroUsuarioForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro de Usuario\RegistroUsuarioForm.Designer.cs">
+      <DependentUpon>RegistroUsuarioForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Afiliado\AfiliadoABM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Afiliado\AfiliadoABM.Designer.cs">
+      <DependentUpon>AfiliadoABM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Profesional\ProfesionalABM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Profesional\ProfesionalABM.Designer.cs">
+      <DependentUpon>ProfesionalABM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Especialidades Medicas\EspMedicasABM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Especialidades Medicas\EspMedicasABM.Designer.cs">
+      <DependentUpon>EspMedicasABM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Planes\PlanesABM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Planes\PlanesABM.Designer.cs">
+      <DependentUpon>PlanesABM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registrar Agenda\RegistrarAgendaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registrar Agenda\RegistrarAgendaForm.Designer.cs">
+      <DependentUpon>RegistrarAgendaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pedir Turno\PedirTurnoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pedir Turno\PedirTurnoForm.Designer.cs">
+      <DependentUpon>PedirTurnoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro de Llegada\RegistroLlegadaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro de Llegada\RegistroLlegadaForm.Designer.cs">
+      <DependentUpon>RegistroLlegadaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro Resultado Atencion\IngresoDeDiagnosticos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro Resultado Atencion\IngresoDeDiagnosticos.Designer.cs">
+      <DependentUpon>IngresoDeDiagnosticos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro Resultado Atencion\IngresoDeSintomas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro Resultado Atencion\IngresoDeSintomas.Designer.cs">
+      <DependentUpon>IngresoDeSintomas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro Resultado Atencion\RegResAtencionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro Resultado Atencion\RegResAtencionForm.Designer.cs">
+      <DependentUpon>RegResAtencionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cancelar Atencion\CancAtencionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\CancAtencionForm.Designer.cs">
+      <DependentUpon>CancAtencionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generar Receta\GenerarRecetaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Receta\GenerarRecetaForm.Designer.cs">
+      <DependentUpon>GenerarRecetaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Listados Estadisticos\ListadosEstForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listados Estadisticos\ListadosEstForm.Designer.cs">
+      <DependentUpon>ListadosEstForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Abm de Afiliado\AddModAfiliado.resx">
+      <DependentUpon>AddModAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Afiliado\AfiliadoABM.resx">
+      <DependentUpon>AfiliadoABM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Afiliado\SearchAfiliado.resx">
+      <DependentUpon>SearchAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Especialidades Medicas\EspMedicasABM.resx">
+      <DependentUpon>EspMedicasABM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Especialidades Medicas\MostrarEspecialidades.resx">
+      <DependentUpon>MostrarEspecialidades.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Planes\MostrarPlanes.resx">
+      <DependentUpon>MostrarPlanes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Planes\PlanesABM.resx">
+      <DependentUpon>PlanesABM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Profesional\AddModProfesional.resx">
+      <DependentUpon>AddModProfesional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Profesional\BuscarProfesional.resx">
+      <DependentUpon>BuscarProfesional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Profesional\ProfesionalABM.resx">
+      <DependentUpon>ProfesionalABM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Rol\AddModRol.resx">
+      <DependentUpon>AddModRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Rol\Roles.resx">
+      <DependentUpon>Roles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Rol\SearchRol.resx">
+      <DependentUpon>SearchRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\CancAtencionForm.resx">
+      <DependentUpon>CancAtencionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\CancelacionAfiliadoForm.resx">
+      <DependentUpon>CancelacionAfiliadoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\CancelacionProfesionalForm.resx">
+      <DependentUpon>CancelacionProfesionalForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compra de Bono\BuscarAfiliado.resx">
+      <DependentUpon>BuscarAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compra de Bono\CompraBonoConsulta.resx">
+      <DependentUpon>CompraBonoConsulta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compra de Bono\CompraBonoFarmacia.resx">
+      <DependentUpon>CompraBonoFarmacia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generar Receta\GenerarRecetaForm.resx">
+      <DependentUpon>GenerarRecetaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listados Estadisticos\ListadosEstForm.resx">
+      <DependentUpon>ListadosEstForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuPrincipal.resx">
+      <DependentUpon>MenuPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registrar Agenda\SearchProfesional.resx">
+      <DependentUpon>SearchProfesional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro de Llegada\IngresoAfiliado.resx">
+      <DependentUpon>IngresoAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro de Llegada\RegistroLlegadaForm.resx">
+      <DependentUpon>RegistroLlegadaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro Resultado Atencion\IngresoDeDiagnosticos.resx">
+      <DependentUpon>IngresoDeDiagnosticos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro Resultado Atencion\IngresoDeSintomas.resx">
+      <DependentUpon>IngresoDeSintomas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro Resultado Atencion\RegResAtencionForm.resx">
+      <DependentUpon>RegResAtencionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SQL_Methods.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

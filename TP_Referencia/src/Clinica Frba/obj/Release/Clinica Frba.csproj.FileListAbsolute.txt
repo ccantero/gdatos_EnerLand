@@ -1,0 +1,30 @@
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\bin\Release\Clinica Frba.exe.config
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\bin\Release\Clinica Frba.exe
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\bin\Release\Clinica Frba.pdb
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.Afiliado.AddModAfiliado.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.Afiliado.AfiliadoABM.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.Afiliado.SearchAfiliado.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.EspMedicas.EspMedicasABM.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.mostrarEspecialidades.MostrarEspecialidades.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.mostrarPlan.MostrarPlanes.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.Planes.PlanesABM.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.addModProfesional.AddModProfesional.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.buscarProfesionalForm.BuscarProfesional.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.Profesional.ProfesionalABM.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Rol.AddModRol.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Rol.Rol_Form.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Rol.SearchRol.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.CancAtencion.CancAtencionForm.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.buscarAfiliado.BuscarAfiliado.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.bonoConsulta.CompraBonoConsulta.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.bonoFarmacia.CompraBonoFarmacia.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.GenerarReceta.GenerarRecetaForm.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.Login.LoginForm.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.MenuPrincipal.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.Properties.Resources.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica Frba.csproj.GenerateResource.Cache
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica Frba.exe
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica Frba.pdb
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.Cancelar_Atencion_Afiliado.CancelacionAfiliadoForm.resources
+C:\Users\Joaqo\Desktop\Back Up TP Gestion\src\Clinica Frba\obj\Release\Clinica_Frba.Cancelar_Atencion_Profesional.CancelacionProfesionalForm.resources
