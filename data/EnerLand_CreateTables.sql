@@ -32,20 +32,20 @@ CREATE TABLE ENER_LAND.Tipo_Habitacion (
 );
 
 CREATE TABLE ENER_LAND.Usuario (
-  username VARCHAR NOT NULL,
-  Contraseña VARCHAR NULL,
-  Nombre VARCHAR NULL,
-  Apellido VARCHAR NULL,
-  Mail VARCHAR NULL,
+  username VARCHAR(20) NOT NULL,
+  Contraseña VARCHAR(100) NOT NULL,
+  Nombre VARCHAR(50) NULL,
+  Apellido VARCHAR(50) NULL,
+  Mail VARCHAR(50) NULL,
   Telefono INTEGER NULL,
-  Tipo VARCHAR NULL,
+  Tipo VARCHAR(50) NULL,
   Documento INTEGER NULL,
   PRIMARY KEY(username)
 );
 
 CREATE TABLE ENER_LAND.Rol (
   idRol INTEGER NOT NULL IDENTITY(1,1),
-  Descripcion VARCHAR NULL,
+  Descripcion VARCHAR(25) NULL,
   Estado CHAR NOT NULL,
   PRIMARY KEY(idRol)
 );
@@ -60,7 +60,7 @@ CREATE TABLE ENER_LAND.Regimen (
 
 CREATE TABLE ENER_LAND.Funcionalidad (
   idFuncionalidad INTEGER NOT NULL IDENTITY(1,1),
-  Descripcion VARCHAR NULL,
+  Descripcion VARCHAR(25) NULL,
   PRIMARY KEY(idFuncionalidad)
 );
 
@@ -112,7 +112,7 @@ CREATE TABLE ENER_LAND.Rol_Funcionalidad (
 
 CREATE TABLE ENER_LAND.Rol_Usuario (
   idRol INTEGER NOT NULL IDENTITY(1,1),
-  username VARCHAR NULL,
+  username VARCHAR(20) NULL,
   PRIMARY KEY(idRol),
   FOREIGN KEY(username)
     REFERENCES ENER_LAND.Usuario(username)
@@ -148,7 +148,7 @@ CREATE TABLE ENER_LAND.Reserva (
 
 CREATE TABLE ENER_LAND.Hotel (
   idHotel INTEGER NOT NULL IDENTITY(1,1),
-  Administrador VARCHAR NOT NULL,
+  Administrador VARCHAR(20) NOT NULL,
   Nombre VARCHAR NULL,
   Mail VARCHAR NULL,
   Telefono INTEGER NULL,
@@ -202,7 +202,7 @@ CREATE TABLE ENER_LAND.Hotel_Inhabilitado (
 );
 
 CREATE TABLE ENER_LAND.Usuario_Hoteles (
-  username VARCHAR NOT NULL,
+  username VARCHAR(20) NOT NULL,
   idHotel INTEGER NOT NULL,
   FOREIGN KEY(username)
     REFERENCES ENER_LAND.Usuario(username)
@@ -288,6 +288,23 @@ CREATE TABLE ENER_LAND.Reserva_Habitacion (
 
 /* INSERT */
 
+INSERT [ENER_LAND].[Rol] ([Descripcion], [Estado]) VALUES ('Administrador', 1);
+INSERT [ENER_LAND].[Rol] ([Descripcion], [Estado]) VALUES ('Recepcionista', 1);
+INSERT [ENER_LAND].[Rol] ([Descripcion], [Estado]) VALUES ('Guest', 1);
+
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Usuario');
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Huesped');
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Hotel');
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Habitacion');
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Generar Reserva');
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Cancelar Reserva');
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Registrar Estadia');
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Registrar Consumible');
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Facturar');
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Estadisticas');	
+
+
 INSERT ENER_LAND.Tipo_Habitacion 
 	SELECT DISTINCT Habitacion_Tipo_Codigo, Habitacion_Tipo_Descripcion,Habitacion_Tipo_Porcentual FROM gd_esquema.Maestra
 	ORDER BY 1;
+	
