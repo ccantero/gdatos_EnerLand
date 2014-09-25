@@ -1,0 +1,5 @@
+Notas
+
+Existen varios usuarios con el mismo Mail. Por lo tanto se decide no utilizar un constraint UNIQUE para la tabla Huesped, en el campo mail.
+
+Dicha regla de negocio se manejarà por Store Procedure.

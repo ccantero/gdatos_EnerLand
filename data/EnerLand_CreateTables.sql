@@ -7,19 +7,19 @@ GO
 /* CREATE TABLES */
 
 CREATE TABLE ENER_LAND.Huesped (
-  idHuesped INTEGER NOT NULL,
-  Tipo_Documento VARCHAR NOT NULL,
+  idHuesped INTEGER NOT NULL IDENTITY(1,1),
+  Tipo_Documento VARCHAR(25) NOT NULL,
   Nro_Documento INTEGER NOT NULL,
-  Nombre VARCHAR NULL,
-  Apellido VARCHAR NULL,
-  Mail INTEGER NULL,
+  Nombre VARCHAR(50) NOT NULL,
+  Apellido VARCHAR(50) NOT NULL,
+  Mail VARCHAR(50) NOT NULL,
   Telefono INTEGER NULL,
-  Calle VARCHAR NULL,
+  Calle VARCHAR(50) NULL,
   Numero INTEGER NULL,
   Piso INTEGER NULL,
   Departamento CHAR NULL,
   Fecha_Nacimiento DATE NULL,
-  Nacionalidad VARCHAR NULL,
+  Nacionalidad VARCHAR(50) NULL,
   Habilitado CHAR NOT NULL,
   PRIMARY KEY(idHuesped)
 );
@@ -40,19 +40,20 @@ CREATE TABLE ENER_LAND.Usuario (
   Telefono INTEGER NULL,
   Tipo VARCHAR(50) NULL,
   Documento INTEGER NULL,
+  Habilitado CHAR NOT NULL,
   PRIMARY KEY(username)
 );
 
 CREATE TABLE ENER_LAND.Rol (
   idRol INTEGER NOT NULL IDENTITY(1,1),
   Descripcion VARCHAR(25) NULL,
-  Estado CHAR NOT NULL,
+  Habilitado CHAR NOT NULL,
   PRIMARY KEY(idRol)
 );
 
 CREATE TABLE ENER_LAND.Regimen (
   idRegimen INTEGER NOT NULL IDENTITY(1,1),
-  Descripcion VARCHAR NULL,
+  Descripcion VARCHAR(25) NULL,
   Precio FLOAT NULL,
   Habilitado CHAR NOT NULL,
   PRIMARY KEY(idRegimen)
@@ -65,8 +66,8 @@ CREATE TABLE ENER_LAND.Funcionalidad (
 );
 
 CREATE TABLE ENER_LAND.Consumibles (
-  idConsumibles INTEGER NOT NULL IDENTITY(1,1),
-  Descripcion VARCHAR NULL,
+  idConsumibles INTEGER NOT NULL,
+  Descripcion VARCHAR(25) NULL,
   Precio FLOAT NULL,
   PRIMARY KEY(idConsumibles)
 );
@@ -98,8 +99,8 @@ CREATE TABLE ENER_LAND.Item_Factura (
 );
 
 CREATE TABLE ENER_LAND.Rol_Funcionalidad (
-  idRol INTEGER NOT NULL IDENTITY(1,1),
-  idFuncionalidad INTEGER NULL,
+  idRol INTEGER NOT NULL,
+  idFuncionalidad INTEGER NOT NULL,
   FOREIGN KEY(idRol)
     REFERENCES ENER_LAND.Rol(idRol)
       ON DELETE NO ACTION
@@ -111,9 +112,8 @@ CREATE TABLE ENER_LAND.Rol_Funcionalidad (
 );
 
 CREATE TABLE ENER_LAND.Rol_Usuario (
-  idRol INTEGER NOT NULL IDENTITY(1,1),
-  username VARCHAR(20) NULL,
-  PRIMARY KEY(idRol),
+  idRol INTEGER NOT NULL ,
+  username VARCHAR(20) NOT NULL,
   FOREIGN KEY(username)
     REFERENCES ENER_LAND.Usuario(username)
       ON DELETE NO ACTION
@@ -288,9 +288,9 @@ CREATE TABLE ENER_LAND.Reserva_Habitacion (
 
 /* INSERT */
 
-INSERT [ENER_LAND].[Rol] ([Descripcion], [Estado]) VALUES ('Administrador', 1);
-INSERT [ENER_LAND].[Rol] ([Descripcion], [Estado]) VALUES ('Recepcionista', 1);
-INSERT [ENER_LAND].[Rol] ([Descripcion], [Estado]) VALUES ('Guest', 1);
+INSERT [ENER_LAND].[Rol] ([Descripcion], [Habilitado]) VALUES ('Administrador', 1);
+INSERT [ENER_LAND].[Rol] ([Descripcion], [Habilitado]) VALUES ('Recepcionista', 1);
+INSERT [ENER_LAND].[Rol] ([Descripcion], [Habilitado]) VALUES ('Guest', 1);
 
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Usuario');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Huesped');
@@ -303,8 +303,66 @@ INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Registrar Consumible
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Facturar');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Estadisticas');	
 
+INSERT [ENER_LAND].[Usuario] ([username], [Contraseña], [Habilitado]) VALUES ('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 1);
+-- w23e encriptado en SHA256 es e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7
+INSERT [ENER_LAND].[Usuario] ([username], [Contraseña], [Habilitado]) VALUES ('guest', '280d44ab1e9f79b5cce2dd4f58f5fe91f0fbacdac9f7447dffc318ceb79f2d02', 1);
+-- welcome encriptado en SHA256 es 280d44ab1e9f79b5cce2dd4f58f5fe91f0fbacdac9f7447dffc318ceb79f2d02
+
+INSERT [ENER_LAND].[Rol_Usuario] ([idRol], [username]) VALUES (1, 'admin');
+INSERT [ENER_LAND].[Rol_Usuario] ([idRol], [username]) VALUES (3, 'guest');
+
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 1);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 2);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 3);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 4);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 5);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 6);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 7);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 8);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 9);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 10);
+
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 2);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 5);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 6);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 7);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 8);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 9);
+
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (3, 2);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (3, 5);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (3, 6);
+
+INSERT ENER_LAND.Huesped
+	SELECT	DISTINCT	'Pasaporte',
+						Cliente_Pasaporte_Nro, 
+						Cliente_Nombre,
+						Cliente_Apellido, 
+						Cliente_Mail, 
+						NULL, 
+						Cliente_Dom_Calle, 
+						Cliente_Nro_Calle, 
+						Cliente_Piso, 
+						Cliente_Depto, 
+						Cliente_Fecha_Nac, 
+						Cliente_Nacionalidad,
+						1
+	FROM gd_esquema.Maestra
+
 
 INSERT ENER_LAND.Tipo_Habitacion 
 	SELECT DISTINCT Habitacion_Tipo_Codigo, Habitacion_Tipo_Descripcion,Habitacion_Tipo_Porcentual FROM gd_esquema.Maestra
 	ORDER BY 1;
 	
+INSERT ENER_LAND.Regimen
+	SELECT DISTINCT Regimen_Descripcion, Regimen_Precio, 1
+	FROM gd_esquema.Maestra 
+	ORDER BY 2
+	
+INSERT ENER_LAND.Consumibles
+	SELECT DISTINCT Consumible_Codigo, 
+					Consumible_Descripcion,
+					Consumible_Precio 
+	FROM gd_esquema.Maestra
+	WHERE Consumible_Codigo IS NOT NULL
+	ORDER BY 1

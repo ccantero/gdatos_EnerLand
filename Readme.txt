@@ -1,4 +1,4 @@
-Grupo: Ener_Lan
+Grupo: Ener_Land
 Curso: 
 Integrantes:
 
