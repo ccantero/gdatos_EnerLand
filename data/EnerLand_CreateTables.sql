@@ -6,6 +6,107 @@ GO
 
 /* CREATE TABLES */
 
+CREATE TABLE ENER_LAND.Rol (
+  idRol INTEGER NOT NULL IDENTITY(1,1),
+  Descripcion VARCHAR(25) NULL,
+  Habilitado CHAR NOT NULL,
+  PRIMARY KEY(idRol)
+);
+
+CREATE TABLE ENER_LAND.Funcionalidad (
+  idFuncionalidad INTEGER NOT NULL IDENTITY(1,1),
+  Descripcion VARCHAR(25) NULL,
+  PRIMARY KEY(idFuncionalidad)
+);
+
+CREATE TABLE ENER_LAND.Rol_Funcionalidad (
+  idRol INTEGER NOT NULL,
+  idFuncionalidad INTEGER NOT NULL,
+  FOREIGN KEY(idRol)
+    REFERENCES ENER_LAND.Rol(idRol)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(idFuncionalidad)
+    REFERENCES ENER_LAND.Funcionalidad(idFuncionalidad)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+);
+
+CREATE TABLE ENER_LAND.Usuario (
+  username VARCHAR(20) NOT NULL,
+  Contraseña VARCHAR(100) NOT NULL,
+  Nombre VARCHAR(50) NULL,
+  Apellido VARCHAR(50) NULL,
+  Mail VARCHAR(50) NULL,
+  Telefono INTEGER NULL,
+  Tipo VARCHAR(50) NULL,
+  Documento INTEGER NULL,
+  Habilitado CHAR NOT NULL,
+  PRIMARY KEY(username)
+);
+
+CREATE TABLE ENER_LAND.Rol_Usuario (
+  idRol INTEGER NOT NULL ,
+  username VARCHAR(20) NOT NULL,
+  FOREIGN KEY(username)
+    REFERENCES ENER_LAND.Usuario(username)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(idRol)
+    REFERENCES ENER_LAND.Rol(idRol)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+);
+
+
+CREATE TABLE ENER_LAND.Regimen (
+  idRegimen INTEGER NOT NULL IDENTITY(1,1),
+  Descripcion VARCHAR(25) NULL,
+  Precio FLOAT NULL,
+  Habilitado CHAR NOT NULL,
+  PRIMARY KEY(idRegimen)
+);
+
+CREATE TABLE ENER_LAND.Consumibles (
+  idConsumibles INTEGER NOT NULL,
+  Descripcion VARCHAR(25) NULL,
+  Precio FLOAT NULL,
+  PRIMARY KEY(idConsumibles)
+);
+
+CREATE TABLE ENER_LAND.Estado_Reserva (
+  idEstado_Reserva INTEGER NOT NULL IDENTITY(1,1),
+  Descripcion VARCHAR(50) NULL,
+  PRIMARY KEY(idEstado_Reserva)
+);
+
+CREATE TABLE ENER_LAND.Tipo_Habitacion (
+  idTipo_Habitacion INTEGER NOT NULL,
+  Descripcion VARCHAR(20) NULL,
+  Porcentaje NUMERIC(18,2) NULL,
+  PRIMARY KEY(idTipo_Habitacion)
+);
+
+CREATE TABLE ENER_LAND.Hotel (
+  idHotel INTEGER NOT NULL IDENTITY(1,1),
+  Administrador VARCHAR(20) NOT NULL,
+  Nombre VARCHAR NULL,
+  Mail VARCHAR NULL,
+  Telefono INTEGER NULL,
+  Cantidad_Estrellas INTEGER NOT NULL,
+  Calle VARCHAR NULL,
+  Numero INTEGER NULL,
+  Localidad VARCHAR(25),
+  Pais VARCHAR(25),
+  Fecha_Creacion DATE NULL,
+  Habilitado CHAR NOT NULL,
+  PRIMARY KEY(idHotel),
+  FOREIGN KEY(Administrador)
+    REFERENCES ENER_LAND.Usuario(username)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+);
+
 CREATE TABLE ENER_LAND.Huesped (
   idHuesped INTEGER NOT NULL IDENTITY(1,1),
   Tipo_Documento VARCHAR(25) NOT NULL,
@@ -24,66 +125,33 @@ CREATE TABLE ENER_LAND.Huesped (
   PRIMARY KEY(idHuesped)
 );
 
-CREATE TABLE ENER_LAND.Tipo_Habitacion (
-  idTipo_Habitacion INTEGER NOT NULL,
-  Descripcion VARCHAR(20) NULL,
-  Porcentaje NUMERIC(18,2) NULL,
-  PRIMARY KEY(idTipo_Habitacion)
-);
 
-CREATE TABLE ENER_LAND.Usuario (
-  username VARCHAR(20) NOT NULL,
-  Contraseña VARCHAR(100) NOT NULL,
-  Nombre VARCHAR(50) NULL,
-  Apellido VARCHAR(50) NULL,
-  Mail VARCHAR(50) NULL,
-  Telefono INTEGER NULL,
-  Tipo VARCHAR(50) NULL,
-  Documento INTEGER NULL,
-  Habilitado CHAR NOT NULL,
-  PRIMARY KEY(username)
-);
-
-CREATE TABLE ENER_LAND.Rol (
-  idRol INTEGER NOT NULL IDENTITY(1,1),
-  Descripcion VARCHAR(25) NULL,
-  Habilitado CHAR NOT NULL,
-  PRIMARY KEY(idRol)
-);
-
-CREATE TABLE ENER_LAND.Regimen (
-  idRegimen INTEGER NOT NULL IDENTITY(1,1),
-  Descripcion VARCHAR(25) NULL,
-  Precio FLOAT NULL,
-  Habilitado CHAR NOT NULL,
-  PRIMARY KEY(idRegimen)
-);
-
-CREATE TABLE ENER_LAND.Funcionalidad (
-  idFuncionalidad INTEGER NOT NULL IDENTITY(1,1),
-  Descripcion VARCHAR(25) NULL,
-  PRIMARY KEY(idFuncionalidad)
-);
-
-CREATE TABLE ENER_LAND.Consumibles (
-  idConsumibles INTEGER NOT NULL,
-  Descripcion VARCHAR(25) NULL,
-  Precio FLOAT NULL,
-  PRIMARY KEY(idConsumibles)
-);
-
-CREATE TABLE ENER_LAND.Estado_Reserva (
-  idEstado_Reserva INTEGER NOT NULL IDENTITY(1,1),
-  Descripcion VARCHAR NULL,
-  PRIMARY KEY(idEstado_Reserva)
+CREATE TABLE ENER_LAND.Forma_de_Pago (
+  idForma_De_Pago INTEGER NOT NULL IDENTITY(1,1),
+  Descripcion VARCHAR(50) NULL,
+  PRIMARY KEY(idForma_De_Pago)
 );
 
 CREATE TABLE ENER_LAND.Factura (
-  idFactura INTEGER NOT NULL IDENTITY(1,1),
+  idFactura INTEGER NOT NULL,
+  idHuesped INTEGER,
+  idHotel INTEGER,
   Fecha DATE NULL,
   Total FLOAT NULL,
-  Forma_de_Pago VARCHAR NULL,
-  PRIMARY KEY(idFactura)
+  idForma_De_Pago INTEGER NOT NULL,
+  PRIMARY KEY(idFactura),
+  FOREIGN KEY(idForma_De_Pago)
+  REFERENCES ENER_LAND.Forma_de_Pago(idForma_De_Pago)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(idHuesped)
+  REFERENCES ENER_LAND.Huesped(idHuesped)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(idHotel)
+  REFERENCES ENER_LAND.Hotel(idHotel)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 );
 
 CREATE TABLE ENER_LAND.Item_Factura (
@@ -94,32 +162,6 @@ CREATE TABLE ENER_LAND.Item_Factura (
   PRIMARY KEY(idItem, idFactura),
   FOREIGN KEY(idFactura)
     REFERENCES ENER_LAND.Factura(idFactura)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
-);
-
-CREATE TABLE ENER_LAND.Rol_Funcionalidad (
-  idRol INTEGER NOT NULL,
-  idFuncionalidad INTEGER NOT NULL,
-  FOREIGN KEY(idRol)
-    REFERENCES ENER_LAND.Rol(idRol)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
-  FOREIGN KEY(idFuncionalidad)
-    REFERENCES ENER_LAND.Funcionalidad(idFuncionalidad)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
-);
-
-CREATE TABLE ENER_LAND.Rol_Usuario (
-  idRol INTEGER NOT NULL ,
-  username VARCHAR(20) NOT NULL,
-  FOREIGN KEY(username)
-    REFERENCES ENER_LAND.Usuario(username)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
-  FOREIGN KEY(idRol)
-    REFERENCES ENER_LAND.Rol(idRol)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
 );
@@ -146,27 +188,6 @@ CREATE TABLE ENER_LAND.Reserva (
       ON UPDATE NO ACTION
 );
 
-CREATE TABLE ENER_LAND.Hotel (
-  idHotel INTEGER NOT NULL IDENTITY(1,1),
-  Administrador VARCHAR(20) NOT NULL,
-  Nombre VARCHAR NULL,
-  Mail VARCHAR NULL,
-  Telefono INTEGER NULL,
-  Cantidad_Estrellas INTEGER NOT NULL,
-  Calle VARCHAR NULL,
-  Numero INTEGER NULL,
-  Piso INTEGER NULL,
-  Departamento CHAR NULL,
-  Localidad VARCHAR(25),
-  Pais VARCHAR(25),
-  Fecha_Creacion DATE NULL,
-  Habilitado CHAR NOT NULL,
-  PRIMARY KEY(idHotel),
-  FOREIGN KEY(Administrador)
-    REFERENCES ENER_LAND.Usuario(username)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
-);
 
 CREATE TABLE ENER_LAND.Estadias (
   idReserva INTEGER NOT NULL,
@@ -347,7 +368,7 @@ INSERT ENER_LAND.Huesped
 						Cliente_Fecha_Nac, 
 						Cliente_Nacionalidad,
 						1
-	FROM gd_esquema.Maestra
+	FROM gd_esquema.Maestra;
 
 
 INSERT ENER_LAND.Tipo_Habitacion 
@@ -357,7 +378,7 @@ INSERT ENER_LAND.Tipo_Habitacion
 INSERT ENER_LAND.Regimen
 	SELECT DISTINCT Regimen_Descripcion, Regimen_Precio, 1
 	FROM gd_esquema.Maestra 
-	ORDER BY 2
+	ORDER BY 2;
 	
 INSERT ENER_LAND.Consumibles
 	SELECT DISTINCT Consumible_Codigo, 
@@ -365,4 +386,14 @@ INSERT ENER_LAND.Consumibles
 					Consumible_Precio 
 	FROM gd_esquema.Maestra
 	WHERE Consumible_Codigo IS NOT NULL
-	ORDER BY 1
+	ORDER BY 1;
+	
+INSERT [ENER_LAND].[Estado_Reserva] ([Descripcion]) VALUES ('Reserva correcta');
+INSERT [ENER_LAND].[Estado_Reserva] ([Descripcion]) VALUES ('Reserva modificada');
+INSERT [ENER_LAND].[Estado_Reserva] ([Descripcion]) VALUES ('Reserva cancelada por Recepción');
+INSERT [ENER_LAND].[Estado_Reserva] ([Descripcion]) VALUES ('Reserva cancelada por Cliente');
+INSERT [ENER_LAND].[Estado_Reserva] ([Descripcion]) VALUES ('Reserva cancelada por No-Show');
+INSERT [ENER_LAND].[Estado_Reserva] ([Descripcion]) VALUES ('Reserva con ingreso (efectivizada)');
+
+INSERT [ENER_LAND].[Forma_de_Pago] ([Descripcion]) VALUES ('Efectivo');
+INSERT [ENER_LAND].[Forma_de_Pago] ([Descripcion]) VALUES ('Tarjeta de Credito');
