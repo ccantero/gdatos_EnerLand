@@ -90,11 +90,11 @@ CREATE TABLE ENER_LAND.Tipo_Habitacion (
 CREATE TABLE ENER_LAND.Hotel (
   idHotel INTEGER NOT NULL IDENTITY(1,1),
   Administrador VARCHAR(20) NOT NULL,
-  Nombre VARCHAR NULL,
-  Mail VARCHAR NULL,
+  Nombre VARCHAR(25) NULL,
+  Mail VARCHAR(50) NULL,
   Telefono INTEGER NULL,
   Cantidad_Estrellas INTEGER NOT NULL,
-  Calle VARCHAR NULL,
+  Calle VARCHAR(50) NULL,
   Numero INTEGER NULL,
   Localidad VARCHAR(25),
   Pais VARCHAR(25),
@@ -105,6 +105,26 @@ CREATE TABLE ENER_LAND.Hotel (
     REFERENCES ENER_LAND.Usuario(username)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
+);
+
+
+CREATE TABLE ENER_LAND.Habitacion (
+  Numero INTEGER NOT NULL,
+  IdHotel INTEGER NOT NULL,
+  idTipo_Habitacion INTEGER NOT NULL,
+  Piso INTEGER NULL,
+  Ubicacion CHAR NULL,
+  Descripcion VARCHAR NULL,
+  Habilitado CHAR NOT NULL,
+  PRIMARY KEY(Numero, IdHotel),
+  FOREIGN KEY(idHotel)
+    REFERENCES ENER_LAND.Hotel(idHotel)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(idTipo_Habitacion)
+    REFERENCES ENER_LAND.Tipo_Habitacion(idTipo_Habitacion)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 );
 
 CREATE TABLE ENER_LAND.Huesped (
@@ -167,18 +187,24 @@ CREATE TABLE ENER_LAND.Item_Factura (
 );
 
 CREATE TABLE ENER_LAND.Reserva (
-  idReserva INTEGER NOT NULL IDENTITY(1,1),
+  idReserva INTEGER NOT NULL,
   idEstado_Reserva INTEGER NOT NULL,
-  Huesped_idHuesped INTEGER NOT NULL,
+  idHotel INTEGER NOT NULL,
+  idHabitacion INTEGER NOT NULL,
+  idHuesped INTEGER NOT NULL,
   idRegimen INTEGER NOT NULL,
   FechaDesde DATE NULL,
   Cantidad_Dias INTEGER NULL,
   PRIMARY KEY(idReserva),
+  FOREIGN KEY([idHabitacion], [idHotel])
+    REFERENCES [ENER_LAND].[Habitacion] ([Numero], [IdHotel])
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
   FOREIGN KEY(idRegimen)
     REFERENCES ENER_LAND.Regimen(idRegimen)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
-  FOREIGN KEY(Huesped_idHuesped)
+  FOREIGN KEY(idHuesped)
     REFERENCES ENER_LAND.Huesped(idHuesped)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
@@ -235,24 +261,6 @@ CREATE TABLE ENER_LAND.Usuario_Hoteles (
       ON UPDATE NO ACTION
 );
 
-CREATE TABLE ENER_LAND.Habitacion (
-  Numero INTEGER NOT NULL IDENTITY(1,1),
-  IdHotel INTEGER NOT NULL,
-  idTipo_Habitacion INTEGER NOT NULL,
-  Piso INTEGER NULL,
-  Ubicacion CHAR NULL,
-  Descripcion VARCHAR NULL,
-  Habilitado CHAR NOT NULL,
-  PRIMARY KEY(Numero, IdHotel),
-  FOREIGN KEY(idHotel)
-    REFERENCES ENER_LAND.Hotel(idHotel)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
-  FOREIGN KEY(idTipo_Habitacion)
-    REFERENCES ENER_LAND.Tipo_Habitacion(idTipo_Habitacion)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
-);
 
 CREATE TABLE ENER_LAND.Consumible_Reserva (
   idConsumibles INTEGER NOT NULL,
@@ -397,3 +405,66 @@ INSERT [ENER_LAND].[Estado_Reserva] ([Descripcion]) VALUES ('Reserva con ingreso
 
 INSERT [ENER_LAND].[Forma_de_Pago] ([Descripcion]) VALUES ('Efectivo');
 INSERT [ENER_LAND].[Forma_de_Pago] ([Descripcion]) VALUES ('Tarjeta de Credito');
+
+
+BEGIN
+	DECLARE @ROW_NUMBER INT
+	DECLARE @Hotel_Ciudad NVARCHAR(255)
+	DECLARE @Hotel_Calle NVARCHAR(255)
+	DECLARE @Hotel_Nro_Calle NUMERIC(18,0)
+	DECLARE @Hotel_CantEstrella NUMERIC(18,0)
+	
+	DECLARE Hotel_Cursor CURSOR FOR 
+		SELECT DISTINCT Hotel_Calle,Hotel_Nro_Calle,Hotel_CantEstrella,Hotel_Ciudad
+		FROM gd_esquema.Maestra
+		WHERE Hotel_Ciudad IS NOT NULL;
+	
+	SET @ROW_NUMBER = 1;
+	OPEN Hotel_Cursor;
+	FETCH NEXT FROM Hotel_Cursor INTO @Hotel_Calle, @Hotel_Nro_Calle, @Hotel_CantEstrella, @Hotel_Ciudad;
+	WHILE @@FETCH_STATUS = 0
+		BEGIN
+			INSERT INTO [ENER_LAND].[Hotel]
+			VALUES ('admin', 'Hotel '+CONVERT(CHAR,@ROW_NUMBER),NULL,NULL,@Hotel_CantEstrella, @Hotel_Calle, @Hotel_Nro_Calle, @Hotel_Ciudad,'Argentina', NULL, 1);
+			FETCH NEXT FROM Hotel_Cursor INTO @Hotel_Calle, @Hotel_Nro_Calle, @Hotel_CantEstrella, @Hotel_Ciudad;
+			SET @ROW_NUMBER = @ROW_NUMBER + 1;
+		END;
+	CLOSE Hotel_Cursor;
+	DEALLOCATE Hotel_Cursor;
+END;
+
+INSERT [ENER_LAND].[Habitacion]
+	SELECT DISTINCT Habitacion_Numero, x2.idHotel,x3.idTipo_Habitacion, Habitacion_Piso, Habitacion_Frente, NULL, 1
+	FROM gd_esquema.Maestra x1, ENER_LAND.Hotel x2, ENER_LAND.Tipo_Habitacion x3
+	WHERE x1.Hotel_Calle = x2.Calle
+	AND x1.Hotel_Nro_Calle = x2.Numero
+	AND x1.Hotel_Ciudad = x2.Localidad
+	AND x1.Habitacion_Tipo_Codigo = x3.idTipo_Habitacion
+	ORDER BY x2.idHotel, Habitacion_Numero;
+	
+INSERT [ENER_LAND].[Usuario_Hoteles]
+	SELECT 'admin',idHotel FROM ENER_LAND.Hotel;
+	
+INSERT [ENER_LAND].[Regimen_Hotel]
+	SELECT DISTINCT x3.idHotel, x2.idRegimen
+	FROM gd_esquema.Maestra x1, ENER_LAND.Regimen x2, ENER_LAND.Hotel x3
+	WHERE x1.Hotel_Calle = x3.Calle
+	AND x1.Hotel_Nro_Calle = x3.Numero
+	AND x1.Hotel_Ciudad = x3.Localidad
+	AND x1.Regimen_Descripcion = x2.Descripcion
+	ORDER BY 1, 2;
+	
+INSERT ENER_LAND.Reserva
+	SELECT DISTINCT Reserva_Codigo, 1, x3.IdHotel, x3.Numero, x5.idHuesped, x4.idRegimen, x1.Reserva_Fecha_Inicio, x1.Reserva_Cant_Noches
+	FROM gd_esquema.Maestra x1, ENER_LAND.Hotel x2, ENER_LAND.Habitacion x3, ENER_LAND.Regimen x4, ENER_LAND.Huesped x5
+	WHERE x1.Hotel_Calle = x2.Calle
+	AND x1.Hotel_Nro_Calle = x2.Numero
+	AND x1.Hotel_Ciudad = x2.Localidad
+	AND x2.idHotel = x3.IdHotel
+	AND x1.Habitacion_Numero = x3.Numero
+	AND x1.Regimen_Descripcion = x4.Descripcion
+	AND x1.Cliente_Mail = x5.Mail
+	AND x1.Cliente_Pasaporte_Nro = x5.Nro_Documento
+	AND x1.Cliente_Apellido = x5.Apellido
+	AND x1.Cliente_Nombre = x5.Nombre
+	ORDER BY 1;
