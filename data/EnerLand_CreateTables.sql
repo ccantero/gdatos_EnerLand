@@ -133,7 +133,8 @@ CREATE TABLE ENER_LAND.Huesped (
   Nro_Documento INTEGER NOT NULL,
   Nombre VARCHAR(50) NOT NULL,
   Apellido VARCHAR(50) NOT NULL,
-  Mail VARCHAR(50) NOT NULL,
+  Mail VARCHAR(50),
+  Mail_Alternativo VARCHAR(50),
   Telefono INTEGER NULL,
   Calle VARCHAR(50) NULL,
   Numero INTEGER NULL,
@@ -367,6 +368,7 @@ INSERT ENER_LAND.Huesped
 						Cliente_Pasaporte_Nro, 
 						Cliente_Nombre,
 						Cliente_Apellido, 
+						NULL,
 						Cliente_Mail, 
 						NULL, 
 						Cliente_Dom_Calle, 
@@ -378,6 +380,14 @@ INSERT ENER_LAND.Huesped
 						1
 	FROM gd_esquema.Maestra;
 
+UPDATE ENER_LAND.Huesped
+	SET Mail = Mail_Alternativo,
+	Mail_Alternativo = NULL
+FROM ENER_LAND.Huesped x1
+WHERE EXISTS (	SELECT 1 FROM ENER_LAND.Huesped x2 
+				WHERE x2.Mail_Alternativo = x1.Mail_Alternativo
+				GROUP BY x2.Mail_Alternativo
+				HAVING COUNT(1) = 1 )
 
 INSERT ENER_LAND.Tipo_Habitacion 
 	SELECT DISTINCT Habitacion_Tipo_Codigo, Habitacion_Tipo_Descripcion,Habitacion_Tipo_Porcentual FROM gd_esquema.Maestra

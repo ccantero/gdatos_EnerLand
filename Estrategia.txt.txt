@@ -1,5 +1,7 @@
 Notas
 
-Existen varios usuarios con el mismo Mail. Por lo tanto se decide no utilizar un constraint UNIQUE para la tabla Huesped, en el campo mail.
+Existen varios usuarios con el mismo Mail. Por lo tanto se decide crear una columna Mail_Alternativo y agregar en ella aquellos mails que tienen más de una aparición. Cuando la aplicacion encuentre un Mail Primario en NULL, requerirá el cambio del 
 
 Dicha regla de negocio se manejarà por Store Procedure.
+
+Forma de Pago es unica por Factura
