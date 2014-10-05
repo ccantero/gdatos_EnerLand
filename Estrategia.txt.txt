@@ -1,7 +1,10 @@
 Notas
 
-Existen varios usuarios con el mismo Mail. Por lo tanto se decide crear una columna Mail_Alternativo y agregar en ella aquellos mails que tienen más de una aparición. Cuando la aplicacion encuentre un Mail Primario en NULL, requerirá el cambio del 
+Existen varios usuarios con el mismo Mail. Por lo tanto se decide crear una columna Mail_Alternativo y agregar en ella aquellos mails que tienen más de una aparición. Cuando la aplicacion encuentre un Mail Primario en NULL, requerirá el cambio de dicho Mail_Primario.
 
-Dicha regla de negocio se manejarà por Store Procedure.
+Por decision de diseño se informa que existirá una única Forma de Pago es unica por Factura
 
-Forma de Pago es unica por Factura
+Por decision de diseño se crea una tabla de Localidades y una tabla de Paises para normalizar los valores a ingresar por parte del Usuario. Debería existir un ABM de Localidades y un ABM de paises para poder mantener actualizado dicho set de Datos.
+
+
+
