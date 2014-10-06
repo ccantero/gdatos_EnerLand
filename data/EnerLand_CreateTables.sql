@@ -173,39 +173,6 @@ CREATE TABLE ENER_LAND.Forma_de_Pago (
   PRIMARY KEY(idForma_De_Pago)
 );
 
-CREATE TABLE ENER_LAND.Factura (
-  idFactura INTEGER NOT NULL,
-  idHuesped INTEGER,
-  idHotel INTEGER,
-  Fecha DATE NULL,
-  Total FLOAT NULL,
-  idForma_De_Pago INTEGER NOT NULL,
-  PRIMARY KEY(idFactura),
-  FOREIGN KEY(idForma_De_Pago)
-  REFERENCES ENER_LAND.Forma_de_Pago(idForma_De_Pago)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
-  FOREIGN KEY(idHuesped)
-  REFERENCES ENER_LAND.Huesped(idHuesped)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
-  FOREIGN KEY(idHotel)
-  REFERENCES ENER_LAND.Hotel(idHotel)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
-);
-
-CREATE TABLE ENER_LAND.Item_Factura (
-  idItem INTEGER NOT NULL IDENTITY(1,1),
-  idFactura INTEGER NOT NULL,
-  Cantidad INTEGER NULL,
-  Monto FLOAT NULL,
-  PRIMARY KEY(idItem, idFactura),
-  FOREIGN KEY(idFactura)
-    REFERENCES ENER_LAND.Factura(idFactura)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
-);
 
 CREATE TABLE ENER_LAND.Reserva (
   idReserva INTEGER NOT NULL,
@@ -229,6 +196,34 @@ CREATE TABLE ENER_LAND.Reserva (
       ON UPDATE NO ACTION
 );
 
+CREATE TABLE ENER_LAND.Factura (
+  idFactura INTEGER NOT NULL,
+  idReserva INTEGER,
+  Fecha DATE NULL,
+  Total NUMERIC(18,2) NULL,
+  idForma_De_Pago INTEGER NOT NULL,
+  PRIMARY KEY(idFactura),
+  FOREIGN KEY(idForma_De_Pago)
+  REFERENCES ENER_LAND.Forma_de_Pago(idForma_De_Pago)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(idReserva)
+  REFERENCES ENER_LAND.Reserva(idReserva)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+);
+
+CREATE TABLE ENER_LAND.Item_Factura (
+  idItem INTEGER NOT NULL,
+  idFactura INTEGER NOT NULL,
+  Cantidad INTEGER NULL,
+  Monto NUMERIC(18,2) NULL,
+  PRIMARY KEY(idItem, idFactura),
+  FOREIGN KEY(idFactura)
+    REFERENCES ENER_LAND.Factura(idFactura)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+);
 
 CREATE TABLE ENER_LAND.Estadias (
   idReserva INTEGER NOT NULL,
@@ -496,7 +491,10 @@ INSERT ENER_LAND.Reserva
 	AND x2.idHotel = x4.IdHotel
 	AND x1.Habitacion_Numero = x4.Numero
 	AND x1.Regimen_Descripcion = x5.Descripcion
-	AND x1.Cliente_Mail = x6.Mail
+	AND ( 
+			x1.Cliente_Mail = x6.Mail
+			OR x1.Cliente_Mail = x6.Mail_Alternativo 
+		)
 	AND x1.Cliente_Pasaporte_Nro = x6.Nro_Documento
 	AND x1.Cliente_Apellido = x6.Apellido
 	AND x1.Cliente_Nombre = x6.Nombre
@@ -531,3 +529,48 @@ INSERT INTO ENER_LAND.Consumible_Reserva
 INSERT INTO ENER_LAND.Huespedes_Alojados
 	SELECT idHuesped, idReserva
 	FROM ENER_LAND.Reserva;
+	
+INSERT INTO ENER_LAND.Factura
+	SELECT DISTINCT Factura_Nro, R.idReserva, Factura_Fecha, Factura_Total, 1
+	FROM gd_esquema.Maestra M, ENER_LAND.Reserva R
+	WHERE Factura_Nro IS NOT NULL
+	AND Reserva_Codigo = R.idReserva;
+
+BEGIN
+	DECLARE @nro_item INT
+	DECLARE @Factura_Nro INTEGER
+	DECLARE @Factura_Previa INTEGER
+	DECLARE @Cantidad INTEGER
+	DECLARE @Monto NUMERIC(18,2)
+	DECLARE linea CURSOR FOR
+		SELECT Factura_Nro, Item_Factura_Cantidad, Item_Factura_Monto
+		FROM gd_esquema.Maestra
+		WHERE Factura_Nro IS NOT NULL
+		ORDER BY Factura_Nro;
+	SET @nro_item = 1
+	SET @Factura_Previa = 0
+	
+	OPEN linea;
+	FETCH NEXT FROM linea INTO @Factura_Nro, @Cantidad, @Monto;
+	WHILE @@FETCH_STATUS = 0
+		BEGIN
+			IF @Factura_Previa <> @Factura_Nro
+				BEGIN
+					SET @Factura_Previa = @Factura_Nro
+					SET @nro_item = 1
+				END;
+			ELSE
+				BEGIN
+					SET @nro_item = @nro_item + 1
+				END;	
+			
+			INSERT INTO ENER_LAND.Item_Factura([idItem],[idFactura],[Cantidad],[Monto])
+			VALUES (@nro_item, @Factura_Nro, @Cantidad, @Monto);
+			
+			FETCH NEXT FROM linea INTO @Factura_Nro, @Cantidad, @Monto;	
+		END;
+	CLOSE linea;
+	DEALLOCATE linea;
+END;
+		
+	
