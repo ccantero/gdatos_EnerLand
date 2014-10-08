@@ -4,6 +4,26 @@ namespace FrbaHotel
 {
     partial class menu
     {
+        private System.Windows.Forms.ToolStripMenuItem reservasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generarReservaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cancelarReservaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ingresarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem huespedesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gestionarHuespedesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem estadiasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem registrarIngresoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem registrarCheckoutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem registrarConsumiblesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem facturarEstadíasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem estadísticasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hotelesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gestionarHotelesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gestionarHabitacionesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem usuariosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gestionarRolesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gestionarUsuariosToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+
         /// <summary> 
         /// Required designer variable.
         /// </summary>
@@ -35,7 +55,7 @@ namespace FrbaHotel
             this.cancelarReservaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ingresarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.huespedesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.registrarHuespedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gestionarHuespedesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.estadiasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registrarIngresoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registrarCheckoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,16 +102,16 @@ namespace FrbaHotel
             // huespedesToolStripMenuItem
             // 
             this.huespedesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.registrarHuespedToolStripMenuItem});
+            this.gestionarHuespedesToolStripMenuItem});
             this.huespedesToolStripMenuItem.Name = "huespedesToolStripMenuItem";
             this.huespedesToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
             this.huespedesToolStripMenuItem.Text = "Huéspedes";
             // 
-            // registrarHuespedToolStripMenuItem
+            // gestionarHuespedesToolStripMenuItem
             // 
-            this.registrarHuespedToolStripMenuItem.Name = "registrarHuespedToolStripMenuItem";
-            this.registrarHuespedToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.registrarHuespedToolStripMenuItem.Text = "Registrar huésped";
+            this.gestionarHuespedesToolStripMenuItem.Name = "gestionarHuespedesToolStripMenuItem";
+            this.gestionarHuespedesToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.gestionarHuespedesToolStripMenuItem.Text = "Gestionar huéspedes";
             // 
             // estadiasToolStripMenuItem
             // 
@@ -199,6 +219,7 @@ namespace FrbaHotel
             this.Controls.Add(this.menuStrip1);
             this.Name = "menu";
             this.Size = new System.Drawing.Size(490, 30);
+            this.Load += new System.EventHandler(this.menu_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -206,52 +227,9 @@ namespace FrbaHotel
 
         }
 
-        private void loadPermissions()
-        {
-            //DbResultSet rs =DbManager.dbGetIntArray("SELECT idFuncionalidad FROM ENER_LAND.FUNCIONALIDAD");
-
-            int i = 0;
-            while (i < 10) { 
-            
-                switch (i)
-                {
-                    case 1: { reservasToolStripMenuItem.Visible = false; break; }
-                    case 2: {break;}
-                    case 3: {break;}
-                    case 4: {break;}
-                    case 5: {break;}
-                    case 6: {break;}
-                    case 7: {break;}
-                    case 8: {break;}
-                    case 9: {break;}
-                    case 10: {break;}
-                }
-            }
-
-
-        }
-
         #endregion
 
-        private System.Windows.Forms.ToolStripMenuItem reservasToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem generarReservaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cancelarReservaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ingresarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem huespedesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem registrarHuespedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem estadiasToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem registrarIngresoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem registrarCheckoutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem registrarConsumiblesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem facturarEstadíasToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem estadísticasToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hotelesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gestionarHotelesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gestionarHabitacionesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem usuariosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gestionarRolesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gestionarUsuariosToolStripMenuItem;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+
 
     }
 }

@@ -22,8 +22,8 @@ namespace FrbaHotel
         static public SqlConnection dbConnect()
         {
             SqlConnection dbSession;
-
-            dbSession = new SqlConnection(Properties.Settings.Default.connectionString);
+            
+            dbSession = new SqlConnection(Properties.Settings.Default.connectionString );
             try
             {
                 dbSession.Open();
@@ -69,6 +69,46 @@ namespace FrbaHotel
                 return rs;
             }
         }
+
+
+
+        //Obtiene un int de db
+        static public DbResultSet dbGetIntArray(string selectCommand)
+        {
+            try
+            {
+                SqlConnection dbsession = DbManager.dbConnect();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = selectCommand;
+                cmd.Connection = dbsession;
+                SqlDataReader dr = cmd.ExecuteReader();
+                DbResultSet rs = new DbResultSet();
+                int i=0;
+                rs.intArrayValue = new int[1];
+                rs.intArrayValue[0] = 0;
+                while (dr.Read())
+                {
+                    if (i!=0)
+                        Array.Resize(ref rs.intArrayValue, i + 1);
+                    rs.intArrayValue.SetValue(dr.GetInt32(0),i);
+                    i++;
+                    
+                }
+ 
+                dbsession.Close();
+                return rs;
+                
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                DbResultSet rs = new DbResultSet();
+                rs.operationState = 1;
+                return rs;
+            }
+        }
+
 
         //Obtiene un int de db
         static public DbResultSet dbGetInt(string selectCommand)

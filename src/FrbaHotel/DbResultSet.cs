@@ -10,12 +10,14 @@ using System.Windows.Forms;
 
 namespace FrbaHotel
 {
-    class DbResultSet
+    public class DbResultSet
     {
         public DataTable dataTable;
         public int intValue;
         public String strValue;
+        public int[] intArrayValue ;
         public int operationState;
+        
 
         public DbResultSet()
         {
@@ -24,7 +26,5 @@ namespace FrbaHotel
             this.strValue = string.Empty;
             this.operationState = 0;
         }
-
-
     }
 }
