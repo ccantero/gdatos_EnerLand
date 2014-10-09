@@ -33,6 +33,7 @@ CREATE TABLE ENER_LAND.Rol_Funcionalidad (
 );
 
 CREATE TABLE ENER_LAND.Usuario (
+  idUsuario	INTEGER IDENTITY(1,1),
   username VARCHAR(20) NOT NULL,
   Contraseña VARCHAR(100) NOT NULL,
   Nombre VARCHAR(50) NULL,
@@ -42,14 +43,14 @@ CREATE TABLE ENER_LAND.Usuario (
   Tipo VARCHAR(50) NULL,
   Documento INTEGER NULL,
   Habilitado CHAR NOT NULL,
-  PRIMARY KEY(username)
+  PRIMARY KEY(idUsuario)
 );
 
 CREATE TABLE ENER_LAND.Rol_Usuario (
   idRol INTEGER NOT NULL ,
-  username VARCHAR(20) NOT NULL,
-  FOREIGN KEY(username)
-    REFERENCES ENER_LAND.Usuario(username)
+  idUsuario INTEGER NOT NULL,
+  FOREIGN KEY(idUsuario)
+    REFERENCES ENER_LAND.Usuario(idUsuario)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
   FOREIGN KEY(idRol)
@@ -101,7 +102,7 @@ CREATE TABLE ENER_LAND.Pais (
 
 CREATE TABLE ENER_LAND.Hotel (
   idHotel INTEGER NOT NULL IDENTITY(1,1),
-  Administrador VARCHAR(20) NOT NULL,
+  Administrador INTEGER NOT NULL,
   Nombre VARCHAR(25) NULL,
   Mail VARCHAR(50) NULL,
   Telefono INTEGER NULL,
@@ -114,7 +115,7 @@ CREATE TABLE ENER_LAND.Hotel (
   Habilitado CHAR NOT NULL,
   PRIMARY KEY(idHotel),
   FOREIGN KEY(Administrador)
-    REFERENCES ENER_LAND.Usuario(username)
+    REFERENCES ENER_LAND.Usuario(idUsuario)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
   FOREIGN KEY(idLocalidad)
@@ -259,10 +260,10 @@ CREATE TABLE ENER_LAND.Hotel_Inhabilitado (
 );
 
 CREATE TABLE ENER_LAND.Usuario_Hoteles (
-  username VARCHAR(20) NOT NULL,
+  idUsuario INTEGER NOT NULL,
   idHotel INTEGER NOT NULL,
-  FOREIGN KEY(username)
-    REFERENCES ENER_LAND.Usuario(username)
+  FOREIGN KEY(idUsuario)
+    REFERENCES ENER_LAND.Usuario(idUsuario)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
   FOREIGN KEY(idHotel)
@@ -347,8 +348,8 @@ INSERT [ENER_LAND].[Usuario] ([username], [Contraseña], [Habilitado]) VALUES ('a
 INSERT [ENER_LAND].[Usuario] ([username], [Contraseña], [Habilitado]) VALUES ('guest', '280d44ab1e9f79b5cce2dd4f58f5fe91f0fbacdac9f7447dffc318ceb79f2d02', 1);
 -- welcome encriptado en SHA256 es 280d44ab1e9f79b5cce2dd4f58f5fe91f0fbacdac9f7447dffc318ceb79f2d02
 
-INSERT [ENER_LAND].[Rol_Usuario] ([idRol], [username]) VALUES (1, 'admin');
-INSERT [ENER_LAND].[Rol_Usuario] ([idRol], [username]) VALUES (3, 'guest');
+INSERT [ENER_LAND].[Rol_Usuario] ([idRol], [idUsuario]) VALUES (1, 1);
+INSERT [ENER_LAND].[Rol_Usuario] ([idRol], [idUsuario]) VALUES (3, 2);
 
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 1);
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 2);
@@ -450,7 +451,7 @@ BEGIN
 	WHILE @@FETCH_STATUS = 0
 		BEGIN
 			INSERT INTO [ENER_LAND].[Hotel]
-			VALUES ('admin', 'Hotel '+CONVERT(CHAR,@ROW_NUMBER),NULL,NULL,@Hotel_CantEstrella, @Hotel_Calle, @Hotel_Nro_Calle, @Hotel_Ciudad,1, NULL, 1);
+			VALUES (1, 'Hotel '+CONVERT(CHAR,@ROW_NUMBER),NULL,NULL,@Hotel_CantEstrella, @Hotel_Calle, @Hotel_Nro_Calle, @Hotel_Ciudad,1, NULL, 1);
 			FETCH NEXT FROM Hotel_Cursor INTO @Hotel_Calle, @Hotel_Nro_Calle, @Hotel_CantEstrella, @Hotel_Ciudad;
 			SET @ROW_NUMBER = @ROW_NUMBER + 1;
 		END;
@@ -469,7 +470,7 @@ INSERT [ENER_LAND].[Habitacion]
 	ORDER BY x2.idHotel, x1.Habitacion_Numero;
 	
 INSERT [ENER_LAND].[Usuario_Hoteles]
-	SELECT 'admin',idHotel FROM ENER_LAND.Hotel;
+	SELECT 1,idHotel FROM ENER_LAND.Hotel;
 	
 INSERT [ENER_LAND].[Regimen_Hotel]
 	SELECT DISTINCT x3.idHotel, x2.idRegimen
@@ -536,41 +537,9 @@ INSERT INTO ENER_LAND.Factura
 	WHERE Factura_Nro IS NOT NULL
 	AND Reserva_Codigo = R.idReserva;
 
-BEGIN
-	DECLARE @nro_item INT
-	DECLARE @Factura_Nro INTEGER
-	DECLARE @Factura_Previa INTEGER
-	DECLARE @Cantidad INTEGER
-	DECLARE @Monto NUMERIC(18,2)
-	DECLARE linea CURSOR FOR
-		SELECT Factura_Nro, Item_Factura_Cantidad, Item_Factura_Monto
-		FROM gd_esquema.Maestra
-		WHERE Factura_Nro IS NOT NULL
-		ORDER BY Factura_Nro;
-	SET @nro_item = 1
-	SET @Factura_Previa = 0
-	
-	OPEN linea;
-	FETCH NEXT FROM linea INTO @Factura_Nro, @Cantidad, @Monto;
-	WHILE @@FETCH_STATUS = 0
-		BEGIN
-			IF @Factura_Previa <> @Factura_Nro
-				BEGIN
-					SET @Factura_Previa = @Factura_Nro
-					SET @nro_item = 1
-				END;
-			ELSE
-				BEGIN
-					SET @nro_item = @nro_item + 1
-				END;	
-			
-			INSERT INTO ENER_LAND.Item_Factura([idItem],[idFactura],[Cantidad],[Monto])
-			VALUES (@nro_item, @Factura_Nro, @Cantidad, @Monto);
-			
-			FETCH NEXT FROM linea INTO @Factura_Nro, @Cantidad, @Monto;	
-		END;
-	CLOSE linea;
-	DEALLOCATE linea;
-END;
-		
-	
+
+INSERT INTO ENER_LAND.Item_Factura([idItem],[idFactura],[Cantidad],[Monto])
+	SELECT ROW_NUMBER() OVER (PARTITION BY Factura_Nro ORDER BY Factura_Nro), Factura_Nro, Item_Factura_Cantidad, Item_Factura_Monto
+	FROM gd_esquema.Maestra
+	WHERE Factura_Nro IS NOT NULL
+	ORDER BY Factura_Nro;
