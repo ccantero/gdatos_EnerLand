@@ -18,7 +18,6 @@ namespace FrbaHotel
         private System.Windows.Forms.ToolStripMenuItem estadísticasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hotelesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gestionarHotelesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gestionarHabitacionesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem usuariosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gestionarRolesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gestionarUsuariosToolStripMenuItem;
@@ -64,7 +63,6 @@ namespace FrbaHotel
             this.estadísticasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotelesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionarHotelesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gestionarHabitacionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionarRolesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionarUsuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,7 +108,7 @@ namespace FrbaHotel
             // gestionarHuespedesToolStripMenuItem
             // 
             this.gestionarHuespedesToolStripMenuItem.Name = "gestionarHuespedesToolStripMenuItem";
-            this.gestionarHuespedesToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.gestionarHuespedesToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.gestionarHuespedesToolStripMenuItem.Text = "Gestionar huéspedes";
             // 
             // estadiasToolStripMenuItem
@@ -157,8 +155,7 @@ namespace FrbaHotel
             // hotelesToolStripMenuItem
             // 
             this.hotelesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gestionarHotelesToolStripMenuItem,
-            this.gestionarHabitacionesToolStripMenuItem});
+            this.gestionarHotelesToolStripMenuItem});
             this.hotelesToolStripMenuItem.Name = "hotelesToolStripMenuItem";
             this.hotelesToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.hotelesToolStripMenuItem.Text = "Hoteles";
@@ -166,14 +163,9 @@ namespace FrbaHotel
             // gestionarHotelesToolStripMenuItem
             // 
             this.gestionarHotelesToolStripMenuItem.Name = "gestionarHotelesToolStripMenuItem";
-            this.gestionarHotelesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.gestionarHotelesToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.gestionarHotelesToolStripMenuItem.Text = "Gestionar hoteles";
-            // 
-            // gestionarHabitacionesToolStripMenuItem
-            // 
-            this.gestionarHabitacionesToolStripMenuItem.Name = "gestionarHabitacionesToolStripMenuItem";
-            this.gestionarHabitacionesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.gestionarHabitacionesToolStripMenuItem.Text = "Gestionar habitaciones";
+            this.gestionarHotelesToolStripMenuItem.Click += new System.EventHandler(this.gestionarHotelesToolStripMenuItem_Click);
             // 
             // usuariosToolStripMenuItem
             // 
@@ -198,14 +190,15 @@ namespace FrbaHotel
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.reservasToolStripMenuItem,
-            this.ingresarToolStripMenuItem,
             this.huespedesToolStripMenuItem,
             this.estadiasToolStripMenuItem,
             this.estadísticasToolStripMenuItem,
             this.hotelesToolStripMenuItem,
-            this.usuariosToolStripMenuItem});
+            this.usuariosToolStripMenuItem,
+            this.ingresarToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(490, 24);

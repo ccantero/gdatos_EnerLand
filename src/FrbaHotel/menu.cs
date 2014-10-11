@@ -11,8 +11,10 @@ namespace FrbaHotel
 {
     public partial class menu : UserControl
     {
-        public menu()
+        public Form parentForm;
+        public menu(Form parent)
         {
+            this.parentForm = parent;
             InitializeComponent();
         }
 
@@ -26,29 +28,36 @@ namespace FrbaHotel
             {
                 switch (permissions[i])
                 {   // ABM usuario
-                    case 1: { gestionarUsuariosToolStripMenuItem.Visible = false; break; }
+                    case 1: { gestionarUsuariosToolStripMenuItem.Visible = true; break; }
                     // ABM Huesped
-                    case 2: { gestionarHuespedesToolStripMenuItem.Visible = false;  break; }
+                    case 2: { gestionarHuespedesToolStripMenuItem.Visible = true; break; }
                     // ABM Hotel
-                    case 3: { gestionarHotelesToolStripMenuItem.Visible = false; break; }
+                    case 3: { gestionarHotelesToolStripMenuItem.Visible = true; break; }
                     // ABM Habitacion
-                    case 4: { gestionarHabitacionesToolStripMenuItem.Visible = false; break; }
+                    case 4: {   break; }
                     // Generar Reserva
-                    case 5: { generarReservaToolStripMenuItem.Visible = false; break; }
+                    case 5: { generarReservaToolStripMenuItem.Visible = true; break; }
                     // Cancelar Reserva
-                    case 6: { cancelarReservaToolStripMenuItem.Visible = false; break; }
+                    case 6: { cancelarReservaToolStripMenuItem.Visible = true; break; }
                     // Registrar Estadia
-                    case 7: { registrarIngresoToolStripMenuItem.Visible = false; break; }
+                    case 7: { registrarIngresoToolStripMenuItem.Visible = true; break; }
                     //Registrar Consumible
-                    case 8: { registrarConsumiblesToolStripMenuItem.Visible = false; break; }
+                    case 8: { registrarConsumiblesToolStripMenuItem.Visible = true; break; }
                     //Facturar
-                    case 9: { facturarEstadíasToolStripMenuItem.Visible = false; break; }
+                    case 9: { facturarEstadíasToolStripMenuItem.Visible = true; break; }
                     //Estadisticas
-                    case 10: { estadísticasToolStripMenuItem.Visible = false; break; }
+                    case 10: { estadísticasToolStripMenuItem.Visible = true; break; }
                 }
                 i++;
             }
         }
+
+        private void gestionarHotelesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ABM_de_Hotel.GestionHoteles formHoteles = new ABM_de_Hotel.GestionHoteles(parentForm);
+            formHoteles.Show();
+        }
+
 
    }
 }
