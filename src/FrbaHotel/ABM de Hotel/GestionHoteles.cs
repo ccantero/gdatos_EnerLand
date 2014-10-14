@@ -37,30 +37,87 @@ namespace FrbaHotel.ABM_de_Hotel
             drow[1] = "";
             rs.dataTable.Rows.InsertAt(drow, 0);
 
-             comboBox1.ValueMember = "idPais";
-            comboBox1.DisplayMember = "Nombre";
-            comboBox1.DataSource = rs.dataTable;
+            cmbPaises.ValueMember = "idPais";
+            cmbPaises.DisplayMember = "Nombre";
+            cmbPaises.DataSource = rs.dataTable;
 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-
+            cmbPaises.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbLocalidades.DropDownStyle = ComboBoxStyle.DropDown;
+            cmbEstrellas.DropDownStyle = ComboBoxStyle.DropDownList;
 
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbPaises_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex != 0 )
+            if (cmbPaises.SelectedIndex != 0 )
             {
                 DbResultSet rs = DbManager.GetDataTable("SELECT idLocalidad, Nombre FROM ENER_LAND.Localidad ORDER BY Nombre ASC"/* WHERE + Join para obtener localidades en funcion de area padre, no necesario según alcance */);
                 DataRow drow = rs.dataTable.NewRow();
                 drow[0] = -1;
                 drow[1] = "";
                 rs.dataTable.Rows.InsertAt(drow, 0);
-                comboBox2.ValueMember = "idLocalidad";
-                comboBox2.DisplayMember = "Nombre";
-                comboBox2.DataSource = rs.dataTable;
-                comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-                comboBox2.Enabled = true;
+                cmbLocalidades.ValueMember = "idLocalidad";
+                cmbLocalidades.DisplayMember = "Nombre";
+                cmbLocalidades.DataSource = rs.dataTable;
+                cmbLocalidades.DropDownStyle = ComboBoxStyle.DropDownList;
+                cmbLocalidades.Enabled = true;
             }
+            refreshHoteles(sender, e);
+        }
+
+        private void GestionHoteles_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.parentForm.Show();
+        }
+
+        private void cmbCiudades_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
+            if (cmbLocalidades.SelectedIndex != 0)
+                cmbEstrellas.Enabled = true;
+
+            refreshHoteles(sender, e);
+
+       }
+
+        private void cmbEstrellas_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            refreshHoteles(sender,e);
+
+        }
+
+        private void refreshHoteles(object sender, EventArgs e)
+        {
+            String query;
+
+            query = " SELECT idHotel,Nombre FROM ENER_LAND.Hotel WHERE 1=1 ";
+            
+            if (cmbPaises.SelectedIndex > 0)
+                query += " AND idPais = " + cmbPaises.SelectedValue;
+            if (cmbLocalidades.SelectedIndex > 0)
+                query += " AND idLocalidad = " + cmbLocalidades.SelectedValue;
+            if (cmbEstrellas.SelectedIndex > 0)
+                query +=" AND Cantidad_Estrellas = " + cmbEstrellas.Text;
+
+            query += " ORDER BY Nombre ASC";
+
+            DbResultSet rs = DbManager.GetDataTable(query);
+            DataRow drow = rs.dataTable.NewRow();
+            drow[0] = -1;
+            drow[1] = "";
+            rs.dataTable.Rows.InsertAt(drow, 0);
+            cmbHoteles.ValueMember = "idHotel";
+            cmbHoteles.DisplayMember = "Nombre";
+            cmbHoteles.DataSource = rs.dataTable;
+            cmbHoteles.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbHoteles.Enabled = true;
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            cmbPaises.SelectedIndex = 0;
+            cmbLocalidades.SelectedIndex = 0;
+            cmbEstrellas.SelectedIndex = -1;
         }
     }
 }

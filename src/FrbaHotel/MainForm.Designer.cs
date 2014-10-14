@@ -2,6 +2,8 @@
 {
     partial class MainForm
     {
+        private MainMenu appMenu;
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -32,11 +34,12 @@
             // 
             // menu1
             // 
-            this.menu1 = new menu(this);
-            this.menu1.Location = new System.Drawing.Point(0, 0);
-            this.menu1.Name = "menu1";
-            this.menu1.Size = new System.Drawing.Size(640, 23);
-            this.menu1.TabIndex = 0;
+
+            this.appMenu = new MainMenu(this);
+            this.appMenu.Location = new System.Drawing.Point(0, 0);
+            this.appMenu.Name = "appMenu";
+            this.appMenu.Size = new System.Drawing.Size(640, 23);
+            this.appMenu.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -44,7 +47,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::FrbaHotel.Properties.Resources.bg;
             this.ClientSize = new System.Drawing.Size(640, 480);
-            this.Controls.Add(this.menu1);
+            this.Controls.Add(this.appMenu);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
@@ -57,6 +60,6 @@
 
         #endregion
 
-        private menu menu1;
+        
     }
 }
