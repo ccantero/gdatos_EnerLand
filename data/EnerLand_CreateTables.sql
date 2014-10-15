@@ -107,12 +107,13 @@ CREATE TABLE ENER_LAND.Hotel (
   Mail VARCHAR(50) NULL,
   Telefono INTEGER NULL,
   Cantidad_Estrellas INTEGER NOT NULL,
+  PorcentajeRecarga NUMERIC(18,2) NOT NULL,
   Calle VARCHAR(50) NULL,
   Numero INTEGER NULL,
   idLocalidad INTEGER,  
   idPais INTEGER,
   Fecha_Creacion DATE NULL,
-  Habilitado CHAR NOT NULL,
+  Habilitado CHAR NOT NULL
   PRIMARY KEY(idHotel),
   FOREIGN KEY(Administrador)
     REFERENCES ENER_LAND.Usuario(idUsuario)
@@ -217,8 +218,9 @@ CREATE TABLE ENER_LAND.Factura (
 CREATE TABLE ENER_LAND.Item_Factura (
   idItem INTEGER NOT NULL,
   idFactura INTEGER NOT NULL,
-  Cantidad INTEGER NULL,
-  Monto NUMERIC(18,2) NULL,
+  Cantidad INTEGER NOT NULL,
+  Descripcion VARCHAR(25) NOT NULL,
+  PrecioUnitario NUMERIC(18,2) NOT NULL,
   PRIMARY KEY(idItem, idFactura),
   FOREIGN KEY(idFactura)
     REFERENCES ENER_LAND.Factura(idFactura)
@@ -439,20 +441,21 @@ BEGIN
 	DECLARE @Hotel_Calle NVARCHAR(255)
 	DECLARE @Hotel_Nro_Calle NUMERIC(18,0)
 	DECLARE @Hotel_CantEstrella NUMERIC(18,0)
+	DECLARE @Hotel_Recarga_Estrella NUMERIC(18,0)
 	
 	DECLARE Hotel_Cursor CURSOR FOR 
-		SELECT DISTINCT Hotel_Calle,Hotel_Nro_Calle,Hotel_CantEstrella,idLocalidad
+		SELECT DISTINCT Hotel_Calle,Hotel_Nro_Calle,Hotel_CantEstrella,Hotel_Recarga_Estrella,idLocalidad
 		FROM gd_esquema.Maestra, Ener_Land.Localidad
 		WHERE Hotel_Ciudad = Nombre;
 	
 	SET @ROW_NUMBER = 1;
 	OPEN Hotel_Cursor;
-	FETCH NEXT FROM Hotel_Cursor INTO @Hotel_Calle, @Hotel_Nro_Calle, @Hotel_CantEstrella, @Hotel_Ciudad;
+	FETCH NEXT FROM Hotel_Cursor INTO @Hotel_Calle, @Hotel_Nro_Calle, @Hotel_CantEstrella, @Hotel_Recarga_Estrella, @Hotel_Ciudad;
 	WHILE @@FETCH_STATUS = 0
 		BEGIN
 			INSERT INTO [ENER_LAND].[Hotel]
-			VALUES (1, 'Hotel '+CONVERT(CHAR,@ROW_NUMBER),NULL,NULL,@Hotel_CantEstrella, @Hotel_Calle, @Hotel_Nro_Calle, @Hotel_Ciudad,1, NULL, 1);
-			FETCH NEXT FROM Hotel_Cursor INTO @Hotel_Calle, @Hotel_Nro_Calle, @Hotel_CantEstrella, @Hotel_Ciudad;
+			VALUES (1, 'Hotel '+CONVERT(CHAR,@ROW_NUMBER),NULL,NULL,@Hotel_CantEstrella, @Hotel_Recarga_Estrella, @Hotel_Calle, @Hotel_Nro_Calle, @Hotel_Ciudad,1, NULL, 1);
+			FETCH NEXT FROM Hotel_Cursor INTO @Hotel_Calle, @Hotel_Nro_Calle, @Hotel_CantEstrella, @Hotel_Recarga_Estrella, @Hotel_Ciudad;
 			SET @ROW_NUMBER = @ROW_NUMBER + 1;
 		END;
 	CLOSE Hotel_Cursor;
@@ -537,9 +540,21 @@ INSERT INTO ENER_LAND.Factura
 	WHERE Factura_Nro IS NOT NULL
 	AND Reserva_Codigo = R.idReserva;
 
-
-INSERT INTO ENER_LAND.Item_Factura([idItem],[idFactura],[Cantidad],[Monto])
-	SELECT ROW_NUMBER() OVER (PARTITION BY Factura_Nro ORDER BY Factura_Nro), Factura_Nro, Item_Factura_Cantidad, Item_Factura_Monto
+INSERT INTO ENER_LAND.Item_Factura([idItem],[idFactura],[Cantidad],[Descripcion],[PrecioUnitario])
+	SELECT	ROW_NUMBER() OVER (PARTITION BY Factura_Nro ORDER BY Factura_Nro), 
+			Factura_Nro, 
+			CASE COUNT(Consumible_Codigo)
+				WHEN 0 THEN Estadia_Cant_Noches
+				ELSE COUNT(Consumible_Codigo)
+			END, 
+			ISNULL(Consumible_Descripcion,'Estadia'),
+			Item_Factura_Monto
 	FROM gd_esquema.Maestra
 	WHERE Factura_Nro IS NOT NULL
+	GROUP BY Factura_Nro, Consumible_Codigo, Item_Factura_Monto, Estadia_Cant_Noches, Consumible_Descripcion
 	ORDER BY Factura_Nro;
+
+UPDATE ENER_LAND.Factura
+	SET Total = ( SELECT SUM(Cantidad * PrecioUnitario) FROM ENER_LAND.Item_Factura it WHERE it.idFactura = F.idFactura GROUP BY it.idFactura)
+FROM ENER_LAND.Factura f
+

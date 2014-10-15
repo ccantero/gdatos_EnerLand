@@ -8,3 +8,4 @@ Por decision de diseño se crea una tabla de Localidades y una tabla de Paises pa
 
 Por decision de diseño, el usuario Administrador también deberá seleccionar un Hotel 
 
+Por decision de diseño, el campo Total Factura no se migra de la base de datos sino que se calcula en base a la sumatoria de los items_factura migrados.
