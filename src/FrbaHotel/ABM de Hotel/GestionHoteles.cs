@@ -26,7 +26,7 @@ namespace FrbaHotel.ABM_de_Hotel
             this.MinimizeBox = false;
             
 
-            MessageBox.Show(parentForm.Text + "closing");
+            MessageBox.Show(cmbHoteles.SelectedIndex.ToString());
             parentForm.Hide();
 
             DbResultSet rs = DbManager.GetDataTable("SELECT IdPais, Nombre FROM ENER_LAND.Pais");
@@ -45,6 +45,7 @@ namespace FrbaHotel.ABM_de_Hotel
             cmbLocalidades.DropDownStyle = ComboBoxStyle.DropDown;
             cmbEstrellas.DropDownStyle = ComboBoxStyle.DropDownList;
 
+            getRegimenes();
         }
 
         private void cmbPaises_SelectedIndexChanged(object sender, EventArgs e)
@@ -90,7 +91,7 @@ namespace FrbaHotel.ABM_de_Hotel
         {
             String query;
 
-            query = " SELECT idHotel,Nombre FROM ENER_LAND.Hotel WHERE 1=1 ";
+            query = "SELECT idHotel,RTRIM(Nombre) Nombre FROM ENER_LAND.Hotel WHERE 1=1 ";
             
             if (cmbPaises.SelectedIndex > 0)
                 query += " AND idPais = " + cmbPaises.SelectedValue;
@@ -109,7 +110,7 @@ namespace FrbaHotel.ABM_de_Hotel
             cmbHoteles.ValueMember = "idHotel";
             cmbHoteles.DisplayMember = "Nombre";
             cmbHoteles.DataSource = rs.dataTable;
-            cmbHoteles.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbHoteles.DropDownStyle = ComboBoxStyle.DropDown;
             cmbHoteles.Enabled = true;
         }
 
@@ -119,5 +120,28 @@ namespace FrbaHotel.ABM_de_Hotel
             cmbLocalidades.SelectedIndex = 0;
             cmbEstrellas.SelectedIndex = -1;
         }
+
+        private void getRegimenes()
+        {
+            clbRegimenes.Items.Clear();
+            DbResultSet rs = DbManager.GetDataTable("SELECT idRegimen,Descripcion,CASE WHEN  (SELECT rh.idRegimen FROM ENER_LAND.Regimen_Hotel rh WHERE rh.idHotel=" + cmbHoteles.SelectedIndex + " AND rh.idRegimen=r.idRegimen) >0 THEN 1 ELSE 0 END  CHECKED FROM ENER_LAND.Regimen r");
+            foreach(DataRow row in rs.dataTable.Rows){
+                CheckState status;
+                
+                if (row.Field<Int32>(2) > 0)
+                    status = CheckState.Checked;
+                else
+                    status = CheckState.Unchecked;
+
+               clbRegimenes.Items.Add(row[1].ToString(), status);
+            }
+                
+        }
+
+        private void cmbHoteles_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            getRegimenes();
+        }
+
     }
 }

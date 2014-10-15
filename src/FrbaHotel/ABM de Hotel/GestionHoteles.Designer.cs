@@ -48,13 +48,11 @@
             this.tbFechaCreacion = new System.Windows.Forms.TextBox();
             this.lblFechaCreacion = new System.Windows.Forms.Label();
             this.lblRegimen = new System.Windows.Forms.Label();
-            this.cbRegimen1 = new System.Windows.Forms.CheckBox();
-            this.cbRegimen2 = new System.Windows.Forms.CheckBox();
-            this.cbRegimen3 = new System.Windows.Forms.CheckBox();
-            this.cbRegimen4 = new System.Windows.Forms.CheckBox();
             this.dgvHabitaciones = new System.Windows.Forms.DataGridView();
             this.btSave = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
+            this.clbRegimenes = new System.Windows.Forms.CheckedListBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHabitaciones)).BeginInit();
             this.SuspendLayout();
             // 
@@ -126,11 +124,14 @@
             // 
             // cmbHoteles
             // 
+            this.cmbHoteles.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbHoteles.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbHoteles.FormattingEnabled = true;
             this.cmbHoteles.Location = new System.Drawing.Point(76, 63);
             this.cmbHoteles.Name = "cmbHoteles";
             this.cmbHoteles.Size = new System.Drawing.Size(485, 21);
             this.cmbHoteles.TabIndex = 6;
+            this.cmbHoteles.SelectionChangeCommitted += new System.EventHandler(this.cmbHoteles_SelectionChangeCommitted);
             // 
             // lblHotel
             // 
@@ -234,63 +235,23 @@
             // lblRegimen
             // 
             this.lblRegimen.AutoSize = true;
-            this.lblRegimen.Location = new System.Drawing.Point(41, 143);
+            this.lblRegimen.Location = new System.Drawing.Point(41, 170);
             this.lblRegimen.Name = "lblRegimen";
             this.lblRegimen.Size = new System.Drawing.Size(115, 13);
             this.lblRegimen.TabIndex = 19;
             this.lblRegimen.Text = "Regimenes disponibles";
             // 
-            // cbRegimen1
-            // 
-            this.cbRegimen1.AutoSize = true;
-            this.cbRegimen1.Location = new System.Drawing.Point(76, 159);
-            this.cbRegimen1.Name = "cbRegimen1";
-            this.cbRegimen1.Size = new System.Drawing.Size(111, 17);
-            this.cbRegimen1.TabIndex = 20;
-            this.cbRegimen1.Text = "Pension Completa";
-            this.cbRegimen1.UseVisualStyleBackColor = true;
-            // 
-            // cbRegimen2
-            // 
-            this.cbRegimen2.AutoSize = true;
-            this.cbRegimen2.Location = new System.Drawing.Point(190, 159);
-            this.cbRegimen2.Name = "cbRegimen2";
-            this.cbRegimen2.Size = new System.Drawing.Size(96, 17);
-            this.cbRegimen2.TabIndex = 21;
-            this.cbRegimen2.Text = "Media Pensión";
-            this.cbRegimen2.UseVisualStyleBackColor = true;
-            // 
-            // cbRegimen3
-            // 
-            this.cbRegimen3.AutoSize = true;
-            this.cbRegimen3.Location = new System.Drawing.Point(292, 159);
-            this.cbRegimen3.Name = "cbRegimen3";
-            this.cbRegimen3.Size = new System.Drawing.Size(132, 17);
-            this.cbRegimen3.TabIndex = 22;
-            this.cbRegimen3.Text = "All Inclusive moderado";
-            this.cbRegimen3.UseVisualStyleBackColor = true;
-            // 
-            // cbRegimen4
-            // 
-            this.cbRegimen4.AutoSize = true;
-            this.cbRegimen4.Location = new System.Drawing.Point(430, 159);
-            this.cbRegimen4.Name = "cbRegimen4";
-            this.cbRegimen4.Size = new System.Drawing.Size(81, 17);
-            this.cbRegimen4.TabIndex = 23;
-            this.cbRegimen4.Text = "All inclusive";
-            this.cbRegimen4.UseVisualStyleBackColor = true;
-            // 
             // dgvHabitaciones
             // 
             this.dgvHabitaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvHabitaciones.Location = new System.Drawing.Point(29, 218);
+            this.dgvHabitaciones.Location = new System.Drawing.Point(228, 186);
             this.dgvHabitaciones.Name = "dgvHabitaciones";
-            this.dgvHabitaciones.Size = new System.Drawing.Size(581, 250);
+            this.dgvHabitaciones.Size = new System.Drawing.Size(364, 244);
             this.dgvHabitaciones.TabIndex = 24;
             // 
             // btSave
             // 
-            this.btSave.Location = new System.Drawing.Point(456, 182);
+            this.btSave.Location = new System.Drawing.Point(446, 439);
             this.btSave.Name = "btSave";
             this.btSave.Size = new System.Drawing.Size(65, 23);
             this.btSave.TabIndex = 25;
@@ -299,25 +260,40 @@
             // 
             // btCancel
             // 
-            this.btCancel.Location = new System.Drawing.Point(527, 182);
+            this.btCancel.Location = new System.Drawing.Point(517, 439);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(65, 23);
             this.btCancel.TabIndex = 26;
             this.btCancel.Text = "btCancel";
             this.btCancel.UseVisualStyleBackColor = true;
             // 
+            // clbRegimenes
+            // 
+            this.clbRegimenes.FormattingEnabled = true;
+            this.clbRegimenes.Location = new System.Drawing.Point(43, 186);
+            this.clbRegimenes.Name = "clbRegimenes";
+            this.clbRegimenes.Size = new System.Drawing.Size(164, 244);
+            this.clbRegimenes.TabIndex = 27;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(225, 170);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(69, 13);
+            this.label1.TabIndex = 28;
+            this.label1.Text = "Habitaciones";
+            // 
             // GestionHoteles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.clbRegimenes);
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btSave);
             this.Controls.Add(this.dgvHabitaciones);
-            this.Controls.Add(this.cbRegimen4);
-            this.Controls.Add(this.cbRegimen3);
-            this.Controls.Add(this.cbRegimen2);
-            this.Controls.Add(this.cbRegimen1);
             this.Controls.Add(this.lblRegimen);
             this.Controls.Add(this.lblFechaCreacion);
             this.Controls.Add(this.tbFechaCreacion);
@@ -370,13 +346,11 @@
         private System.Windows.Forms.TextBox tbFechaCreacion;
         private System.Windows.Forms.Label lblFechaCreacion;
         private System.Windows.Forms.Label lblRegimen;
-        private System.Windows.Forms.CheckBox cbRegimen1;
-        private System.Windows.Forms.CheckBox cbRegimen2;
-        private System.Windows.Forms.CheckBox cbRegimen3;
-        private System.Windows.Forms.CheckBox cbRegimen4;
         private System.Windows.Forms.DataGridView dgvHabitaciones;
         private System.Windows.Forms.Button btSave;
         private System.Windows.Forms.Button btCancel;
+        private System.Windows.Forms.CheckedListBox clbRegimenes;
+        private System.Windows.Forms.Label label1;
 
     }
 }
