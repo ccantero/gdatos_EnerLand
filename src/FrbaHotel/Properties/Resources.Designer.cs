@@ -60,9 +60,30 @@ namespace FrbaHotel.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap aceptar {
+            get {
+                object obj = ResourceManager.GetObject("aceptar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap bg {
             get {
                 object obj = ResourceManager.GetObject("bg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap cancelar {
+            get {
+                object obj = ResourceManager.GetObject("cancelar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap icon_delete {
+            get {
+                object obj = ResourceManager.GetObject("icon_delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

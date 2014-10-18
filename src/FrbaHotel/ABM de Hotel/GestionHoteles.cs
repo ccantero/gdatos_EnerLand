@@ -26,7 +26,7 @@ namespace FrbaHotel.ABM_de_Hotel
             this.MinimizeBox = false;
             
 
-            MessageBox.Show(cmbHoteles.SelectedIndex.ToString());
+            
             parentForm.Hide();
 
             DbResultSet rs = DbManager.GetDataTable("SELECT IdPais, Nombre FROM ENER_LAND.Pais");
@@ -34,7 +34,7 @@ namespace FrbaHotel.ABM_de_Hotel
             DataRow drow = rs.dataTable.NewRow();
 
             drow[0] = -1;
-            drow[1] = "";
+            drow[1] = "<Seleccionar>";
             rs.dataTable.Rows.InsertAt(drow, 0);
 
             cmbPaises.ValueMember = "idPais";
@@ -44,7 +44,9 @@ namespace FrbaHotel.ABM_de_Hotel
             cmbPaises.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbLocalidades.DropDownStyle = ComboBoxStyle.DropDown;
             cmbEstrellas.DropDownStyle = ComboBoxStyle.DropDownList;
-
+            this.btCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            refreshHoteles(sender,e);
             getRegimenes();
         }
 
@@ -55,7 +57,7 @@ namespace FrbaHotel.ABM_de_Hotel
                 DbResultSet rs = DbManager.GetDataTable("SELECT idLocalidad, Nombre FROM ENER_LAND.Localidad ORDER BY Nombre ASC"/* WHERE + Join para obtener localidades en funcion de area padre, no necesario según alcance */);
                 DataRow drow = rs.dataTable.NewRow();
                 drow[0] = -1;
-                drow[1] = "";
+                drow[1] = "<Seleccionar>";
                 rs.dataTable.Rows.InsertAt(drow, 0);
                 cmbLocalidades.ValueMember = "idLocalidad";
                 cmbLocalidades.DisplayMember = "Nombre";
@@ -75,7 +77,10 @@ namespace FrbaHotel.ABM_de_Hotel
         {
 
             if (cmbLocalidades.SelectedIndex != 0)
+            {
                 cmbEstrellas.Enabled = true;
+                cmbEstrellas.SelectedIndex = 0;
+            }
 
             refreshHoteles(sender, e);
 
@@ -116,13 +121,21 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void btnClear_Click(object sender, EventArgs e)
         {
+            
+            if (cmbLocalidades.Enabled)
+                cmbLocalidades.SelectedIndex = -1;
+            if (cmbEstrellas.Enabled)
+                cmbEstrellas.SelectedIndex = -1;
             cmbPaises.SelectedIndex = 0;
-            cmbLocalidades.SelectedIndex = 0;
-            cmbEstrellas.SelectedIndex = -1;
+            cmbEstrellas.Enabled = false;
+            cmbLocalidades.Enabled = false;
+            cmbHoteles.SelectedIndex = -1;
+            getRegimenes();
         }
 
         private void getRegimenes()
         {
+            MessageBox.Show("FIRE!");
             clbRegimenes.Items.Clear();
             DbResultSet rs = DbManager.GetDataTable("SELECT idRegimen,Descripcion,CASE WHEN  (SELECT rh.idRegimen FROM ENER_LAND.Regimen_Hotel rh WHERE rh.idHotel=" + cmbHoteles.SelectedIndex + " AND rh.idRegimen=r.idRegimen) >0 THEN 1 ELSE 0 END  CHECKED FROM ENER_LAND.Regimen r");
             foreach(DataRow row in rs.dataTable.Rows){
@@ -140,8 +153,39 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void cmbHoteles_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            getDatosHotel(); 
             getRegimenes();
+            
+            //MessageBox.Show(cmbHoteles.SelectedIndex.ToString() + " - " + cmbHoteles.Text + " - " + cmbHoteles.Name);
+       }
+
+        private void cmbHoteles_TextUpdate(object sender, EventArgs e)
+        {
+            MessageBox.Show("VOILA");
         }
+
+        private void getDatosHotel()
+        {
+            if (cmbHoteles.SelectedIndex > 0)
+            {
+                DbResultSet rs = DbManager.GetDataTable("SELECT  Calle,Numero as Altura,ISNULL(mail,'') Mail,ISNULL(telefono,'') Telefono,ISNULL(fecha_creacion,'') FechaCreacion FROM ENER_LAND.Hotel WHERE idHotel = " + cmbHoteles.SelectedIndex);
+                tbCalle.Text =  rs.dataTable.Rows[0].Field<String>(0);
+                tbAltura.Text = rs.dataTable.Rows[0].Field<Int32>(1).ToString();
+                tbMail.Text = rs.dataTable.Rows[0].Field<String>(2);
+                tbTelefono.Text = rs.dataTable.Rows[0].Field<Int32>(3).ToString();
+                tbFechaCreacion.Text = rs.dataTable.Rows[0].Field<DateTime>(4).ToString();
+
+            }
+        }
+
+        /*TODO*/
+        /*private void getHabilitacion()
+        {
+            if(cmbHoteles.SelectedIndex>0)
+                DbResultSet rs = DbManager.GetDataTable("SELECT  Calle,Numero as Altura,ISNULL(mail,'') Mail,ISNULL(telefono,'') Telefono,ISNULL(fecha_creacion,'') FechaCreacion FROM ENER_LAND.Hotel WHERE idHotel = " + cmbHoteles.SelectedIndex);
+
+        }*/
+
 
     }
 }

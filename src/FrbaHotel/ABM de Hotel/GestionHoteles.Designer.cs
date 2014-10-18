@@ -36,7 +36,6 @@
             this.cmbEstrellas = new System.Windows.Forms.ComboBox();
             this.cmbHoteles = new System.Windows.Forms.ComboBox();
             this.lblHotel = new System.Windows.Forms.Label();
-            this.btnClear = new System.Windows.Forms.Button();
             this.tbCalle = new System.Windows.Forms.TextBox();
             this.tbAltura = new System.Windows.Forms.TextBox();
             this.lblCalle = new System.Windows.Forms.Label();
@@ -49,10 +48,13 @@
             this.lblFechaCreacion = new System.Windows.Forms.Label();
             this.lblRegimen = new System.Windows.Forms.Label();
             this.dgvHabitaciones = new System.Windows.Forms.DataGridView();
-            this.btSave = new System.Windows.Forms.Button();
-            this.btCancel = new System.Windows.Forms.Button();
             this.clbRegimenes = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btCancel = new System.Windows.Forms.Button();
+            this.btSave = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.lblHabilitado = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHabitaciones)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,9 +63,9 @@
             this.cmbPaises.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmbPaises.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbPaises.FormattingEnabled = true;
-            this.cmbPaises.Location = new System.Drawing.Point(76, 36);
+            this.cmbPaises.Location = new System.Drawing.Point(44, 36);
             this.cmbPaises.Name = "cmbPaises";
-            this.cmbPaises.Size = new System.Drawing.Size(164, 21);
+            this.cmbPaises.Size = new System.Drawing.Size(187, 21);
             this.cmbPaises.TabIndex = 0;
             this.cmbPaises.SelectionChangeCommitted += new System.EventHandler(this.cmbPaises_SelectedIndexChanged);
             // 
@@ -72,16 +74,16 @@
             this.cmbLocalidades.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbLocalidades.Enabled = false;
             this.cmbLocalidades.FormattingEnabled = true;
-            this.cmbLocalidades.Location = new System.Drawing.Point(292, 36);
+            this.cmbLocalidades.Location = new System.Drawing.Point(237, 36);
             this.cmbLocalidades.Name = "cmbLocalidades";
-            this.cmbLocalidades.Size = new System.Drawing.Size(145, 21);
+            this.cmbLocalidades.Size = new System.Drawing.Size(203, 21);
             this.cmbLocalidades.TabIndex = 1;
             this.cmbLocalidades.SelectionChangeCommitted += new System.EventHandler(this.cmbCiudades_SelectionChangeCommitted);
             // 
             // lvlPais
             // 
             this.lvlPais.AutoSize = true;
-            this.lvlPais.Location = new System.Drawing.Point(41, 39);
+            this.lvlPais.Location = new System.Drawing.Point(44, 20);
             this.lvlPais.Name = "lvlPais";
             this.lvlPais.Size = new System.Drawing.Size(29, 13);
             this.lvlPais.TabIndex = 2;
@@ -90,7 +92,7 @@
             // lblCiudad
             // 
             this.lblCiudad.AutoSize = true;
-            this.lblCiudad.Location = new System.Drawing.Point(246, 39);
+            this.lblCiudad.Location = new System.Drawing.Point(234, 20);
             this.lblCiudad.Name = "lblCiudad";
             this.lblCiudad.Size = new System.Drawing.Size(40, 13);
             this.lblCiudad.TabIndex = 3;
@@ -99,7 +101,7 @@
             // lblEstrellas
             // 
             this.lblEstrellas.AutoSize = true;
-            this.lblEstrellas.Location = new System.Drawing.Point(443, 39);
+            this.lblEstrellas.Location = new System.Drawing.Point(443, 20);
             this.lblEstrellas.Name = "lblEstrellas";
             this.lblEstrellas.Size = new System.Drawing.Size(105, 13);
             this.lblEstrellas.TabIndex = 4;
@@ -110,16 +112,16 @@
             this.cmbEstrellas.Enabled = false;
             this.cmbEstrellas.FormattingEnabled = true;
             this.cmbEstrellas.Items.AddRange(new object[] {
-            "",
+            "<Seleccionar>",
             "1",
             "2",
             "3",
             "4",
             "5"});
-            this.cmbEstrellas.Location = new System.Drawing.Point(554, 36);
+            this.cmbEstrellas.Location = new System.Drawing.Point(446, 36);
             this.cmbEstrellas.Name = "cmbEstrellas";
-            this.cmbEstrellas.Size = new System.Drawing.Size(38, 21);
-            this.cmbEstrellas.TabIndex = 3;
+            this.cmbEstrellas.Size = new System.Drawing.Size(110, 21);
+            this.cmbEstrellas.TabIndex = 6;
             this.cmbEstrellas.SelectionChangeCommitted += new System.EventHandler(this.cmbEstrellas_SelectionChangeCommitted);
             // 
             // cmbHoteles
@@ -129,9 +131,9 @@
             this.cmbHoteles.FormattingEnabled = true;
             this.cmbHoteles.Location = new System.Drawing.Point(76, 63);
             this.cmbHoteles.Name = "cmbHoteles";
-            this.cmbHoteles.Size = new System.Drawing.Size(485, 21);
+            this.cmbHoteles.Size = new System.Drawing.Size(516, 21);
             this.cmbHoteles.TabIndex = 6;
-            this.cmbHoteles.SelectionChangeCommitted += new System.EventHandler(this.cmbHoteles_SelectionChangeCommitted);
+            this.cmbHoteles.SelectedIndexChanged += new System.EventHandler(this.cmbHoteles_SelectionChangeCommitted);
             // 
             // lblHotel
             // 
@@ -141,16 +143,6 @@
             this.lblHotel.Size = new System.Drawing.Size(32, 13);
             this.lblHotel.TabIndex = 7;
             this.lblHotel.Text = "Hotel";
-            // 
-            // btnClear
-            // 
-            this.btnClear.Location = new System.Drawing.Point(567, 61);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(25, 23);
-            this.btnClear.TabIndex = 8;
-            this.btnClear.Text = "btnClear";
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // tbCalle
             // 
@@ -218,9 +210,10 @@
             // 
             // tbFechaCreacion
             // 
+            this.tbFechaCreacion.Enabled = false;
             this.tbFechaCreacion.Location = new System.Drawing.Point(348, 117);
             this.tbFechaCreacion.Name = "tbFechaCreacion";
-            this.tbFechaCreacion.Size = new System.Drawing.Size(244, 20);
+            this.tbFechaCreacion.Size = new System.Drawing.Size(141, 20);
             this.tbFechaCreacion.TabIndex = 17;
             // 
             // lblFechaCreacion
@@ -235,7 +228,7 @@
             // lblRegimen
             // 
             this.lblRegimen.AutoSize = true;
-            this.lblRegimen.Location = new System.Drawing.Point(41, 170);
+            this.lblRegimen.Location = new System.Drawing.Point(41, 151);
             this.lblRegimen.Name = "lblRegimen";
             this.lblRegimen.Size = new System.Drawing.Size(115, 13);
             this.lblRegimen.TabIndex = 19;
@@ -244,51 +237,86 @@
             // dgvHabitaciones
             // 
             this.dgvHabitaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvHabitaciones.Location = new System.Drawing.Point(228, 186);
+            this.dgvHabitaciones.Location = new System.Drawing.Point(228, 167);
             this.dgvHabitaciones.Name = "dgvHabitaciones";
-            this.dgvHabitaciones.Size = new System.Drawing.Size(364, 244);
+            this.dgvHabitaciones.Size = new System.Drawing.Size(364, 259);
             this.dgvHabitaciones.TabIndex = 24;
-            // 
-            // btSave
-            // 
-            this.btSave.Location = new System.Drawing.Point(446, 439);
-            this.btSave.Name = "btSave";
-            this.btSave.Size = new System.Drawing.Size(65, 23);
-            this.btSave.TabIndex = 25;
-            this.btSave.Text = "btSave";
-            this.btSave.UseVisualStyleBackColor = true;
-            // 
-            // btCancel
-            // 
-            this.btCancel.Location = new System.Drawing.Point(517, 439);
-            this.btCancel.Name = "btCancel";
-            this.btCancel.Size = new System.Drawing.Size(65, 23);
-            this.btCancel.TabIndex = 26;
-            this.btCancel.Text = "btCancel";
-            this.btCancel.UseVisualStyleBackColor = true;
             // 
             // clbRegimenes
             // 
+            this.clbRegimenes.CheckOnClick = true;
             this.clbRegimenes.FormattingEnabled = true;
-            this.clbRegimenes.Location = new System.Drawing.Point(43, 186);
+            this.clbRegimenes.Location = new System.Drawing.Point(43, 167);
             this.clbRegimenes.Name = "clbRegimenes";
-            this.clbRegimenes.Size = new System.Drawing.Size(164, 244);
+            this.clbRegimenes.Size = new System.Drawing.Size(164, 259);
             this.clbRegimenes.TabIndex = 27;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(225, 170);
+            this.label1.Location = new System.Drawing.Point(225, 151);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(69, 13);
             this.label1.TabIndex = 28;
             this.label1.Text = "Habitaciones";
+            // 
+            // btCancel
+            // 
+            this.btCancel.BackgroundImage = global::FrbaHotel.Properties.Resources.cancelar;
+            this.btCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btCancel.ForeColor = System.Drawing.SystemColors.Control;
+            this.btCancel.Location = new System.Drawing.Point(562, 439);
+            this.btCancel.Name = "btCancel";
+            this.btCancel.Size = new System.Drawing.Size(33, 33);
+            this.btCancel.TabIndex = 26;
+            this.btCancel.UseVisualStyleBackColor = true;
+            // 
+            // btSave
+            // 
+            this.btSave.BackgroundImage = global::FrbaHotel.Properties.Resources.aceptar;
+            this.btSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btSave.ForeColor = System.Drawing.SystemColors.Control;
+            this.btSave.Location = new System.Drawing.Point(523, 439);
+            this.btSave.Name = "btSave";
+            this.btSave.Size = new System.Drawing.Size(33, 33);
+            this.btSave.TabIndex = 25;
+            this.btSave.UseVisualStyleBackColor = true;
+            // 
+            // btnClear
+            // 
+            this.btnClear.BackgroundImage = global::FrbaHotel.Properties.Resources.icon_delete;
+            this.btnClear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnClear.Location = new System.Drawing.Point(562, 34);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(30, 23);
+            this.btnClear.TabIndex = 8;
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // lblHabilitado
+            // 
+            this.lblHabilitado.AutoSize = true;
+            this.lblHabilitado.Location = new System.Drawing.Point(495, 120);
+            this.lblHabilitado.Name = "lblHabilitado";
+            this.lblHabilitado.Size = new System.Drawing.Size(54, 13);
+            this.lblHabilitado.TabIndex = 29;
+            this.lblHabilitado.Text = "Habilitado";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(555, 117);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(37, 20);
+            this.textBox1.TabIndex = 30;
             // 
             // GestionHoteles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.lblHabilitado);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.clbRegimenes);
             this.Controls.Add(this.btCancel);
@@ -351,6 +379,8 @@
         private System.Windows.Forms.Button btCancel;
         private System.Windows.Forms.CheckedListBox clbRegimenes;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblHabilitado;
+        private System.Windows.Forms.TextBox textBox1;
 
     }
 }
