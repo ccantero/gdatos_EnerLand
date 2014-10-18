@@ -135,7 +135,6 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void getRegimenes()
         {
-            MessageBox.Show("FIRE!");
             clbRegimenes.Items.Clear();
             DbResultSet rs = DbManager.GetDataTable("SELECT idRegimen,Descripcion,CASE WHEN  (SELECT rh.idRegimen FROM ENER_LAND.Regimen_Hotel rh WHERE rh.idHotel=" + cmbHoteles.SelectedIndex + " AND rh.idRegimen=r.idRegimen) >0 THEN 1 ELSE 0 END  CHECKED FROM ENER_LAND.Regimen r");
             foreach(DataRow row in rs.dataTable.Rows){
@@ -158,11 +157,6 @@ namespace FrbaHotel.ABM_de_Hotel
             
             //MessageBox.Show(cmbHoteles.SelectedIndex.ToString() + " - " + cmbHoteles.Text + " - " + cmbHoteles.Name);
        }
-
-        private void cmbHoteles_TextUpdate(object sender, EventArgs e)
-        {
-            MessageBox.Show("VOILA");
-        }
 
         private void getDatosHotel()
         {
