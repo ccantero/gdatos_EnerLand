@@ -26,6 +26,7 @@ namespace FrbaHotel.ABM_de_Hotel
             this.MinimizeBox = false;
             
 
+
             
             parentForm.Hide();
 
@@ -44,8 +45,8 @@ namespace FrbaHotel.ABM_de_Hotel
             cmbPaises.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbLocalidades.DropDownStyle = ComboBoxStyle.DropDown;
             cmbEstrellas.DropDownStyle = ComboBoxStyle.DropDownList;
-            this.btCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             refreshHoteles(sender,e);
             getRegimenes();
         }
@@ -121,16 +122,7 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            
-            if (cmbLocalidades.Enabled)
-                cmbLocalidades.SelectedIndex = -1;
-            if (cmbEstrellas.Enabled)
-                cmbEstrellas.SelectedIndex = -1;
-            cmbPaises.SelectedIndex = 0;
-            cmbEstrellas.Enabled = false;
-            cmbLocalidades.Enabled = false;
-            cmbHoteles.SelectedIndex = -1;
-            getRegimenes();
+            clearFields();
         }
 
         private void getRegimenes()
@@ -154,7 +146,16 @@ namespace FrbaHotel.ABM_de_Hotel
         {
             getDatosHotel(); 
             getRegimenes();
-            
+            if (cmbHoteles.SelectedIndex > 0)
+            {
+                btnEdit.Enabled = true;
+                btnStatusChange.Enabled = true;
+            }
+            else
+            {
+                btnEdit.Enabled = false;
+                btnStatusChange.Enabled = false;
+            }
             //MessageBox.Show(cmbHoteles.SelectedIndex.ToString() + " - " + cmbHoteles.Text + " - " + cmbHoteles.Name);
        }
 
@@ -172,6 +173,52 @@ namespace FrbaHotel.ABM_de_Hotel
             }
         }
 
+        private void btnNew_Click(object sender, EventArgs e)
+        {
+            btnNew.Visible = false;
+            btnEdit.Visible = false;
+            btnStatusChange.Visible = false;
+            btnAccept.Visible = true;
+            btnCancel.Visible = true;
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            btnNew.Visible = false;
+            btnEdit.Visible = false;
+            btnStatusChange.Visible = false;
+            btnAccept.Visible = true;
+            btnCancel.Visible = true;
+        }
+
+        private void btnStatusChange_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void btnAccept_Click(object sender, EventArgs e)
+        {
+            //TODO Save;
+            btnNew.Visible = true;
+            btnEdit.Visible = true;
+            btnStatusChange.Visible = true;
+            btnAccept.Visible = false;
+            btnCancel.Visible = false;
+
+            clearFields();
+
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            btnNew.Visible = true;
+            btnEdit.Visible = true;
+            btnStatusChange.Visible = true;
+            btnAccept.Visible = false;
+            btnCancel.Visible = false;
+
+            clearFields();
+        }
+
         /*TODO*/
         /*private void getHabilitacion()
         {
@@ -179,6 +226,19 @@ namespace FrbaHotel.ABM_de_Hotel
                 DbResultSet rs = DbManager.GetDataTable("SELECT  Calle,Numero as Altura,ISNULL(mail,'') Mail,ISNULL(telefono,'') Telefono,ISNULL(fecha_creacion,'') FechaCreacion FROM ENER_LAND.Hotel WHERE idHotel = " + cmbHoteles.SelectedIndex);
 
         }*/
+
+        private void clearFields()
+        {
+            if (cmbLocalidades.Enabled)
+                cmbLocalidades.SelectedIndex = -1;
+            if (cmbEstrellas.Enabled)
+                cmbEstrellas.SelectedIndex = -1;
+            cmbPaises.SelectedIndex = 0;
+            cmbEstrellas.Enabled = false;
+            cmbLocalidades.Enabled = false;
+            cmbHoteles.SelectedIndex = -1;
+            getRegimenes();
+        }
 
 
     }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GestionHoteles));
             this.cmbPaises = new System.Windows.Forms.ComboBox();
             this.cmbLocalidades = new System.Windows.Forms.ComboBox();
             this.lvlPais = new System.Windows.Forms.Label();
@@ -50,11 +51,14 @@
             this.dgvHabitaciones = new System.Windows.Forms.DataGridView();
             this.clbRegimenes = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btCancel = new System.Windows.Forms.Button();
-            this.btSave = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
             this.lblHabilitado = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnAccept = new System.Windows.Forms.Button();
+            this.btnStatusChange = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnNew = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHabitaciones)).BeginInit();
             this.SuspendLayout();
             // 
@@ -260,39 +264,6 @@
             this.label1.TabIndex = 28;
             this.label1.Text = "Habitaciones";
             // 
-            // btCancel
-            // 
-            this.btCancel.BackgroundImage = global::FrbaHotel.Properties.Resources.cancelar;
-            this.btCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btCancel.ForeColor = System.Drawing.SystemColors.Control;
-            this.btCancel.Location = new System.Drawing.Point(562, 439);
-            this.btCancel.Name = "btCancel";
-            this.btCancel.Size = new System.Drawing.Size(33, 33);
-            this.btCancel.TabIndex = 26;
-            this.btCancel.UseVisualStyleBackColor = true;
-            // 
-            // btSave
-            // 
-            this.btSave.BackgroundImage = global::FrbaHotel.Properties.Resources.aceptar;
-            this.btSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btSave.ForeColor = System.Drawing.SystemColors.Control;
-            this.btSave.Location = new System.Drawing.Point(523, 439);
-            this.btSave.Name = "btSave";
-            this.btSave.Size = new System.Drawing.Size(33, 33);
-            this.btSave.TabIndex = 25;
-            this.btSave.UseVisualStyleBackColor = true;
-            // 
-            // btnClear
-            // 
-            this.btnClear.BackgroundImage = global::FrbaHotel.Properties.Resources.icon_delete;
-            this.btnClear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnClear.Location = new System.Drawing.Point(562, 34);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(30, 23);
-            this.btnClear.TabIndex = 8;
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            // 
             // lblHabilitado
             // 
             this.lblHabilitado.AutoSize = true;
@@ -310,17 +281,107 @@
             this.textBox1.Size = new System.Drawing.Size(37, 20);
             this.textBox1.TabIndex = 30;
             // 
+            // btnCancel
+            // 
+            this.btnCancel.BackColor = System.Drawing.Color.Transparent;
+            this.btnCancel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnCancel.BackgroundImage")));
+            this.btnCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnCancel.Location = new System.Drawing.Point(598, 71);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(30, 31);
+            this.btnCancel.TabIndex = 33;
+            this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Visible = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnAccept
+            // 
+            this.btnAccept.BackColor = System.Drawing.Color.Transparent;
+            this.btnAccept.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAccept.BackgroundImage")));
+            this.btnAccept.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAccept.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnAccept.Location = new System.Drawing.Point(598, 34);
+            this.btnAccept.Name = "btnAccept";
+            this.btnAccept.Size = new System.Drawing.Size(30, 31);
+            this.btnAccept.TabIndex = 32;
+            this.btnAccept.UseVisualStyleBackColor = false;
+            this.btnAccept.Visible = false;
+            this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
+            // 
+            // btnStatusChange
+            // 
+            this.btnStatusChange.BackColor = System.Drawing.Color.Transparent;
+            this.btnStatusChange.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnStatusChange.BackgroundImage")));
+            this.btnStatusChange.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnStatusChange.Enabled = false;
+            this.btnStatusChange.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStatusChange.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnStatusChange.Location = new System.Drawing.Point(598, 108);
+            this.btnStatusChange.Name = "btnStatusChange";
+            this.btnStatusChange.Size = new System.Drawing.Size(30, 31);
+            this.btnStatusChange.TabIndex = 31;
+            this.btnStatusChange.UseVisualStyleBackColor = false;
+            this.btnStatusChange.Click += new System.EventHandler(this.btnStatusChange_Click);
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.BackColor = System.Drawing.Color.Transparent;
+            this.btnEdit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnEdit.BackgroundImage")));
+            this.btnEdit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnEdit.Enabled = false;
+            this.btnEdit.FlatAppearance.BorderSize = 0;
+            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEdit.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnEdit.Location = new System.Drawing.Point(598, 71);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(30, 31);
+            this.btnEdit.TabIndex = 26;
+            this.btnEdit.UseVisualStyleBackColor = false;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // btnNew
+            // 
+            this.btnNew.BackColor = System.Drawing.Color.Transparent;
+            this.btnNew.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnNew.BackgroundImage")));
+            this.btnNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnNew.FlatAppearance.BorderSize = 0;
+            this.btnNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNew.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnNew.Location = new System.Drawing.Point(598, 34);
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(30, 31);
+            this.btnNew.TabIndex = 25;
+            this.btnNew.UseVisualStyleBackColor = false;
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            // 
+            // btnClear
+            // 
+            this.btnClear.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnClear.BackgroundImage")));
+            this.btnClear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnClear.Location = new System.Drawing.Point(562, 34);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(30, 23);
+            this.btnClear.TabIndex = 8;
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
             // GestionHoteles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnAccept);
+            this.Controls.Add(this.btnStatusChange);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.lblHabilitado);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.clbRegimenes);
-            this.Controls.Add(this.btCancel);
-            this.Controls.Add(this.btSave);
+            this.Controls.Add(this.btnEdit);
+            this.Controls.Add(this.btnNew);
             this.Controls.Add(this.dgvHabitaciones);
             this.Controls.Add(this.lblRegimen);
             this.Controls.Add(this.lblFechaCreacion);
@@ -375,12 +436,15 @@
         private System.Windows.Forms.Label lblFechaCreacion;
         private System.Windows.Forms.Label lblRegimen;
         private System.Windows.Forms.DataGridView dgvHabitaciones;
-        private System.Windows.Forms.Button btSave;
-        private System.Windows.Forms.Button btCancel;
+        private System.Windows.Forms.Button btnNew;
+        private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.CheckedListBox clbRegimenes;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblHabilitado;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button btnStatusChange;
+        private System.Windows.Forms.Button btnAccept;
+        private System.Windows.Forms.Button btnCancel;
 
     }
 }
