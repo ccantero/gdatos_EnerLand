@@ -58,6 +58,12 @@ namespace FrbaHotel
             formHoteles.Show();
         }
 
+        private void gestionarRolesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ABM_de_Rol.GestionRoles formRol = new FrbaHotel.ABM_de_Rol.GestionRoles(parentForm);
+            formRol.Show();
+        }
+
 
    }
 }

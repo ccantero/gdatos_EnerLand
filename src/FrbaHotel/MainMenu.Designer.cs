@@ -157,6 +157,7 @@ namespace FrbaHotel
             this.gestionarRolesToolStripMenuItem.Name = "gestionarRolesToolStripMenuItem";
             this.gestionarRolesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.gestionarRolesToolStripMenuItem.Text = "Gestionar roles";
+            this.gestionarRolesToolStripMenuItem.Click +=new System.EventHandler(gestionarRolesToolStripMenuItem_Click);
             // 
             // gestionarUsuariosToolStripMenuItem
             // 

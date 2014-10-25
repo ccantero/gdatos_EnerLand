@@ -24,10 +24,7 @@ namespace FrbaHotel.ABM_de_Hotel
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            
 
-
-            
             parentForm.Hide();
 
             DbResultSet rs = DbManager.GetDataTable("SELECT IdPais, Nombre FROM ENER_LAND.Pais");
