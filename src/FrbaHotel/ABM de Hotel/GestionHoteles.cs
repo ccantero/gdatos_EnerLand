@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace FrbaHotel.ABM_de_Hotel
 {
@@ -24,11 +25,12 @@ namespace FrbaHotel.ABM_de_Hotel
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            
-
+            dtpFechaCreacion.Visible = false;
 
             
             parentForm.Hide();
+
+
 
             DbResultSet rs = DbManager.GetDataTable("SELECT IdPais, Nombre FROM ENER_LAND.Pais");
 
@@ -53,6 +55,7 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void cmbPaises_SelectedIndexChanged(object sender, EventArgs e)
         {
+            clearDataFields();
             if (cmbPaises.SelectedIndex != 0 )
             {
                 DbResultSet rs = DbManager.GetDataTable("SELECT idLocalidad, Nombre FROM ENER_LAND.Localidad ORDER BY Nombre ASC"/* WHERE + Join para obtener localidades en funcion de area padre, no necesario según alcance */);
@@ -76,7 +79,7 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void cmbCiudades_SelectionChangeCommitted(object sender, EventArgs e)
         {
-
+            clearDataFields();
             if (cmbLocalidades.SelectedIndex != 0)
             {
                 cmbEstrellas.Enabled = true;
@@ -123,6 +126,7 @@ namespace FrbaHotel.ABM_de_Hotel
         private void btnClear_Click(object sender, EventArgs e)
         {
             clearFields();
+            refreshHoteles(sender,e);
         }
 
         private void getRegimenes()
@@ -144,7 +148,8 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void cmbHoteles_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            getDatosHotel(); 
+            getDatosHotel();
+            getEstadoHotel();
             getRegimenes();
             if (cmbHoteles.SelectedIndex > 0)
             {
@@ -168,7 +173,9 @@ namespace FrbaHotel.ABM_de_Hotel
                 tbAltura.Text = rs.dataTable.Rows[0].Field<Int32>(1).ToString();
                 tbMail.Text = rs.dataTable.Rows[0].Field<String>(2);
                 tbTelefono.Text = rs.dataTable.Rows[0].Field<Int32>(3).ToString();
-                tbFechaCreacion.Text = rs.dataTable.Rows[0].Field<DateTime>(4).ToString();
+                dtpFechaCreacion.Value = rs.dataTable.Rows[0].Field<DateTime>(4);
+                tbHideDate.Visible = false;
+                dtpFechaCreacion.Visible = true;
 
             }
         }
@@ -180,15 +187,33 @@ namespace FrbaHotel.ABM_de_Hotel
             btnStatusChange.Visible = false;
             btnAccept.Visible = true;
             btnCancel.Visible = true;
+            tbTelefono.ReadOnly = false;
+            tbMail.ReadOnly = false;
+            tbAltura.ReadOnly = false;
+            tbCalle.ReadOnly = false;
+            clbRegimenes.Enabled = true;
+            dtpFechaCreacion.Visible = true;
+            tbHideDate.Visible = false;
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+
+
             btnNew.Visible = false;
             btnEdit.Visible = false;
             btnStatusChange.Visible = false;
             btnAccept.Visible = true;
             btnCancel.Visible = true;
+
+            tbTelefono.ReadOnly = false;
+            tbMail.ReadOnly = false;
+            tbAltura.ReadOnly = false;
+            tbCalle.ReadOnly = false;
+            clbRegimenes.Enabled = true;
+            dtpFechaCreacion.Visible = true;
+            tbHideDate.Visible = false;
+
         }
 
         private void btnStatusChange_Click(object sender, EventArgs e)
@@ -197,12 +222,74 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
+
+
+            using (SqlConnection connection = DbManager.dbConnect())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+                    //command.CommandText = "INSERT into tbl_staff (staffName, userID, idDepartment) VALUES (@staffName, @userID, @idDepart)";
+                    command.CommandText = "UPDATE ENER_LAND.HOTEL SET " +
+                                          "Nombre = @nombre, " +
+                                          "Telefono = @telefono, " +
+                                          "Mail = @mail, " +
+                                          "Cantidad_estrellas = @cantEstrellas, " +
+                                          "Numero = @numero, " +
+                                          "IdLocalidad = @idLocalidad, " +
+                                          "IdPais = @idPais, " +
+                                          "Fecha_Creacion = @fechaCreacion," +
+                                          "Habilitado = @habilitado " +
+                                          "WHERE idHotel = @idHotel";
+                    MessageBox.Show(command.CommandText);
+                    MessageBox.Show(cmbHoteles.SelectedText);
+                    command.Parameters.AddWithValue("@nombre", cmbHoteles.Text);
+                    command.Parameters.AddWithValue("@telefono", tbTelefono.Text);
+                    command.Parameters.AddWithValue("@mail", tbMail.Text);
+                    command.Parameters.AddWithValue("@cantEstrellas", cmbEstrellas.Text);
+                    command.Parameters.AddWithValue("@numero", tbAltura.Text);
+                    command.Parameters.AddWithValue("@idLocalidad", cmbLocalidades.SelectedValue);
+                    command.Parameters.AddWithValue("@idPais", cmbPaises.SelectedValue);
+                    command.Parameters.AddWithValue("@fechaCreacion", dtpFechaCreacion.Value);
+                    command.Parameters.AddWithValue("@habilitado", getEstadoHotelCodificado());
+                    command.Parameters.AddWithValue("@idHotel", 1);
+
+
+                    int recordsAffected = command.ExecuteNonQuery();
+
+
+                    connection.Close();
+
+                }
+            }
+
+
+            MessageBox.Show("UPDATE ENER_LAND.Hotel SET " +
+                     "Nombre = " + cmbHoteles.SelectedText +
+                     " , Mail = " + tbMail.Text +
+                     ", Telefono = " + tbTelefono.Text +
+                     ", Cantidad_Estrellas = " + cmbEstrellas.SelectedText +
+                     " , Numero = " + tbAltura.Text +
+                     " , idLocalidad = " + cmbLocalidades.SelectedValue +
+                     ", idPais = " + cmbPaises.SelectedValue +
+                     ", Fecha_Creacion = " + dtpFechaCreacion.Value +
+                     " , Habilitado = " + getEstadoHotelCodificado() +
+                     "WHERE idHotel = " + cmbHoteles.SelectedValue);
+
+
             //TODO Save;
             btnNew.Visible = true;
             btnEdit.Visible = true;
             btnStatusChange.Visible = true;
             btnAccept.Visible = false;
             btnCancel.Visible = false;
+
+            tbTelefono.ReadOnly = true;
+            tbMail.ReadOnly = true;
+            tbAltura.ReadOnly = true;
+            tbCalle.ReadOnly = true;
+            clbRegimenes.Enabled = false;
 
             clearFields();
 
@@ -216,6 +303,13 @@ namespace FrbaHotel.ABM_de_Hotel
             btnAccept.Visible = false;
             btnCancel.Visible = false;
 
+            tbTelefono.ReadOnly = true;
+            tbMail.ReadOnly = true;
+            tbAltura.ReadOnly = true;
+            tbCalle.ReadOnly = true;
+            
+
+            
             clearFields();
         }
 
@@ -227,6 +321,21 @@ namespace FrbaHotel.ABM_de_Hotel
 
         }*/
 
+        private void getEstadoHotel()
+        {
+            if (cmbHoteles.SelectedIndex > 0)
+            {
+                DbResultSet rs = DbManager.dbGetString("SELECT  Habilitado  FROM ENER_LAND.Hotel WHERE idHotel = " + cmbHoteles.SelectedIndex);
+                if (rs.strValue == "1")
+                    tbEstadoHotel.Text = "Sí";
+                if (rs.strValue == "0")
+                    tbEstadoHotel.Text = "No";
+            }
+
+
+        }
+
+
         private void clearFields()
         {
             if (cmbLocalidades.Enabled)
@@ -237,9 +346,53 @@ namespace FrbaHotel.ABM_de_Hotel
             cmbEstrellas.Enabled = false;
             cmbLocalidades.Enabled = false;
             cmbHoteles.SelectedIndex = -1;
+            clearDataFields();
+        }
+
+        private void clearDataFields()
+        {
+            tbAltura.Text = "";
+            tbCalle.Text = "";
+            tbMail.Text = "";
+            tbTelefono.Text = "";
+            tbEstadoHotel.Text = "";
+            dtpFechaCreacion.Visible = false;
+            tbHideDate.Visible = true;
             getRegimenes();
         }
 
+        private void saveNuevoHotel()
+        {
+        }
+
+        private void saveUpdateHotel()
+        {
+            DbManager.dbSqlStatementExec(
+                     "UPDATE ENER_LAND.Hotel SET " + 
+                     "Nombre = "+ cmbHoteles.SelectedText +
+                     " , Mail = " + tbMail.Text  + 
+                     ", Telefono = "+ tbTelefono.Text + 
+                     ", Cantidad_Estrellas = " + cmbEstrellas.SelectedText +
+                     " , Numero = " + tbAltura.Text +
+                     " , idLocalidad = " + cmbLocalidades.SelectedValue + 
+                     ", idPais = " + cmbPaises.SelectedValue + 
+                     ", Fecha_Creacion = " + dtpFechaCreacion.Value +
+                     " , Habilitado = "+ getEstadoHotelCodificado() +
+                     "WHERE idHotel = " + cmbHoteles.SelectedValue
+            );
+
+         
+        }
+
+        private String getEstadoHotelCodificado()
+        {
+            if (tbEstadoHotel.Text == "Sí")
+                return "1";
+            if (tbEstadoHotel.Text == "No")
+                return "0";
+
+            else return "0";
+        }
 
     }
 }

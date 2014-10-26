@@ -45,20 +45,21 @@
             this.lblMail = new System.Windows.Forms.Label();
             this.tbTelefono = new System.Windows.Forms.TextBox();
             this.lblTelefono = new System.Windows.Forms.Label();
-            this.tbFechaCreacion = new System.Windows.Forms.TextBox();
             this.lblFechaCreacion = new System.Windows.Forms.Label();
             this.lblRegimen = new System.Windows.Forms.Label();
             this.dgvHabitaciones = new System.Windows.Forms.DataGridView();
             this.clbRegimenes = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lblHabilitado = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbEstadoHotel = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnAccept = new System.Windows.Forms.Button();
             this.btnStatusChange = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
+            this.dtpFechaCreacion = new System.Windows.Forms.DateTimePicker();
+            this.tbHideDate = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHabitaciones)).BeginInit();
             this.SuspendLayout();
             // 
@@ -152,6 +153,7 @@
             // 
             this.tbCalle.Location = new System.Drawing.Point(76, 90);
             this.tbCalle.Name = "tbCalle";
+            this.tbCalle.ReadOnly = true;
             this.tbCalle.Size = new System.Drawing.Size(164, 20);
             this.tbCalle.TabIndex = 9;
             // 
@@ -159,6 +161,7 @@
             // 
             this.tbAltura.Location = new System.Drawing.Point(292, 90);
             this.tbAltura.Name = "tbAltura";
+            this.tbAltura.ReadOnly = true;
             this.tbAltura.Size = new System.Drawing.Size(90, 20);
             this.tbAltura.TabIndex = 10;
             // 
@@ -184,6 +187,7 @@
             // 
             this.tbMail.Location = new System.Drawing.Point(420, 90);
             this.tbMail.Name = "tbMail";
+            this.tbMail.ReadOnly = true;
             this.tbMail.Size = new System.Drawing.Size(172, 20);
             this.tbMail.TabIndex = 13;
             // 
@@ -200,6 +204,7 @@
             // 
             this.tbTelefono.Location = new System.Drawing.Point(76, 117);
             this.tbTelefono.Name = "tbTelefono";
+            this.tbTelefono.ReadOnly = true;
             this.tbTelefono.Size = new System.Drawing.Size(164, 20);
             this.tbTelefono.TabIndex = 15;
             // 
@@ -211,14 +216,6 @@
             this.lblTelefono.Size = new System.Drawing.Size(25, 13);
             this.lblTelefono.TabIndex = 16;
             this.lblTelefono.Text = "Tel.";
-            // 
-            // tbFechaCreacion
-            // 
-            this.tbFechaCreacion.Enabled = false;
-            this.tbFechaCreacion.Location = new System.Drawing.Point(348, 117);
-            this.tbFechaCreacion.Name = "tbFechaCreacion";
-            this.tbFechaCreacion.Size = new System.Drawing.Size(141, 20);
-            this.tbFechaCreacion.TabIndex = 17;
             // 
             // lblFechaCreacion
             // 
@@ -249,6 +246,7 @@
             // clbRegimenes
             // 
             this.clbRegimenes.CheckOnClick = true;
+            this.clbRegimenes.Enabled = false;
             this.clbRegimenes.FormattingEnabled = true;
             this.clbRegimenes.Location = new System.Drawing.Point(43, 167);
             this.clbRegimenes.Name = "clbRegimenes";
@@ -273,13 +271,14 @@
             this.lblHabilitado.TabIndex = 29;
             this.lblHabilitado.Text = "Habilitado";
             // 
-            // textBox1
+            // tbEstadoHotel
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(555, 117);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(37, 20);
-            this.textBox1.TabIndex = 30;
+            this.tbEstadoHotel.Enabled = false;
+            this.tbEstadoHotel.Location = new System.Drawing.Point(555, 117);
+            this.tbEstadoHotel.Name = "tbEstadoHotel";
+            this.tbEstadoHotel.ReadOnly = true;
+            this.tbEstadoHotel.Size = new System.Drawing.Size(37, 20);
+            this.tbEstadoHotel.TabIndex = 30;
             // 
             // btnCancel
             // 
@@ -368,15 +367,36 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // dtpFechaCreacion
+            // 
+            this.dtpFechaCreacion.Checked = false;
+            this.dtpFechaCreacion.CustomFormat = "dd/MM/yyyy HH:mm:ss";
+            this.dtpFechaCreacion.Enabled = false;
+            this.dtpFechaCreacion.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpFechaCreacion.Location = new System.Drawing.Point(348, 117);
+            this.dtpFechaCreacion.Name = "dtpFechaCreacion";
+            this.dtpFechaCreacion.Size = new System.Drawing.Size(141, 20);
+            this.dtpFechaCreacion.TabIndex = 34;
+            // 
+            // tbHideDate
+            // 
+            this.tbHideDate.Location = new System.Drawing.Point(348, 117);
+            this.tbHideDate.Name = "tbHideDate";
+            this.tbHideDate.ReadOnly = true;
+            this.tbHideDate.Size = new System.Drawing.Size(141, 20);
+            this.tbHideDate.TabIndex = 35;
+            // 
             // GestionHoteles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.tbHideDate);
+            this.Controls.Add(this.dtpFechaCreacion);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.btnStatusChange);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbEstadoHotel);
             this.Controls.Add(this.lblHabilitado);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.clbRegimenes);
@@ -385,7 +405,6 @@
             this.Controls.Add(this.dgvHabitaciones);
             this.Controls.Add(this.lblRegimen);
             this.Controls.Add(this.lblFechaCreacion);
-            this.Controls.Add(this.tbFechaCreacion);
             this.Controls.Add(this.lblTelefono);
             this.Controls.Add(this.tbTelefono);
             this.Controls.Add(this.lblMail);
@@ -432,7 +451,6 @@
         private System.Windows.Forms.Label lblMail;
         private System.Windows.Forms.TextBox tbTelefono;
         private System.Windows.Forms.Label lblTelefono;
-        private System.Windows.Forms.TextBox tbFechaCreacion;
         private System.Windows.Forms.Label lblFechaCreacion;
         private System.Windows.Forms.Label lblRegimen;
         private System.Windows.Forms.DataGridView dgvHabitaciones;
@@ -441,10 +459,12 @@
         private System.Windows.Forms.CheckedListBox clbRegimenes;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblHabilitado;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbEstadoHotel;
         private System.Windows.Forms.Button btnStatusChange;
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.DateTimePicker dtpFechaCreacion;
+        private System.Windows.Forms.TextBox tbHideDate;
 
     }
 }
