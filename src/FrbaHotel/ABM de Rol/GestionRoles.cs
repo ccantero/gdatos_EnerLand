@@ -50,7 +50,7 @@ namespace FrbaHotel.ABM_de_Rol
             this.Controls.Clear();
             Load_Menu();
             
-            AgregarRol UserControlAgregarRol = new FrbaHotel.ABM_de_Rol.AgregarRol();
+            AgregarRol UserControlAgregarRol = new FrbaHotel.ABM_de_Rol.AgregarRol(this);
             this.Controls.Add(UserControlAgregarRol);
             UserControlAgregarRol.Location = new System.Drawing.Point(0, 20);
             UserControlAgregarRol.Name = "UserControlAgregarRol";
@@ -69,8 +69,9 @@ namespace FrbaHotel.ABM_de_Rol
             Load_Menu();
         }
 
-        private void Load_Menu()
+        public void Load_Menu()
         {
+            this.Controls.Clear();
             this.Controls.Add(this.menuStrip1);
         }
 

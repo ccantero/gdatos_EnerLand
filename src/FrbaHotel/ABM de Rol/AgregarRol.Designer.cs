@@ -29,11 +29,13 @@
         private void InitializeComponent()
         {
             this.label_RolName = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox_RolName = new System.Windows.Forms.TextBox();
             this.checkedListBox_Funcionalidades = new System.Windows.Forms.CheckedListBox();
             this.label_Funcionalidades = new System.Windows.Forms.Label();
             this.label_ActiveRol = new System.Windows.Forms.Label();
             this.checkBox_ActiveRol = new System.Windows.Forms.CheckBox();
+            this.button_Save = new System.Windows.Forms.Button();
+            this.button_Clean = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_RolName
@@ -45,12 +47,12 @@
             this.label_RolName.TabIndex = 1;
             this.label_RolName.Text = "Nombre de Rol";
             // 
-            // textBox1
+            // textBox_RolName
             // 
-            this.textBox1.Location = new System.Drawing.Point(119, 31);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(169, 20);
-            this.textBox1.TabIndex = 2;
+            this.textBox_RolName.Location = new System.Drawing.Point(119, 31);
+            this.textBox_RolName.Name = "textBox_RolName";
+            this.textBox_RolName.Size = new System.Drawing.Size(169, 20);
+            this.textBox_RolName.TabIndex = 2;
             // 
             // checkedListBox_Funcionalidades
             // 
@@ -87,18 +89,40 @@
             this.checkBox_ActiveRol.TabIndex = 6;
             this.checkBox_ActiveRol.UseVisualStyleBackColor = true;
             // 
+            // button_Save
+            // 
+            this.button_Save.Location = new System.Drawing.Point(40, 301);
+            this.button_Save.Name = "button_Save";
+            this.button_Save.Size = new System.Drawing.Size(75, 23);
+            this.button_Save.TabIndex = 7;
+            this.button_Save.Text = "Guardar";
+            this.button_Save.UseVisualStyleBackColor = true;
+            this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
+            // 
+            // button_Clean
+            // 
+            this.button_Clean.Location = new System.Drawing.Point(184, 301);
+            this.button_Clean.Name = "button_Clean";
+            this.button_Clean.Size = new System.Drawing.Size(75, 23);
+            this.button_Clean.TabIndex = 8;
+            this.button_Clean.Text = "Limpiar";
+            this.button_Clean.UseVisualStyleBackColor = true;
+            this.button_Clean.Click += new System.EventHandler(this.button_Clean_Click);
+            // 
             // AgregarRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_Clean);
+            this.Controls.Add(this.button_Save);
             this.Controls.Add(this.checkBox_ActiveRol);
             this.Controls.Add(this.label_ActiveRol);
             this.Controls.Add(this.label_Funcionalidades);
             this.Controls.Add(this.checkedListBox_Funcionalidades);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBox_RolName);
             this.Controls.Add(this.label_RolName);
             this.Name = "AgregarRol";
-            this.Size = new System.Drawing.Size(300, 300);
+            this.Size = new System.Drawing.Size(300, 337);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -107,11 +131,13 @@
         #endregion
 
         private System.Windows.Forms.Label label_RolName;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox_RolName;
         private System.Windows.Forms.CheckedListBox checkedListBox_Funcionalidades;
         private System.Windows.Forms.Label label_Funcionalidades;
         private System.Windows.Forms.Label label_ActiveRol;
         private System.Windows.Forms.CheckBox checkBox_ActiveRol;
+        private System.Windows.Forms.Button button_Save;
+        private System.Windows.Forms.Button button_Clean;
 
     }
 }
