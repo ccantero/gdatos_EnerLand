@@ -28,19 +28,94 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.botonCancelar = new System.Windows.Forms.Button();
+            this.botonAceptar = new System.Windows.Forms.Button();
+            this.contraseña = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.usuario = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // botonCancelar
+            // 
+            this.botonCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.botonCancelar.Location = new System.Drawing.Point(160, 174);
+            this.botonCancelar.Name = "botonCancelar";
+            this.botonCancelar.Size = new System.Drawing.Size(75, 23);
+            this.botonCancelar.TabIndex = 11;
+            this.botonCancelar.Text = "Cancelar";
+            this.botonCancelar.UseVisualStyleBackColor = true;
+            this.botonCancelar.Click += new System.EventHandler(this.botonCancelar_Click_1);
+            // 
+            // botonAceptar
+            // 
+            this.botonAceptar.Location = new System.Drawing.Point(44, 174);
+            this.botonAceptar.Name = "botonAceptar";
+            this.botonAceptar.Size = new System.Drawing.Size(75, 23);
+            this.botonAceptar.TabIndex = 10;
+            this.botonAceptar.Text = "Aceptar";
+            this.botonAceptar.UseVisualStyleBackColor = true;
+            this.botonAceptar.Click += new System.EventHandler(this.botonAceptar_Click_1);
+            // 
+            // contraseña
+            // 
+            this.contraseña.Location = new System.Drawing.Point(146, 109);
+            this.contraseña.Name = "contraseña";
+            this.contraseña.PasswordChar = '*';
+            this.contraseña.Size = new System.Drawing.Size(100, 20);
+            this.contraseña.TabIndex = 9;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(41, 109);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(64, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Contraseña:";
+            // 
+            // usuario
+            // 
+            this.usuario.Location = new System.Drawing.Point(146, 65);
+            this.usuario.Name = "usuario";
+            this.usuario.Size = new System.Drawing.Size(100, 20);
+            this.usuario.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(38, 65);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(101, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Nombre de Usuario:";
             // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.botonCancelar);
+            this.Controls.Add(this.botonAceptar);
+            this.Controls.Add(this.contraseña);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.usuario);
+            this.Controls.Add(this.label1);
             this.Name = "LoginForm";
             this.Text = "EnerLand - Inicio de Sesión";
+            this.Load += new System.EventHandler(this.LoginForm_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Button botonCancelar;
+        private System.Windows.Forms.Button botonAceptar;
+        private System.Windows.Forms.TextBox contraseña;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox usuario;
+        private System.Windows.Forms.Label label1;
     }
 }

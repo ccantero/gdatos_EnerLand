@@ -64,6 +64,12 @@ namespace FrbaHotel
             formRol.Show();
         }
 
+        private void ingresarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Login.LoginForm formLogin = new FrbaHotel.Login.LoginForm(parentForm);
+            formLogin.Show();
+        }
+
 
    }
 }
