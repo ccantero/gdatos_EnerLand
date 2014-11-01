@@ -70,6 +70,21 @@ namespace FrbaHotel
             formLogin.Show();
         }
 
+        private void generarReservaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void modificarReservaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cancelarReservaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
    }
 }

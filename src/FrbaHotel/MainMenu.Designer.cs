@@ -49,6 +49,7 @@ namespace FrbaHotel
             this.gestionarUsuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ingresarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.modificarReservaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,6 +57,7 @@ namespace FrbaHotel
             // 
             this.reservasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.generarReservaToolStripMenuItem,
+            this.modificarReservaToolStripMenuItem,
             this.cancelarReservaToolStripMenuItem});
             this.reservasToolStripMenuItem.Name = "reservasToolStripMenuItem";
             this.reservasToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
@@ -64,14 +66,16 @@ namespace FrbaHotel
             // generarReservaToolStripMenuItem
             // 
             this.generarReservaToolStripMenuItem.Name = "generarReservaToolStripMenuItem";
-            this.generarReservaToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.generarReservaToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.generarReservaToolStripMenuItem.Text = "Generar reserva";
+            this.generarReservaToolStripMenuItem.Click += new System.EventHandler(this.generarReservaToolStripMenuItem_Click);
             // 
             // cancelarReservaToolStripMenuItem
             // 
             this.cancelarReservaToolStripMenuItem.Name = "cancelarReservaToolStripMenuItem";
-            this.cancelarReservaToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.cancelarReservaToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.cancelarReservaToolStripMenuItem.Text = "Cancelar reserva";
+            this.cancelarReservaToolStripMenuItem.Click += new System.EventHandler(this.cancelarReservaToolStripMenuItem_Click);
             // 
             // huespedesToolStripMenuItem
             // 
@@ -157,7 +161,7 @@ namespace FrbaHotel
             this.gestionarRolesToolStripMenuItem.Name = "gestionarRolesToolStripMenuItem";
             this.gestionarRolesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.gestionarRolesToolStripMenuItem.Text = "Gestionar roles";
-            this.gestionarRolesToolStripMenuItem.Click +=new System.EventHandler(gestionarRolesToolStripMenuItem_Click);
+            this.gestionarRolesToolStripMenuItem.Click += new System.EventHandler(this.gestionarRolesToolStripMenuItem_Click);
             // 
             // gestionarUsuariosToolStripMenuItem
             // 
@@ -188,12 +192,19 @@ namespace FrbaHotel
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // menu
+            // modificarReservaToolStripMenuItem
+            // 
+            this.modificarReservaToolStripMenuItem.Name = "modificarReservaToolStripMenuItem";
+            this.modificarReservaToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.modificarReservaToolStripMenuItem.Text = "Modificar reserva";
+            this.modificarReservaToolStripMenuItem.Click += new System.EventHandler(this.modificarReservaToolStripMenuItem_Click);
+            // 
+            // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.menuStrip1);
-            this.Name = "menu";
+            this.Name = "MainMenu";
             this.Size = new System.Drawing.Size(490, 23);
             this.Load += new System.EventHandler(this.menu_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -223,6 +234,7 @@ namespace FrbaHotel
         private System.Windows.Forms.ToolStripMenuItem gestionarUsuariosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ingresarToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem modificarReservaToolStripMenuItem;
 
 
 

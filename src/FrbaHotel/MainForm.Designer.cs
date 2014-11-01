@@ -30,16 +30,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.SuspendLayout();
-            // 
-            // menu1
-            // 
 
-            this.appMenu = new MainMenu(this);
-            this.appMenu.Location = new System.Drawing.Point(0, 0);
-            this.appMenu.Name = "appMenu";
-            this.appMenu.Size = new System.Drawing.Size(640, 23);
-            this.appMenu.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -47,11 +40,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::FrbaHotel.Properties.Resources.bg;
             this.ClientSize = new System.Drawing.Size(640, 480);
-            this.Controls.Add(this.appMenu);
+
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
-            this.ShowIcon = false;
             this.Text = "MainForm";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);

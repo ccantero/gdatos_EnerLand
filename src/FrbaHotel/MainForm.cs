@@ -18,6 +18,16 @@ namespace FrbaHotel
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            // 
+            // appMenu
+            // 
+            this.appMenu = new MainMenu(this);
+            this.appMenu.Location = new System.Drawing.Point(0, 0);
+            this.appMenu.Name = "appMenu";
+            this.appMenu.Size = new System.Drawing.Size(640, 23);
+            this.appMenu.TabIndex = 0;
+            this.Controls.Add(this.appMenu);
+
             this.CenterToScreen();
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
