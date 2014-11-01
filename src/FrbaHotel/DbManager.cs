@@ -70,8 +70,6 @@ namespace FrbaHotel
             }
         }
 
-
-
         //Obtiene un int de db
         static public DbResultSet dbGetIntArray(string selectCommand)
         {
@@ -108,7 +106,6 @@ namespace FrbaHotel
                 return rs;
             }
         }
-
 
         //Obtiene un int de db
         static public DbResultSet dbGetInt(string selectCommand)
@@ -198,8 +195,70 @@ namespace FrbaHotel
         //Inserta un Rol en DB
         static public int Agregar_Rol(string NombreRol, int habilitado)
         {
-            return -1;
+            try
+            {
+                SqlConnection dbsession = DbManager.dbConnect();
+                SqlCommand cmd = new SqlCommand("ENER_LAND.Agregar_Rol", dbsession);
 
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@NombreRol", NombreRol));
+                cmd.Parameters.Add(new SqlParameter("@habilitado", habilitado));
+                SqlParameter ValorDeRetorno = cmd.Parameters.Add("returnParameter", SqlDbType.Int);
+                ValorDeRetorno.Direction = ParameterDirection.ReturnValue;
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    return Convert.ToInt32(ValorDeRetorno.SqlValue.ToString());
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("El Rol que usted está intentado crear ya existe");
+                    return -1;
+                    throw;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return -1;
+            }
         }
+
+        //Inserta un Rol en DB
+        static public bool Agregar_Funcionalidad(int idRol, int idFuncionalidad)
+        {
+            try
+            {
+                SqlConnection dbsession = DbManager.dbConnect();
+                SqlCommand cmd = new SqlCommand("ENER_LAND.Agregar_Funcionalidad", dbsession);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@idRol", idRol));
+                cmd.Parameters.Add(new SqlParameter("@idFuncionalidad", idFuncionalidad));
+                SqlParameter ValorDeRetorno = cmd.Parameters.Add("returnParameter", SqlDbType.Int);
+                ValorDeRetorno.Direction = ParameterDirection.ReturnValue;
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    int resultado = Convert.ToInt32(ValorDeRetorno.SqlValue.ToString());
+                    if (resultado != 0)
+                        return false;
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("[ERROR] - " + e.ToString());
+                    return false;
+                    throw;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+        }
+    
     }
 }

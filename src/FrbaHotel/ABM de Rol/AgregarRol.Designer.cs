@@ -56,6 +56,7 @@
             // 
             // checkedListBox_Funcionalidades
             // 
+            this.checkedListBox_Funcionalidades.CheckOnClick = true;
             this.checkedListBox_Funcionalidades.FormattingEnabled = true;
             this.checkedListBox_Funcionalidades.Location = new System.Drawing.Point(119, 84);
             this.checkedListBox_Funcionalidades.Name = "checkedListBox_Funcionalidades";

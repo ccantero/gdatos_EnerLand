@@ -12,7 +12,9 @@ namespace FrbaHotel.ABM_de_Rol
     public partial class GestionRoles : Form
     {
         public Form MenuPrincipal;
-        
+        private SearchRol UserControlBuscarRol;
+        private AgregarRol UserControlAgregarRol;
+
         public GestionRoles(Form parentForm)
         {
             InitializeComponent();
@@ -45,8 +47,8 @@ namespace FrbaHotel.ABM_de_Rol
         {
             this.Controls.Clear();
             this.Controls.Add(this.menuStrip1);
-            
-            AgregarRol UserControlAgregarRol = new FrbaHotel.ABM_de_Rol.AgregarRol(this);
+
+            UserControlAgregarRol = new FrbaHotel.ABM_de_Rol.AgregarRol(this);
             this.Controls.Add(UserControlAgregarRol);
             UserControlAgregarRol.Location = new System.Drawing.Point(0, 20);
             UserControlAgregarRol.Name = "UserControlAgregarRol";
@@ -62,6 +64,7 @@ namespace FrbaHotel.ABM_de_Rol
         {
             this.Controls.Clear();
             Load_Menu();
+            UserControlBuscarRol.flag_deletion = true;
         }
 
         public void Load_Menu()
@@ -69,7 +72,7 @@ namespace FrbaHotel.ABM_de_Rol
             this.Controls.Clear();
             this.Controls.Add(this.menuStrip1);
 
-            SearchRol UserControlBuscarRol = new SearchRol(this);
+            UserControlBuscarRol = new SearchRol(this);
 
             this.Controls.Add(UserControlBuscarRol);
             UserControlBuscarRol.Location = new System.Drawing.Point(0, 20);
@@ -82,5 +85,18 @@ namespace FrbaHotel.ABM_de_Rol
             this.Dispose();
         }
 
+        public void Modificar_Rol(int idRol)
+        {
+            this.Controls.Clear();
+            this.Controls.Add(this.menuStrip1);
+
+            UserControlAgregarRol = new FrbaHotel.ABM_de_Rol.AgregarRol(this);
+            this.Controls.Add(UserControlAgregarRol);
+            UserControlAgregarRol.Location = new System.Drawing.Point(0, 20);
+            UserControlAgregarRol.Name = "UserControlAgregarRol";
+
+            UserControlAgregarRol.Modificar_Rol(idRol);
+
+        }
     }
 }

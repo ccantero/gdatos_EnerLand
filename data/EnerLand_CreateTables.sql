@@ -566,7 +566,7 @@ CREATE PROCEDURE ENER_LAND.Agregar_Rol
 	@habilitado	INT
 )
 AS
-	IF EXISTS ( SELECT 1 FROM ENER_LAND.Rol WHERE Descripcion = 'Nombre' )
+	IF EXISTS ( SELECT 1 FROM ENER_LAND.Rol WHERE Descripcion = @NombreRol )
 		BEGIN
 			RETURN -1; /* Rol Existente */
 		END;
@@ -575,4 +575,31 @@ AS
 	VALUES (@NombreRol, @habilitado);
 	
 	RETURN @@IDENTITY; 		
+GO
+
+CREATE PROCEDURE ENER_LAND.Agregar_Funcionalidad
+(
+	@idRol	INT,
+	@idFuncionalidad	INT
+)
+AS
+	IF NOT EXISTS ( SELECT 1 FROM ENER_LAND.Funcionalidad WHERE idFuncionalidad = @idFuncionalidad )
+		BEGIN
+			RETURN -1; /* Funcionalidad Inexistente */
+		END
+	ELSE	
+		BEGIN
+			IF EXISTS ( SELECT 1 FROM ENER_LAND.Rol_Funcionalidad
+						WHERE idFuncionalidad = @idFuncionalidad
+						AND idRol = @idRol )
+				BEGIN
+					RETURN -2; /* Funcionalidad Repetida */
+				END
+			ELSE
+				BEGIN
+					INSERT INTO ENER_LAND.Rol_Funcionalidad ( idRol, idFuncionalidad )
+					VALUES ( @idRol, @idFuncionalidad );
+					RETURN 0
+				END
+		END
 GO

@@ -12,6 +12,8 @@ namespace FrbaHotel.ABM_de_Rol
     public partial class AgregarRol : UserControl
     {
         public static DataTable TablaFuncionalidades = new DataTable(); //DataTable para Alojar La consulta de Funcionalidades
+        public static DataTable TablaRoles = new DataTable(); //DataTable para Alojar La consulta de Funcionalidades
+        public static DataTable TablaRolesFuncionalidades = new DataTable(); //DataTable para Alojar La consulta de Funcionalidades
         private Form FormPadre;
         const string single_quote = "\'";
 
@@ -60,20 +62,88 @@ namespace FrbaHotel.ABM_de_Rol
         private void Agregar_Rol()
         {
             int rol_Habilitado = 0;
+            bool error_flag = false;
+            string query_str;
 
             if(this.checkBox_ActiveRol.Checked)
                 rol_Habilitado = 1;
 
-            string query_str =  "INSERT INTO ENER_LAND.Rol " +
-                                "VALUES ( " +
-                                single_quote + this.textBox_RolName.Text.Trim() + single_quote +
-                                ", " + 
-                                single_quote + rol_Habilitado.ToString().Trim() + single_quote +
-                                " ) ";
+            int idRol = DbManager.Agregar_Rol(this.textBox_RolName.Text.Trim(), rol_Habilitado);
+            if (idRol != -1)
+            {
+                foreach (var Funcionalidad in this.checkedListBox_Funcionalidades.CheckedItems)
+                {
+                    DataRow[] Rows = TablaFuncionalidades.Select("Descripcion = '" + Funcionalidad.ToString().Trim() + "'");
+                    if (Rows.Length > 0)
+                    {
+                        
+                        int IdFuncionalidad = Convert.ToInt32(Rows[0][0].ToString().Trim());
+                        if (!DbManager.Agregar_Funcionalidad(idRol, IdFuncionalidad))
+                        {
+                            error_flag = true;
+                        }
+                    }
+                }
 
-            //Test_Forms.DialogForm formDebug = new FrbaHotel.Test_Forms.DialogForm("Query", "Query", query_str);
-            //formDebug.Show();
-            DbManager.dbSqlStatementExec(query_str);
+                if (error_flag)
+                {
+                    query_str = "DELETE FROM ENER_LAND.Rol_Funcionalidad WHERE idRol = " + idRol.ToString();
+                    DbResultSet unResultSet = DbManager.dbSqlStatementExec(query_str);
+                    if (unResultSet.operationState == 1)
+                        MessageBox.Show("No se pudo borrar el Rol creado previamente. Falla en la BD");
+
+
+                    query_str = "DELETE FROM ENER_LAND.Rol WHERE idRol = " + idRol.ToString();
+                    unResultSet = DbManager.dbSqlStatementExec(query_str);
+
+                    if (unResultSet.operationState == 1)
+                        MessageBox.Show("No se pudo borrar el Rol creado previamente. Falla en la BD");
+                }
+            }
+        }
+
+        public void Modificar_Rol(int idRol)
+        {
+            DbResultSet rs;
+            string query_str =  "SELECT * FROM ENER_LAND.Rol " +
+                                "WHERE idRol = " + idRol.ToString();
+
+            rs = DbManager.GetDataTable(query_str);
+            if (rs.operationState == 1)
+            {
+                MessageBox.Show("Falló la busqueda");
+                return;
+            }
+            TablaRoles = rs.dataTable;
+
+            query_str =  "SELECT * FROM ENER_LAND.Rol_Funcionalidad " +
+                         "WHERE idRol = " + idRol.ToString();
+            
+            rs = DbManager.GetDataTable(query_str);
+            if (rs.operationState == 1)
+            {
+                MessageBox.Show("Falló la busqueda");
+                return;
+            }
+
+            TablaRolesFuncionalidades = rs.dataTable;
+
+            foreach (DataRow Row in TablaRolesFuncionalidades.Rows)
+            {
+                int id_Funcionalidad = Convert.ToInt32(Row[1]);
+                DataRow[] Rows = TablaFuncionalidades.Select("idFuncionalidad = '" + id_Funcionalidad.ToString().Trim() + "'");
+                String Descripcion = Rows[0][1].ToString().Trim();
+                int index = checkedListBox_Funcionalidades.Items.IndexOf(Descripcion);
+                checkedListBox_Funcionalidades.SetItemChecked(index, true);    
+            }
+
+
+            if (TablaRoles.Rows[0][2].ToString().Equals("1")) // Rol Activo
+            {
+                this.checkBox_ActiveRol.CheckState = CheckState.Checked;
+            }
+
+            this.textBox_RolName.Text = TablaRoles.Rows[0][1].ToString();
         }
     }
 }
