@@ -35,7 +35,7 @@ namespace FrbaHotel.Test_Forms
 
             this.label1.Text = Titulo;
             this.richTextBox1.Text = Mensaje;
-            this.Name = Titulo;
+            this.Text = Titulo;
         }
     }
 }

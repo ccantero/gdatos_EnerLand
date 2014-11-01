@@ -114,7 +114,6 @@
             // 
             // cmbEstrellas
             // 
-            this.cmbEstrellas.Enabled = false;
             this.cmbEstrellas.FormattingEnabled = true;
             this.cmbEstrellas.Items.AddRange(new object[] {
             "<Seleccionar>",
