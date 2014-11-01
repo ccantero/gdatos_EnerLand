@@ -30,13 +30,9 @@ namespace FrbaHotel.ABM_de_Rol
             this.MinimizeBox = false;
 
             MenuPrincipal.Hide();
-        
-        }
 
-        private void GestionRoles_FormClosing(object sender, EventArgs e) // Método en caso de Boton Cerrar
-        {
-            MenuPrincipal.Show();
-            this.Dispose();
+            Load_Menu();
+        
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -48,13 +44,12 @@ namespace FrbaHotel.ABM_de_Rol
         private void agregarRolToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Controls.Clear();
-            Load_Menu();
+            this.Controls.Add(this.menuStrip1);
             
             AgregarRol UserControlAgregarRol = new FrbaHotel.ABM_de_Rol.AgregarRol(this);
             this.Controls.Add(UserControlAgregarRol);
             UserControlAgregarRol.Location = new System.Drawing.Point(0, 20);
             UserControlAgregarRol.Name = "UserControlAgregarRol";
-            //UserControlAgregarRol.Size = new System.Drawing.Size(252, 218);
         }
 
         private void modificarRolToolStripMenuItem_Click(object sender, EventArgs e)
@@ -73,6 +68,18 @@ namespace FrbaHotel.ABM_de_Rol
         {
             this.Controls.Clear();
             this.Controls.Add(this.menuStrip1);
+
+            SearchRol UserControlBuscarRol = new SearchRol(this);
+
+            this.Controls.Add(UserControlBuscarRol);
+            UserControlBuscarRol.Location = new System.Drawing.Point(0, 20);
+            UserControlBuscarRol.Name = "UserControlBuscarRol";
+        }
+
+        private void GestionRoles_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MenuPrincipal.Show();
+            this.Dispose();
         }
 
     }

@@ -558,3 +558,21 @@ UPDATE ENER_LAND.Factura
 	SET Total = ( SELECT SUM(Cantidad * PrecioUnitario) FROM ENER_LAND.Item_Factura it WHERE it.idFactura = F.idFactura GROUP BY it.idFactura)
 FROM ENER_LAND.Factura f
 
+/* STORE PROCEDURES */
+GO
+CREATE PROCEDURE ENER_LAND.Agregar_Rol
+(
+	@NombreRol	VARCHAR(25),
+	@habilitado	INT
+)
+AS
+	IF EXISTS ( SELECT 1 FROM ENER_LAND.Rol WHERE Descripcion = 'Nombre' )
+		BEGIN
+			RETURN -1; /* Rol Existente */
+		END;
+	
+	INSERT INTO ENER_LAND.Rol(Descripcion, Habilitado)
+	VALUES (@NombreRol, @habilitado);
+	
+	RETURN @@IDENTITY; 		
+GO

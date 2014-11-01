@@ -39,13 +39,13 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aBMRolesToolStripMenuItem,
             this.salirToolStripMenuItem});
-            this.menuStrip1.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(309, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(384, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -62,21 +62,21 @@
             // agregarRolToolStripMenuItem
             // 
             this.agregarRolToolStripMenuItem.Name = "agregarRolToolStripMenuItem";
-            this.agregarRolToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.agregarRolToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.agregarRolToolStripMenuItem.Text = "Agregar Rol";
             this.agregarRolToolStripMenuItem.Click += new System.EventHandler(this.agregarRolToolStripMenuItem_Click);
             // 
             // modificarRolToolStripMenuItem
             // 
             this.modificarRolToolStripMenuItem.Name = "modificarRolToolStripMenuItem";
-            this.modificarRolToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.modificarRolToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.modificarRolToolStripMenuItem.Text = "Modificar Rol";
             this.modificarRolToolStripMenuItem.Click += new System.EventHandler(this.modificarRolToolStripMenuItem_Click);
             // 
             // eliminarRolToolStripMenuItem
             // 
             this.eliminarRolToolStripMenuItem.Name = "eliminarRolToolStripMenuItem";
-            this.eliminarRolToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.eliminarRolToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.eliminarRolToolStripMenuItem.Text = "Eliminar Rol";
             this.eliminarRolToolStripMenuItem.Click += new System.EventHandler(this.eliminarRolToolStripMenuItem_Click);
             // 
@@ -91,12 +91,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(309, 362);
+            this.ClientSize = new System.Drawing.Size(384, 362);
             this.Controls.Add(this.menuStrip1);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(GestionRoles_FormClosing);
             this.Name = "GestionRoles";
             this.Text = "Gestion Roles";
             this.Load += new System.EventHandler(this.GestionRoles_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GestionRoles_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

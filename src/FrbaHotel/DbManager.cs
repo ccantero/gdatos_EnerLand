@@ -195,6 +195,11 @@ namespace FrbaHotel
             }
         }
 
+        //Inserta un Rol en DB
+        static public int Agregar_Rol(string NombreRol, int habilitado)
+        {
+            return -1;
 
+        }
     }
 }
