@@ -1,6 +1,6 @@
 ﻿namespace FrbaHotel.Generar_Modificar_Reserva
 {
-    partial class GenerarReserva
+    partial class Reserva
     {
         /// <summary>
         /// Required designer variable.
@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.dtpFechaDesde = new System.Windows.Forms.DateTimePicker();
+            this.dtpFechaHasta = new System.Windows.Forms.DateTimePicker();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.hotel = new System.Windows.Forms.ComboBox();
@@ -44,23 +44,30 @@
             this.label6 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.lblCodReserva = new System.Windows.Forms.Label();
+            this.tbCodReserva = new System.Windows.Forms.TextBox();
+            this.btnReserva = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // dateTimePicker1
+            // dtpFechaDesde
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(117, 49);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 0;
+            this.dtpFechaDesde.CustomFormat = "dd/MM/yyyy HH:mm:ss";
+            this.dtpFechaDesde.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpFechaDesde.Location = new System.Drawing.Point(117, 49);
+            this.dtpFechaDesde.Name = "dtpFechaDesde";
+            this.dtpFechaDesde.Size = new System.Drawing.Size(200, 20);
+            this.dtpFechaDesde.TabIndex = 0;
             // 
-            // dateTimePicker2
+            // dtpFechaHasta
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(117, 75);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker2.TabIndex = 1;
+            this.dtpFechaHasta.CustomFormat = "dd/MM/yyyy HH:mm:ss";
+            this.dtpFechaHasta.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpFechaHasta.Location = new System.Drawing.Point(117, 75);
+            this.dtpFechaHasta.Name = "dtpFechaHasta";
+            this.dtpFechaHasta.Size = new System.Drawing.Size(200, 20);
+            this.dtpFechaHasta.TabIndex = 1;
             // 
             // comboBox2
             // 
@@ -181,11 +188,40 @@
             this.button1.Text = "Cancelar";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // GenerarReserva
+            // lblCodReserva
+            // 
+            this.lblCodReserva.AutoSize = true;
+            this.lblCodReserva.Location = new System.Drawing.Point(73, 13);
+            this.lblCodReserva.Name = "lblCodReserva";
+            this.lblCodReserva.Size = new System.Drawing.Size(78, 13);
+            this.lblCodReserva.TabIndex = 58;
+            this.lblCodReserva.Text = "Código reserva";
+            // 
+            // tbCodReserva
+            // 
+            this.tbCodReserva.Location = new System.Drawing.Point(157, 10);
+            this.tbCodReserva.Name = "tbCodReserva";
+            this.tbCodReserva.Size = new System.Drawing.Size(160, 20);
+            this.tbCodReserva.TabIndex = 59;
+            // 
+            // btnReserva
+            // 
+            this.btnReserva.Location = new System.Drawing.Point(323, 9);
+            this.btnReserva.Name = "btnReserva";
+            this.btnReserva.Size = new System.Drawing.Size(58, 20);
+            this.btnReserva.TabIndex = 60;
+            this.btnReserva.Text = "button3";
+            this.btnReserva.UseVisualStyleBackColor = true;
+            this.btnReserva.Click += new System.EventHandler(this.btnReserva_Click);
+            // 
+            // Reserva
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.btnReserva);
+            this.Controls.Add(this.tbCodReserva);
+            this.Controls.Add(this.lblCodReserva);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox2);
@@ -200,9 +236,9 @@
             this.Controls.Add(this.hotel);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.dateTimePicker2);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Name = "GenerarReserva";
+            this.Controls.Add(this.dtpFechaHasta);
+            this.Controls.Add(this.dtpFechaDesde);
+            this.Name = "Reserva";
             this.Text = "GenerarReserva";
             this.Load += new System.EventHandler(this.GenerarReserva_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
@@ -214,8 +250,8 @@
 
         #endregion
 
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DateTimePicker dtpFechaDesde;
+        private System.Windows.Forms.DateTimePicker dtpFechaHasta;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.ComboBox hotel;
@@ -230,5 +266,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label lblCodReserva;
+        private System.Windows.Forms.TextBox tbCodReserva;
+        private System.Windows.Forms.Button btnReserva;
     }
 }
