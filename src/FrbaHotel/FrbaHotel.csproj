@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABM de Cliente\busquedaCliente.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ABM de Cliente\busquedaCliente.Designer.cs">
+      <DependentUpon>busquedaCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="ABM de Cliente\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +136,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ABM de Cliente\busquedaCliente.resx">
+      <DependentUpon>busquedaCliente.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ABM de Hotel\GestionHoteles.resx">
       <DependentUpon>GestionHoteles.cs</DependentUpon>
       <SubType>Designer</SubType>

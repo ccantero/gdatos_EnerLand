@@ -1,9 +1,6 @@
 *.dll
-*.suo
 *.manifest
 *.config
 *.exe
-src/FrbaHotel.suo
 src/FrbaHotel/bin/*
 src/FrbaHotel/obj/*
-*.suo
