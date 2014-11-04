@@ -1,6 +1,6 @@
 ﻿namespace FrbaHotel.ABM_de_Rol
 {
-    partial class AgregarRol
+    partial class UserControl_Rol
     {
         /// <summary> 
         /// Variable del diseñador requerida.

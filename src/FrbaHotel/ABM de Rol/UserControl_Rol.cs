@@ -9,20 +9,22 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.ABM_de_Rol
 {
-    public partial class AgregarRol : UserControl
+    public partial class UserControl_Rol : UserControl
     {
-        public static DataTable TablaFuncionalidades = new DataTable(); //DataTable para Alojar La consulta de Funcionalidades
-        public static DataTable TablaRoles = new DataTable(); //DataTable para Alojar La consulta de Funcionalidades
-        public static DataTable TablaRolesFuncionalidades = new DataTable(); //DataTable para Alojar La consulta de Funcionalidades
+        public DataTable TablaFuncionalidades = new DataTable(); //DataTable para Alojar La consulta de Funcionalidades
+        public DataTable TablaRoles = new DataTable(); //DataTable para Alojar La consulta de Funcionalidades
+        public DataTable TablaRolesFuncionalidades = new DataTable(); //DataTable para Alojar La consulta de Funcionalidades
         private Form FormPadre;
         const string single_quote = "\'";
+        public int Rol_Id;
 
 
-        public AgregarRol(Form Parent)
+        public UserControl_Rol(Form Parent)
         {
             InitializeComponent();
             Cargar_Funcionalidades();
             FormPadre = Parent;
+            Rol_Id = -1;
         }
 
         private void Cargar_Funcionalidades()
@@ -39,9 +41,14 @@ namespace FrbaHotel.ABM_de_Rol
 
         private void button_Save_Click(object sender, EventArgs e)
         {
-            Agregar_Rol();
-            //GestionRoles FormGestionRoles = (GestionRoles)FormPadre;
-            //FormGestionRoles.Load_Menu();
+            if (!Check_Fields())
+                return;
+            
+            if (Rol_Id == -1)
+                Agregar_Rol();
+            else
+                Modificar_Rol();
+
             ((GestionRoles)FormPadre).Load_Menu();
         }
 
@@ -57,6 +64,8 @@ namespace FrbaHotel.ABM_de_Rol
             this.checkBox_ActiveRol.CheckState = CheckState.Unchecked;
 
             this.textBox_RolName.Select();
+
+            Rol_Id = -1;
         }
 
         private void Agregar_Rol()
@@ -102,7 +111,68 @@ namespace FrbaHotel.ABM_de_Rol
             }
         }
 
-        public void Modificar_Rol(int idRol)
+        private void Modificar_Rol()
+        {
+            DbResultSet rs;
+            bool error_flag = false;
+            int rol_Habilitado = 0;
+
+            if (this.checkBox_ActiveRol.Checked)
+                rol_Habilitado = 1;
+
+
+            string query_str =  "UPDATE ENER_LAND.Rol " +
+                                "SET Descripcion = " + single_quote + this.textBox_RolName.Text.Trim() + single_quote + ", " +
+                                "Habilitado = " + rol_Habilitado.ToString().Trim() + " " +
+                                "WHERE idRol = " + Rol_Id.ToString();
+
+            rs = DbManager.dbSqlStatementExec(query_str);
+            if (rs.operationState == 1 && !error_flag)
+            {
+                MessageBox.Show("Falló el renombrado del Rol");
+                error_flag = true;
+                return;
+            }
+
+            query_str = "DELETE FROM ENER_LAND.Rol_Funcionalidad " +
+                        "WHERE idRol = " + Rol_Id.ToString();
+
+            rs = DbManager.dbSqlStatementExec(query_str);
+            if (rs.operationState == 1 && !error_flag)
+            {
+                MessageBox.Show("Falló el la eliminación de funcionalidades asociadas a un rol");
+                error_flag = true;
+                return;
+            }
+
+            if (!error_flag)
+            {
+
+                foreach (var Funcionalidad in this.checkedListBox_Funcionalidades.CheckedItems)
+                {
+                    DataRow[] Rows = TablaFuncionalidades.Select("Descripcion = '" + Funcionalidad.ToString().Trim() + "'");
+                    if (Rows.Length > 0)
+                    {
+
+                        int IdFuncionalidad = Convert.ToInt32(Rows[0][0].ToString().Trim());
+                        if (!DbManager.Agregar_Funcionalidad(Rol_Id, IdFuncionalidad))
+                        {
+                            error_flag = true;
+                        }
+                    }
+                }
+
+                if (error_flag)
+                {
+                    query_str = "DELETE FROM ENER_LAND.Rol_Funcionalidad WHERE idRol = " + Rol_Id.ToString();
+                    DbResultSet unResultSet = DbManager.dbSqlStatementExec(query_str);
+                    if (unResultSet.operationState == 1)
+                        MessageBox.Show("No se pudo borrar el Rol creado previamente. Falla en la BD");
+                }
+            }
+        }        
+        
+        public void Cargar_Rol(int idRol)
         {
             DbResultSet rs;
             string query_str =  "SELECT * FROM ENER_LAND.Rol " +
@@ -144,6 +214,26 @@ namespace FrbaHotel.ABM_de_Rol
             }
 
             this.textBox_RolName.Text = TablaRoles.Rows[0][1].ToString();
+
+            Rol_Id = idRol;
         }
+
+        private bool Check_Fields()
+        {
+            if (this.textBox_RolName.Text.Trim().Length == 0)
+            {
+                MessageBox.Show("El campo Nombre de Rol es Obligatorio");
+                return false;
+            }
+
+            if (this.checkedListBox_Funcionalidades.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Por lo menos una funcionalidad debe estar seleccionada.");
+                return false;
+            }
+
+            return true;
+        }
+        
     }
 }
