@@ -33,6 +33,7 @@ namespace FrbaHotel
         {
             this.reservasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generarReservaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modificarReservaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cancelarReservaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.huespedesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionarHuespedesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,7 +50,6 @@ namespace FrbaHotel
             this.gestionarUsuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ingresarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.modificarReservaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,6 +69,13 @@ namespace FrbaHotel
             this.generarReservaToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.generarReservaToolStripMenuItem.Text = "Generar reserva";
             this.generarReservaToolStripMenuItem.Click += new System.EventHandler(this.generarReservaToolStripMenuItem_Click);
+            // 
+            // modificarReservaToolStripMenuItem
+            // 
+            this.modificarReservaToolStripMenuItem.Name = "modificarReservaToolStripMenuItem";
+            this.modificarReservaToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.modificarReservaToolStripMenuItem.Text = "Modificar reserva";
+            this.modificarReservaToolStripMenuItem.Click += new System.EventHandler(this.modificarReservaToolStripMenuItem_Click);
             // 
             // cancelarReservaToolStripMenuItem
             // 
@@ -168,6 +175,7 @@ namespace FrbaHotel
             this.gestionarUsuariosToolStripMenuItem.Name = "gestionarUsuariosToolStripMenuItem";
             this.gestionarUsuariosToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.gestionarUsuariosToolStripMenuItem.Text = "Gestionar usuarios";
+            this.gestionarUsuariosToolStripMenuItem.Click += new System.EventHandler(this.gestionarUsuariosToolStripMenuItem_Click);
             // 
             // ingresarToolStripMenuItem
             // 
@@ -191,13 +199,6 @@ namespace FrbaHotel
             this.menuStrip1.Size = new System.Drawing.Size(490, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // modificarReservaToolStripMenuItem
-            // 
-            this.modificarReservaToolStripMenuItem.Name = "modificarReservaToolStripMenuItem";
-            this.modificarReservaToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.modificarReservaToolStripMenuItem.Text = "Modificar reserva";
-            this.modificarReservaToolStripMenuItem.Click += new System.EventHandler(this.modificarReservaToolStripMenuItem_Click);
             // 
             // MainMenu
             // 

@@ -54,11 +54,17 @@
     <Compile Include="ABM de Cliente\busquedaCliente.Designer.cs">
       <DependentUpon>busquedaCliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM de Cliente\Form1.cs">
+    <Compile Include="ABM de Cliente\GestionHuesped.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM de Cliente\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ABM de Cliente\GestionHuesped.Designer.cs">
+      <DependentUpon>GestionHuesped.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM de Cliente\UserControl_Huesped.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ABM de Cliente\UserControl_Huesped.Designer.cs">
+      <DependentUpon>UserControl_Huesped.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM de Hotel\GestionHoteles.cs">
       <SubType>Form</SubType>
@@ -138,6 +144,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ABM de Cliente\busquedaCliente.resx">
       <DependentUpon>busquedaCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Cliente\GestionHuesped.resx">
+      <DependentUpon>GestionHuesped.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Cliente\UserControl_Huesped.resx">
+      <DependentUpon>UserControl_Huesped.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Hotel\GestionHoteles.resx">
       <DependentUpon>GestionHoteles.cs</DependentUpon>
