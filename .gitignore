@@ -4,3 +4,4 @@
 *.exe
 src/FrbaHotel/bin/*
 src/FrbaHotel/obj/*
+src/FrbaHotel.suo
