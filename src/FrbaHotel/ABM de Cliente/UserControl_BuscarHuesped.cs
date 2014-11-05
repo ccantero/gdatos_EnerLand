@@ -9,11 +9,14 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.ABM_de_Cliente
 {
-    public partial class busquedaCliente : UserControl
+    public partial class UserControl_BuscarHuesped : UserControl
     {
-        public busquedaCliente()
+        private Form FormPadre;
+
+        public UserControl_BuscarHuesped(Form parentForm)
         {
             InitializeComponent();
+            FormPadre = parentForm;
         }
     }
 }

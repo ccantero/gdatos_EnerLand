@@ -48,11 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ABM de Cliente\busquedaCliente.cs">
+    <Compile Include="ABM de Cliente\UserControl_BuscarHuesped.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ABM de Cliente\busquedaCliente.Designer.cs">
-      <DependentUpon>busquedaCliente.cs</DependentUpon>
+    <Compile Include="ABM de Cliente\UserControl_BuscarHuesped.Designer.cs">
+      <DependentUpon>UserControl_BuscarHuesped.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM de Cliente\GestionHuesped.cs">
       <SubType>Form</SubType>
@@ -90,11 +90,11 @@
     <Compile Include="ABM de Rol\GestionRoles.Designer.cs">
       <DependentUpon>GestionRoles.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM de Rol\SearchRol.cs">
+    <Compile Include="ABM de Rol\UserControl_BuscarRol.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ABM de Rol\SearchRol.Designer.cs">
-      <DependentUpon>SearchRol.cs</DependentUpon>
+    <Compile Include="ABM de Rol\UserControl_BuscarRol.Designer.cs">
+      <DependentUpon>UserControl_BuscarRol.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM de Usuario\Form1.cs">
       <SubType>Form</SubType>
@@ -142,8 +142,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ABM de Cliente\busquedaCliente.resx">
-      <DependentUpon>busquedaCliente.cs</DependentUpon>
+    <EmbeddedResource Include="ABM de Cliente\UserControl_BuscarHuesped.resx">
+      <DependentUpon>UserControl_BuscarHuesped.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Cliente\GestionHuesped.resx">
       <DependentUpon>GestionHuesped.cs</DependentUpon>
@@ -161,8 +161,8 @@
     <EmbeddedResource Include="ABM de Rol\GestionRoles.resx">
       <DependentUpon>GestionRoles.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ABM de Rol\SearchRol.resx">
-      <DependentUpon>SearchRol.cs</DependentUpon>
+    <EmbeddedResource Include="ABM de Rol\UserControl_BuscarRol.resx">
+      <DependentUpon>UserControl_BuscarRol.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Modificar Reserva\Reserva.resx">
       <DependentUpon>Reserva.cs</DependentUpon>

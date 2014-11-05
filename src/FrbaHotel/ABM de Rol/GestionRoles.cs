@@ -12,7 +12,7 @@ namespace FrbaHotel.ABM_de_Rol
     public partial class GestionRoles : Form
     {
         public Form MenuPrincipal;
-        private SearchRol UserControlBuscarRol;
+        private UserControl_BuscarRol UserControlBuscarRol;
         private UserControl_Rol UserControlAgregarRol;
 
         public GestionRoles(Form parentForm)
@@ -72,7 +72,7 @@ namespace FrbaHotel.ABM_de_Rol
             this.Controls.Clear();
             this.Controls.Add(this.menuStrip1);
 
-            UserControlBuscarRol = new SearchRol(this);
+            UserControlBuscarRol = new UserControl_BuscarRol(this);
 
             this.Controls.Add(UserControlBuscarRol);
             UserControlBuscarRol.Location = new System.Drawing.Point(0, 20);

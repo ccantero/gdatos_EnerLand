@@ -1,6 +1,6 @@
 ﻿namespace FrbaHotel.ABM_de_Rol
 {
-    partial class SearchRol
+    partial class UserControl_BuscarRol
     {
         /// <summary> 
         /// Variable del diseñador requerida.

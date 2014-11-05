@@ -162,11 +162,14 @@ CREATE TABLE ENER_LAND.Huesped (
   Numero INTEGER NULL,
   Piso INTEGER NULL,
   Departamento CHAR NULL,
+  idLocalidad INTEGER NULL,
   Fecha_Nacimiento DATE NULL,
   Nacionalidad VARCHAR(50) NULL,
   Habilitado CHAR NOT NULL,
-  PRIMARY KEY(idHuesped)
-);
+  PRIMARY KEY(idHuesped),
+  FOREIGN KEY(idLocalidad)
+    REFERENCES ENER_LAND.Localidad(idLocalidad) 
+ );
 
 
 CREATE TABLE ENER_LAND.Forma_de_Pago (
@@ -386,7 +389,8 @@ INSERT ENER_LAND.Huesped
 						Cliente_Dom_Calle, 
 						Cliente_Nro_Calle, 
 						Cliente_Piso, 
-						Cliente_Depto, 
+						Cliente_Depto,
+						NULL, 
 						Cliente_Fecha_Nac, 
 						Cliente_Nacionalidad,
 						1

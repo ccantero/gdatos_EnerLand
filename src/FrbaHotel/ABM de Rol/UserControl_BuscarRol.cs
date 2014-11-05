@@ -9,13 +9,13 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.ABM_de_Rol
 {
-    public partial class SearchRol : UserControl
+    public partial class UserControl_BuscarRol : UserControl
     {
         private Form FormPadre;
         public static DataTable TablaRoles = new DataTable();
         public Boolean flag_deletion = false;
 
-        public SearchRol(Form parent)
+        public UserControl_BuscarRol(Form parent)
         {
             InitializeComponent();
             FormPadre = parent;
