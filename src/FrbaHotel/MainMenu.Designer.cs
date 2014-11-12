@@ -97,6 +97,7 @@ namespace FrbaHotel
             this.gestionarHuespedesToolStripMenuItem.Name = "gestionarHuespedesToolStripMenuItem";
             this.gestionarHuespedesToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.gestionarHuespedesToolStripMenuItem.Text = "Gestionar huéspedes";
+            this.gestionarHuespedesToolStripMenuItem.Click += new System.EventHandler(this.gestionarHuespedesToolStripMenuItem_Click);
             // 
             // estadiasToolStripMenuItem
             // 

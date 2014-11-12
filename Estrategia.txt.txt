@@ -1,11 +1,28 @@
-Notas
+Aclaraciones de la Entrega
 
-Existen varios usuarios con el mismo Mail. Por lo tanto se decide crear una columna Mail_Alternativo y agregar en ella aquellos mails que tienen más de una aparición. Cuando la aplicacion encuentre un Mail Primario en NULL, requerirá el cambio de dicho Mail_Primario.
+- Migracion Completa
+- ABM Roles Completo
+- ABM Usuarios Pendiente
+- ABM Huespedes Pendiente
+- ABM Hoteles Completo
+- ABM Habitaciones Visualizacion
+- ABM Reservas Pendiente
+- Estadias Pendiente
+- Consumibles Pendiente
+- Facturacion Pendiente
+- Listados Estadisticos Pendiente
 
-Por decision de diseño se informa que existirá una única Forma de Pago es unica por Factura
 
-Por decision de diseño se crea una tabla de Localidades y una tabla de Paises para normalizar los valores a ingresar por parte del Usuario. Debería existir un ABM de Localidades y un ABM de paises para poder mantener actualizado dicho set de Datos.
+Notas, Decisiones de Diseño e Implementación:
 
-Por decision de diseño, el usuario Administrador también deberá seleccionar un Hotel 
+* Existen varios usuarios con el mismo Mail. Por lo tanto se decide crear una columna Mail_Alternativo y agregar en ella aquellos mails que tienen más de una aparición. Cuando la aplicacion encuentre un Mail Primario en NULL, requerirá el cambio de dicho Mail_Primario.
 
-Por decision de diseño, el campo Total Factura no se migra de la base de datos sino que se calcula en base a la sumatoria de los items_factura migrados.
+* Se informa que existirá una única Forma de Pago es unica por Factura.
+
+* Se crea una tabla de Localidades y una tabla de Paises para normalizar los valores a ingresar por parte del Usuario. Debería existir un ABM de Localidades y un ABM de paises para poder mantener actualizado dicho set de Datos.
+
+* El usuario Administrador también deberá seleccionar un Hotel.
+
+* El campo Total Factura no se migra de la base de datos sino que se calcula en base a la sumatoria de los items_factura migrados.
+
+* El campo Descripcion y Comodidades son englobados en un único campo de Texto Libre.
