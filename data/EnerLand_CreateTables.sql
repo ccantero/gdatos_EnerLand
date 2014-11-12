@@ -607,16 +607,3 @@ AS
 				END
 		END
 GO
-
-CREATE PROCEDURE ENER_LAND.Nuevo_Hotel
-  @idAdmin int,
-  @nombre varchar(25),
-  @mail varchar(50),
-  @telefono int ,@cantEstrellas int ,@calle varchar(50),@numero int,@idLocalidad int,@idPais int,@fechaCreacion date,@habilitado char(1)
-AS
-
-INSERT INTO  ENER_LAND.HOTEL (Administrador,nombre,mail, telefono,Cantidad_Estrellas,PorcentajeRecarga,calle,numero,idLocalidad,idPais,Fecha_Creacion,habilitado)
-VALUES (@idAdmin,@nombre,@mail, @telefono,@cantEstrellas,10,@calle,@numero,@idLocalidad,@idPais,@fechaCreacion,@habilitado);
-
-SELECT @@IDENTITY AS idHotel
-GO
