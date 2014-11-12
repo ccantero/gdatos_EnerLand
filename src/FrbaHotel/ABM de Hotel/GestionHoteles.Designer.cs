@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GestionHoteles));
             this.cmbPaises = new System.Windows.Forms.ComboBox();
             this.cmbLocalidades = new System.Windows.Forms.ComboBox();
@@ -49,7 +51,7 @@
             this.lblRegimen = new System.Windows.Forms.Label();
             this.dgvHabitaciones = new System.Windows.Forms.DataGridView();
             this.clbRegimenes = new System.Windows.Forms.CheckedListBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblHabitaciones = new System.Windows.Forms.Label();
             this.lblHabilitado = new System.Windows.Forms.Label();
             this.tbEstadoHotel = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -60,6 +62,9 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.dtpFechaCreacion = new System.Windows.Forms.DateTimePicker();
             this.tbHideDate = new System.Windows.Forms.TextBox();
+            this.btnEditRoom = new System.Windows.Forms.Button();
+            this.btnNewRoom = new System.Windows.Forms.Button();
+            this.btnDisableRoom = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHabitaciones)).BeginInit();
             this.SuspendLayout();
             // 
@@ -236,11 +241,39 @@
             // 
             // dgvHabitaciones
             // 
-            this.dgvHabitaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvHabitaciones.Location = new System.Drawing.Point(228, 167);
+            this.dgvHabitaciones.AllowUserToAddRows = false;
+            this.dgvHabitaciones.AllowUserToDeleteRows = false;
+            this.dgvHabitaciones.AllowUserToResizeRows = false;
+            this.dgvHabitaciones.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvHabitaciones.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvHabitaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            this.dgvHabitaciones.ColumnHeadersHeight = 20;
+            this.dgvHabitaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvHabitaciones.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvHabitaciones.EnableHeadersVisualStyles = false;
+            this.dgvHabitaciones.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.dgvHabitaciones.Location = new System.Drawing.Point(43, 280);
             this.dgvHabitaciones.Name = "dgvHabitaciones";
-            this.dgvHabitaciones.Size = new System.Drawing.Size(364, 259);
+            this.dgvHabitaciones.ReadOnly = true;
+            this.dgvHabitaciones.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dgvHabitaciones.RowHeadersVisible = false;
+            this.dgvHabitaciones.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvHabitaciones.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            this.dgvHabitaciones.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black;
+            this.dgvHabitaciones.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvHabitaciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvHabitaciones.Size = new System.Drawing.Size(549, 188);
             this.dgvHabitaciones.TabIndex = 24;
+            this.dgvHabitaciones.Visible = false;
             // 
             // clbRegimenes
             // 
@@ -249,17 +282,18 @@
             this.clbRegimenes.FormattingEnabled = true;
             this.clbRegimenes.Location = new System.Drawing.Point(43, 167);
             this.clbRegimenes.Name = "clbRegimenes";
-            this.clbRegimenes.Size = new System.Drawing.Size(164, 259);
+            this.clbRegimenes.Size = new System.Drawing.Size(549, 94);
             this.clbRegimenes.TabIndex = 27;
             // 
-            // label1
+            // lblHabitaciones
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(225, 151);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 13);
-            this.label1.TabIndex = 28;
-            this.label1.Text = "Habitaciones";
+            this.lblHabitaciones.AutoSize = true;
+            this.lblHabitaciones.Location = new System.Drawing.Point(44, 264);
+            this.lblHabitaciones.Name = "lblHabitaciones";
+            this.lblHabitaciones.Size = new System.Drawing.Size(69, 13);
+            this.lblHabitaciones.TabIndex = 28;
+            this.lblHabitaciones.Text = "Habitaciones";
+            this.lblHabitaciones.Visible = false;
             // 
             // lblHabilitado
             // 
@@ -385,11 +419,57 @@
             this.tbHideDate.Size = new System.Drawing.Size(141, 20);
             this.tbHideDate.TabIndex = 35;
             // 
+            // btnEditRoom
+            // 
+            this.btnEditRoom.BackColor = System.Drawing.Color.Transparent;
+            this.btnEditRoom.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnEditRoom.BackgroundImage")));
+            this.btnEditRoom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnEditRoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditRoom.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnEditRoom.Location = new System.Drawing.Point(598, 317);
+            this.btnEditRoom.Name = "btnEditRoom";
+            this.btnEditRoom.Size = new System.Drawing.Size(30, 31);
+            this.btnEditRoom.TabIndex = 38;
+            this.btnEditRoom.UseVisualStyleBackColor = false;
+            this.btnEditRoom.Visible = false;
+            // 
+            // btnNewRoom
+            // 
+            this.btnNewRoom.BackColor = System.Drawing.Color.Transparent;
+            this.btnNewRoom.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnNewRoom.BackgroundImage")));
+            this.btnNewRoom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnNewRoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNewRoom.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnNewRoom.Location = new System.Drawing.Point(598, 280);
+            this.btnNewRoom.Name = "btnNewRoom";
+            this.btnNewRoom.Size = new System.Drawing.Size(30, 31);
+            this.btnNewRoom.TabIndex = 37;
+            this.btnNewRoom.UseVisualStyleBackColor = false;
+            this.btnNewRoom.Visible = false;
+            // 
+            // btnDisableRoom
+            // 
+            this.btnDisableRoom.BackColor = System.Drawing.Color.Transparent;
+            this.btnDisableRoom.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDisableRoom.BackgroundImage")));
+            this.btnDisableRoom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnDisableRoom.Enabled = false;
+            this.btnDisableRoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDisableRoom.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnDisableRoom.Location = new System.Drawing.Point(598, 354);
+            this.btnDisableRoom.Name = "btnDisableRoom";
+            this.btnDisableRoom.Size = new System.Drawing.Size(30, 31);
+            this.btnDisableRoom.TabIndex = 36;
+            this.btnDisableRoom.UseVisualStyleBackColor = false;
+            this.btnDisableRoom.Visible = false;
+            // 
             // GestionHoteles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.btnEditRoom);
+            this.Controls.Add(this.btnNewRoom);
+            this.Controls.Add(this.btnDisableRoom);
             this.Controls.Add(this.tbHideDate);
             this.Controls.Add(this.dtpFechaCreacion);
             this.Controls.Add(this.btnCancel);
@@ -397,7 +477,7 @@
             this.Controls.Add(this.btnStatusChange);
             this.Controls.Add(this.tbEstadoHotel);
             this.Controls.Add(this.lblHabilitado);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblHabitaciones);
             this.Controls.Add(this.clbRegimenes);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnNew);
@@ -456,7 +536,7 @@
         private System.Windows.Forms.Button btnNew;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.CheckedListBox clbRegimenes;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblHabitaciones;
         private System.Windows.Forms.Label lblHabilitado;
         private System.Windows.Forms.TextBox tbEstadoHotel;
         private System.Windows.Forms.Button btnStatusChange;
@@ -464,6 +544,9 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.DateTimePicker dtpFechaCreacion;
         private System.Windows.Forms.TextBox tbHideDate;
+        private System.Windows.Forms.Button btnEditRoom;
+        private System.Windows.Forms.Button btnNewRoom;
+        private System.Windows.Forms.Button btnDisableRoom;
 
     }
 }
