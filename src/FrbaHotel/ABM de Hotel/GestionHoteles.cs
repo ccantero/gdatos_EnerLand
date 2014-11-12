@@ -176,7 +176,6 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void getDatosHotel()
         {
-            MessageBox.Show("SELECTED: " + cmbHoteles.SelectedValue);
             if (Convert.ToInt32(cmbHoteles.SelectedValue) > 0)
             {
                 DbResultSet rs = DbManager.GetDataTable("SELECT  Calle,Numero as Altura,ISNULL(mail,'') Mail,ISNULL(telefono,'') Telefono,ISNULL(fecha_creacion,'') FechaCreacion FROM ENER_LAND.Hotel WHERE idHotel = " + cmbHoteles.SelectedValue);
@@ -323,15 +322,10 @@ namespace FrbaHotel.ABM_de_Hotel
                             //returnParameter.Direction = ParameterDirection.ReturnValue;
                             //MessageBox.Show(command.ExecuteScalar().ToString());
                              idHotel = Convert.ToInt32(command.ExecuteScalar());
-                            MessageBox.Show(idHotel.ToString());
-                             //= Convert.ToInt32(command.Parameters["@idHotel"].Value);
+                            //= Convert.ToInt32(command.Parameters["@idHotel"].Value);
                         }
 
-
-
-                        MessageBox.Show("LALA");
                         updateRegimenHotel(idHotel);
-                        MessageBox.Show("LALA1");
                         connection.Close();
 
                     }
@@ -476,7 +470,6 @@ namespace FrbaHotel.ABM_de_Hotel
             foreach (int idx in clbRegimenes.CheckedIndices)
             {
                 idRegimen = idx + 1;
-                MessageBox.Show("INSERT INTO ENER_LAND.Regimen_Hotel VALUES ( " + hotel + "," + idRegimen + ")");
                 rs = DbManager.dbSqlStatementExec("INSERT INTO ENER_LAND.Regimen_Hotel VALUES ( " + hotel + "," + idRegimen + ")");
                     
 
