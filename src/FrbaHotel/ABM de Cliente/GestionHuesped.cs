@@ -55,5 +55,18 @@ namespace FrbaHotel.ABM_de_Cliente
             MenuPrincipal.Show();
             this.Dispose();
         }
+
+        public void Modificar_Huesped(Huesped unHuesped)
+        {
+            this.Controls.Clear();
+            this.Controls.Add(this.menuStrip1);
+
+            UserControl_Huesped UserControlHuesped = new UserControl_Huesped();
+            this.Controls.Add(UserControlHuesped);
+            UserControlHuesped.Location = new System.Drawing.Point(0, 20);
+            UserControlHuesped.Name = "UserControlHuesped";
+
+            UserControlHuesped.Cargar_Huesped(unHuesped);
+        }
     }
 }

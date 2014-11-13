@@ -109,8 +109,9 @@ namespace FrbaHotel.ABM_de_Cliente
         {
             if (e.ColumnIndex == 16 && e.RowIndex > -1)
             {
-                MessageBox.Show(e.RowIndex.ToString());
-                CargarDatosAfiliado(e.RowIndex);
+                Huesped unHuesped = CargarDatosAfiliado(e.RowIndex);
+                ((GestionHuesped)FormPadre).Load_Menu();
+                ((GestionHuesped)FormPadre).Modificar_Huesped(unHuesped);
             }
         }
 
@@ -131,17 +132,45 @@ namespace FrbaHotel.ABM_de_Cliente
             }
 
             cliente.idHuesped = Convert.ToInt32(TablaHuespedes.Rows[fila]["idHuesped"].ToString());
-            cliente.idLocalidad = Convert.ToInt32(TablaHuespedes.Rows[fila]["idLocalidad"].ToString());
+            if (TablaHuespedes.Rows[fila]["idLocalidad"].ToString().Equals(""))
+            {
+                cliente.idLocalidad = -1;
+            }
+            else
+            {
+                cliente.idLocalidad = Convert.ToInt32(TablaHuespedes.Rows[fila]["idLocalidad"].ToString());
+            }
+            
             cliente.Mail = TablaHuespedes.Rows[fila]["Mail"].ToString();
             cliente.Nacionalidad = TablaHuespedes.Rows[fila]["Nacionalidad"].ToString();
             cliente.Nombre = TablaHuespedes.Rows[fila]["Nombre"].ToString();
             cliente.Nro_Documento = Convert.ToInt32(TablaHuespedes.Rows[fila]["Nro_Documento"].ToString());
             cliente.Numero = Convert.ToInt32(TablaHuespedes.Rows[fila]["Numero"].ToString());
-            cliente.Piso = Convert.ToChar(TablaHuespedes.Rows[fila]["Piso"].ToString());
-            cliente.Telefono = Convert.ToInt32(TablaHuespedes.Rows[fila]["Telefono"].ToString());
+            cliente.Piso = Convert.ToInt32(TablaHuespedes.Rows[fila]["Piso"].ToString());
+
+            if (TablaHuespedes.Rows[fila]["Telefono"].ToString().Equals(""))
+            {
+                cliente.Telefono = -1;
+            }
+            else
+            {
+                cliente.Telefono = Convert.ToInt32(TablaHuespedes.Rows[fila]["Telefono"].ToString());
+            }
+            
             cliente.Tipo_Documento = TablaHuespedes.Rows[fila]["Tipo_Documento"].ToString();
 
             return cliente;
+        }
+
+        private void CargarTipoDoc()
+        {
+            DbResultSet rs = DbManager.GetDataTable("SELECT DISTINCT Tipo_Documento FROM ENER_LAND.Huesped");
+
+            foreach (DataRow Row in rs.dataTable.Rows)
+            {
+                this.comboBox_TipoDocumento.Items.Add(Row[0].ToString().Trim());
+            }
+
         }
     }
 }

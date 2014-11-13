@@ -14,12 +14,14 @@ namespace FrbaHotel.ABM_de_Cliente
         public UserControl_Huesped()
         {
             InitializeComponent();
+            CargarTipoDoc();
         }
 
 
         public void Cargar_Huesped(Huesped unHuesped)
         {
-            Cargar_Localidad(unHuesped.idLocalidad);
+            if(unHuesped.idLocalidad != -1)
+                Cargar_Localidad(unHuesped.idLocalidad);
 
             this.textBox_Apellido.Text = unHuesped.Apellido;
             this.textBox_Calle.Text = unHuesped.Calle;
@@ -31,6 +33,8 @@ namespace FrbaHotel.ABM_de_Cliente
             this.textBox_Piso.Text = unHuesped.Piso.ToString();
             this.textBox_Telefono.Text = unHuesped.Telefono.ToString();
             this.textBox_Departamento.Text = unHuesped.Departamento.ToString();
+
+            this.ComboBox_TipoDoc.Text = unHuesped.Tipo_Documento;
         }
 
         private void Cargar_Localidad(int idLocalidad)
@@ -46,5 +50,15 @@ namespace FrbaHotel.ABM_de_Cliente
         
         }
 
+        private void CargarTipoDoc()
+        {
+            DbResultSet rs = DbManager.GetDataTable("SELECT DISTINCT Tipo_Documento FROM ENER_LAND.Huesped");
+
+            foreach (DataRow Row in rs.dataTable.Rows)
+            {
+                this.ComboBox_TipoDoc.Items.Add(Row[0].ToString().Trim());
+            }
+            
+        }
     }
 }

@@ -12,6 +12,7 @@ Aclaraciones de la Entrega
 - Facturacion Pendiente
 - Listados Estadisticos Pendiente
 
+El Nombre del Esquema es ENER_LAND al contrario del nombre del grupo ENERLAND.
 
 Notas, Decisiones de Diseño e Implementación:
 
