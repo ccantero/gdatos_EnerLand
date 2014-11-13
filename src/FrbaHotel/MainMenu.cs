@@ -85,7 +85,7 @@ namespace FrbaHotel
 
         }
 
-        private void gestionarUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void gestionarHuespedesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
         }
@@ -95,7 +95,6 @@ namespace FrbaHotel
             ABM_de_Cliente.GestionHuesped formHuesped = new FrbaHotel.ABM_de_Cliente.GestionHuesped(parentForm);
             formHuesped.Show();
         }
-
 
    }
 }

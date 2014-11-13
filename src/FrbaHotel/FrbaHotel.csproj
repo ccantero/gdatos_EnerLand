@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABM de Cliente\Huesped.cs" />
     <Compile Include="ABM de Cliente\UserControl_BuscarHuesped.cs">
       <SubType>UserControl</SubType>
     </Compile>
