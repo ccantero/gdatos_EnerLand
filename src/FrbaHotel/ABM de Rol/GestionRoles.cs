@@ -32,9 +32,7 @@ namespace FrbaHotel.ABM_de_Rol
             this.MinimizeBox = false;
 
             MenuPrincipal.Hide();
-
             Load_Menu();
-        
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)

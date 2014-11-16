@@ -12,6 +12,8 @@ namespace FrbaHotel.ABM_de_Cliente
     public partial class GestionHuesped : Form
     {
         public Form MenuPrincipal;
+        public UserControl_BuscarHuesped UserControlBuscarHuesped;
+        public UserControl_Huesped UserControlHuesped;
 
         public GestionHuesped(Form parentForm)
         {
@@ -67,6 +69,21 @@ namespace FrbaHotel.ABM_de_Cliente
             UserControlHuesped.Name = "UserControlHuesped";
 
             UserControlHuesped.Cargar_Huesped(unHuesped);
+        }
+
+        private void agregarHuéspedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        
+        }
+
+        private void modificarHuéspedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        
+        }
+
+        private void eliminarHuéspedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        
         }
     }
 }

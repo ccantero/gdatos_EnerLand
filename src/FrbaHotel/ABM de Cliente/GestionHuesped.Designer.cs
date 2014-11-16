@@ -45,7 +45,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(534, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(814, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -64,18 +64,21 @@
             this.agregarHuéspedToolStripMenuItem.Name = "agregarHuéspedToolStripMenuItem";
             this.agregarHuéspedToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.agregarHuéspedToolStripMenuItem.Text = "Agregar Huésped";
+            this.agregarHuéspedToolStripMenuItem.Click += new System.EventHandler(this.agregarHuéspedToolStripMenuItem_Click);
             // 
             // modificarHuéspedToolStripMenuItem
             // 
             this.modificarHuéspedToolStripMenuItem.Name = "modificarHuéspedToolStripMenuItem";
             this.modificarHuéspedToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.modificarHuéspedToolStripMenuItem.Text = "Modificar Huésped";
+            this.modificarHuéspedToolStripMenuItem.Click += new System.EventHandler(this.modificarHuéspedToolStripMenuItem_Click);
             // 
             // eliminarHuéspedToolStripMenuItem
             // 
             this.eliminarHuéspedToolStripMenuItem.Name = "eliminarHuéspedToolStripMenuItem";
             this.eliminarHuéspedToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.eliminarHuéspedToolStripMenuItem.Text = "Eliminar Huésped";
+            this.eliminarHuéspedToolStripMenuItem.Click += new System.EventHandler(this.eliminarHuéspedToolStripMenuItem_Click);
             // 
             // salirToolStripMenuItem
             // 
@@ -89,6 +92,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 437);
+            this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "GestionHuesped";
             this.Text = "Gestion Huéspedes";
@@ -97,6 +101,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
