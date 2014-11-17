@@ -11,14 +11,21 @@ namespace FrbaHotel.ABM_de_Cliente
 {
     public partial class UserControl_Huesped : UserControl
     {
+        public Boolean flag_Modificacion;
+        public Huesped huesped_A_Modificar;
+        
         public UserControl_Huesped()
         {
             InitializeComponent();
             CargarTipoDoc();
+            flag_Modificacion = false;
         }
 
         public void Cargar_Huesped(Huesped unHuesped)
         {
+            flag_Modificacion = true;            
+            huesped_A_Modificar = unHuesped;
+            
             if (unHuesped.idLocalidad != -1)
                 Cargar_Localidad(unHuesped.idLocalidad);
 
@@ -36,6 +43,11 @@ namespace FrbaHotel.ABM_de_Cliente
             this.textBox_Departamento.Text = unHuesped.Departamento.ToString();
 
             this.ComboBox_TipoDoc.Text = unHuesped.Tipo_Documento;
+
+            if (unHuesped.Habilitado)
+                this.checkBox_Habilitado.CheckState = CheckState.Checked;
+            else
+                this.checkBox_Habilitado.CheckState = CheckState.Unchecked;
         }
 
         private void Cargar_Localidad(int idLocalidad)
@@ -64,7 +76,8 @@ namespace FrbaHotel.ABM_de_Cliente
 
         private void button_Save_Click(object sender, EventArgs e)
         {
-
+            if (!Check_Unique_Mail())
+                MessageBox.Show("Mail no es unico. Existe otro huesped con el mismo Mail. Verifique e intente nuevamente");
         }
 
         private void Button_Clean_Click(object sender, EventArgs e)
@@ -80,6 +93,32 @@ namespace FrbaHotel.ABM_de_Cliente
             this.Box_FecNac.Text = string.Empty;
             this.ComboBox_TipoDoc.Text = string.Empty;
 
+        }
+
+        private Boolean Check_Unique_Mail()
+        {
+            DbResultSet rs;
+
+            if (flag_Modificacion)
+            {
+                rs = DbManager.GetDataTable("SELECT idHuesped FROM ENER_LAND.Huesped WHERE Mail = '" +
+                                            this.textBox_mail.Text.Trim() + "'" +
+                                            " AND idHuesped <> " + huesped_A_Modificar.idHuesped
+                                            );
+
+                if (rs.dataTable.Rows.Count == 0)
+                    return true;
+            };
+
+            rs = DbManager.GetDataTable("SELECT idHuesped FROM ENER_LAND.Huesped WHERE Mail = '" + 
+                                                    this.textBox_mail.Text.Trim() + "'"
+                                                    );
+
+            if (rs.dataTable.Rows.Count == 0)
+                return true;
+
+
+            return false;
         }
     }
 }

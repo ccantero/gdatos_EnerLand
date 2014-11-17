@@ -163,12 +163,15 @@ CREATE TABLE ENER_LAND.Huesped (
   Piso INTEGER NULL,
   Departamento CHAR NULL,
   idLocalidad INTEGER NULL,
+  idPais INTEGER NULL,
   Fecha_Nacimiento DATE NULL,
   Nacionalidad VARCHAR(50) NULL,
   Habilitado CHAR NOT NULL,
   PRIMARY KEY(idHuesped),
   FOREIGN KEY(idLocalidad)
-    REFERENCES ENER_LAND.Localidad(idLocalidad) 
+    REFERENCES ENER_LAND.Localidad(idLocalidad),
+  FOREIGN KEY(idPais)
+    REFERENCES ENER_LAND.Pais(idPais) 
  );
 
 
@@ -378,6 +381,12 @@ INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (3, 2
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (3, 5);
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (3, 6);
 
+INSERT [ENER_LAND].[Localidad]
+	SELECT DISTINCT Hotel_Ciudad FROM gd_esquema.Maestra
+	ORDER BY 1
+	
+INSERT [ENER_LAND].[Pais] ([Nombre]) VALUES ('Argentina');
+
 INSERT ENER_LAND.Huesped
 	SELECT	DISTINCT	'Pasaporte',
 						Cliente_Pasaporte_Nro, 
@@ -390,7 +399,8 @@ INSERT ENER_LAND.Huesped
 						Cliente_Nro_Calle, 
 						Cliente_Piso, 
 						Cliente_Depto,
-						NULL, 
+						NULL,
+						1, 
 						Cliente_Fecha_Nac, 
 						Cliente_Nacionalidad,
 						1
@@ -433,11 +443,7 @@ INSERT [ENER_LAND].[Forma_de_Pago] ([Descripcion]) VALUES ('Efectivo');
 INSERT [ENER_LAND].[Forma_de_Pago] ([Descripcion]) VALUES ('Tarjeta de Credito');
 
 
-INSERT [ENER_LAND].[Localidad]
-	SELECT DISTINCT Hotel_Ciudad FROM gd_esquema.Maestra
-	ORDER BY 1
-	
-INSERT [ENER_LAND].[Pais] ([Nombre]) VALUES ('Argentina');
+
 
 BEGIN
 	DECLARE @ROW_NUMBER INT

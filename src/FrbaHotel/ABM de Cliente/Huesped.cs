@@ -21,6 +21,7 @@ namespace FrbaHotel.ABM_de_Cliente
         public char Departamento;
         public int idLocalidad;
         public DateTime Fecha_Nacimiento;
+        public string PaisOrigen;
         public string Nacionalidad;
         public Boolean Habilitado;
 

@@ -57,6 +57,9 @@
             this.Button_Clean = new System.Windows.Forms.Button();
             this.Box_FecNac = new System.Windows.Forms.DateTimePicker();
             this.label_FechaNacimiento = new System.Windows.Forms.Label();
+            this.label_PaisOrigen = new System.Windows.Forms.Label();
+            this.textBox_PaisOrigen = new System.Windows.Forms.TextBox();
+            this.checkBox_Habilitado = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -254,6 +257,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBox_Habilitado);
+            this.groupBox1.Controls.Add(this.textBox_PaisOrigen);
+            this.groupBox1.Controls.Add(this.label_PaisOrigen);
             this.groupBox1.Controls.Add(this.button_Save);
             this.groupBox1.Controls.Add(this.Button_Clean);
             this.groupBox1.Controls.Add(this.Box_FecNac);
@@ -291,7 +297,7 @@
             // 
             // button_Save
             // 
-            this.button_Save.Location = new System.Drawing.Point(622, 357);
+            this.button_Save.Location = new System.Drawing.Point(699, 357);
             this.button_Save.Name = "button_Save";
             this.button_Save.Size = new System.Drawing.Size(75, 23);
             this.button_Save.TabIndex = 30;
@@ -301,7 +307,7 @@
             // 
             // Button_Clean
             // 
-            this.Button_Clean.Location = new System.Drawing.Point(122, 357);
+            this.Button_Clean.Location = new System.Drawing.Point(443, 357);
             this.Button_Clean.Name = "Button_Clean";
             this.Button_Clean.Size = new System.Drawing.Size(75, 23);
             this.Button_Clean.TabIndex = 29;
@@ -312,20 +318,49 @@
             // Box_FecNac
             // 
             this.Box_FecNac.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.Box_FecNac.Location = new System.Drawing.Point(105, 299);
+            this.Box_FecNac.Location = new System.Drawing.Point(103, 356);
             this.Box_FecNac.Name = "Box_FecNac";
-            this.Box_FecNac.Size = new System.Drawing.Size(250, 20);
+            this.Box_FecNac.Size = new System.Drawing.Size(83, 20);
             this.Box_FecNac.TabIndex = 13;
             this.Box_FecNac.Value = new System.DateTime(2013, 11, 5, 0, 0, 0, 0);
             // 
             // label_FechaNacimiento
             // 
             this.label_FechaNacimiento.AutoSize = true;
-            this.label_FechaNacimiento.Location = new System.Drawing.Point(6, 305);
+            this.label_FechaNacimiento.Location = new System.Drawing.Point(6, 362);
             this.label_FechaNacimiento.Name = "label_FechaNacimiento";
             this.label_FechaNacimiento.Size = new System.Drawing.Size(93, 13);
             this.label_FechaNacimiento.TabIndex = 27;
             this.label_FechaNacimiento.Text = "Fecha Nacimiento";
+            // 
+            // label_PaisOrigen
+            // 
+            this.label_PaisOrigen.AutoSize = true;
+            this.label_PaisOrigen.Location = new System.Drawing.Point(6, 305);
+            this.label_PaisOrigen.Name = "label_PaisOrigen";
+            this.label_PaisOrigen.Size = new System.Drawing.Size(76, 13);
+            this.label_PaisOrigen.TabIndex = 31;
+            this.label_PaisOrigen.Text = "Pais de Origen";
+            // 
+            // textBox_PaisOrigen
+            // 
+            this.textBox_PaisOrigen.Location = new System.Drawing.Point(103, 298);
+            this.textBox_PaisOrigen.Name = "textBox_PaisOrigen";
+            this.textBox_PaisOrigen.Size = new System.Drawing.Size(250, 20);
+            this.textBox_PaisOrigen.TabIndex = 32;
+            // 
+            // checkBox_Habilitado
+            // 
+            this.checkBox_Habilitado.AutoSize = true;
+            this.checkBox_Habilitado.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_Habilitado.Checked = true;
+            this.checkBox_Habilitado.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Habilitado.Location = new System.Drawing.Point(272, 362);
+            this.checkBox_Habilitado.Name = "checkBox_Habilitado";
+            this.checkBox_Habilitado.Size = new System.Drawing.Size(73, 17);
+            this.checkBox_Habilitado.TabIndex = 34;
+            this.checkBox_Habilitado.Text = "Habilitado";
+            this.checkBox_Habilitado.UseVisualStyleBackColor = true;
             // 
             // UserControl_Huesped
             // 
@@ -371,6 +406,9 @@
         private System.Windows.Forms.Label label_FechaNacimiento;
         private System.Windows.Forms.Button Button_Clean;
         private System.Windows.Forms.Button button_Save;
+        private System.Windows.Forms.TextBox textBox_PaisOrigen;
+        private System.Windows.Forms.Label label_PaisOrigen;
+        private System.Windows.Forms.CheckBox checkBox_Habilitado;
 
     }
 }
