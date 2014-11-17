@@ -17,10 +17,9 @@ namespace FrbaHotel.ABM_de_Cliente
             CargarTipoDoc();
         }
 
-
         public void Cargar_Huesped(Huesped unHuesped)
         {
-            if(unHuesped.idLocalidad != -1)
+            if (unHuesped.idLocalidad != -1)
                 Cargar_Localidad(unHuesped.idLocalidad);
 
             this.textBox_Apellido.Text = unHuesped.Apellido;
@@ -31,7 +30,9 @@ namespace FrbaHotel.ABM_de_Cliente
             this.textBox_Name.Text = unHuesped.Nombre;
             this.textBox_Numero.Text = unHuesped.Numero.ToString();
             this.textBox_Piso.Text = unHuesped.Piso.ToString();
-            this.textBox_Telefono.Text = unHuesped.Telefono.ToString();
+            if (unHuesped.Telefono != -1)
+                this.textBox_Telefono.Text = unHuesped.Telefono.ToString();
+
             this.textBox_Departamento.Text = unHuesped.Departamento.ToString();
 
             this.ComboBox_TipoDoc.Text = unHuesped.Tipo_Documento;
@@ -47,7 +48,7 @@ namespace FrbaHotel.ABM_de_Cliente
                 MessageBox.Show("Falló la busqueda");
 
             this.textBox_Localidad.Text = rs.dataTable.Rows[0][0].ToString();
-        
+
         }
 
         private void CargarTipoDoc()
@@ -58,7 +59,27 @@ namespace FrbaHotel.ABM_de_Cliente
             {
                 this.ComboBox_TipoDoc.Items.Add(Row[0].ToString().Trim());
             }
-            
+
+        }
+
+        private void button_Save_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Button_Clean_Click(object sender, EventArgs e)
+        {
+            foreach (Control X in this.groupBox1.Controls)
+            {
+                if (X is TextBox)
+                {
+                    (X as TextBox).Text = string.Empty;
+                }
+            }
+
+            this.Box_FecNac.Text = string.Empty;
+            this.ComboBox_TipoDoc.Text = string.Empty;
+
         }
     }
 }

@@ -13,11 +13,13 @@ namespace FrbaHotel.ABM_de_Cliente
     {
         private Form FormPadre;
         public static DataTable TablaHuespedes = new DataTable();
+        public Boolean flag_deletion;
 
         public UserControl_BuscarHuesped(Form parentForm)
         {
             InitializeComponent();
             FormPadre = parentForm;
+            flag_deletion = false;
         }
 
         private void button_search_Click(object sender, EventArgs e)
@@ -60,6 +62,9 @@ namespace FrbaHotel.ABM_de_Cliente
                                       "OR Mail_Alternativo LIKE '%" + this.textBox_Mail.Text.Trim() + "%' " +
                                 ")";
 
+            if (flag_deletion)
+                myQuery = myQuery + " AND Habilitado = 1";
+
             rs = DbManager.GetDataTable(myQuery);
             if (rs.operationState == 1)
                 MessageBox.Show("Falló la busqueda");
@@ -100,16 +105,38 @@ namespace FrbaHotel.ABM_de_Cliente
             DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
             this.dataGrid_Huespedes.Columns.Add(btn);
             btn.HeaderText = "Action";
-            btn.Text = "Select";
+            
             btn.Name = "row_button";
             btn.UseColumnTextForButtonValue = true;
+            if(flag_deletion)
+                btn.Text = "Delete";
+            else
+                btn.Text = "Select";
         }
 
         private void dataGrid_Huespedes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            string query_str;
+            Huesped unHuesped;
+
             if (e.ColumnIndex == 16 && e.RowIndex > -1)
             {
-                Huesped unHuesped = CargarDatosAfiliado(e.RowIndex);
+                unHuesped = CargarDatosAfiliado(e.RowIndex);
+                
+                if(flag_deletion)
+                {
+                    query_str = "UPDATE ENER_LAND.Huesped SET Habilitado = 0 WHERE idHuesped = " + unHuesped.idHuesped.ToString();
+                    DbResultSet unResultSet = DbManager.dbSqlStatementExec(query_str);
+                    if (unResultSet.operationState == 1)
+                        MessageBox.Show("No se pudo borrar el Rol creado previamente. Falla en la BD");
+
+                    MessageBox.Show("El Usuario " + unHuesped.Nombre + " " + unHuesped.Apellido + " ha sido deshabilitado");
+
+                    this.dataGrid_Huespedes.Columns.Clear();
+                    ((GestionHuesped)FormPadre).Load_Menu();
+                    return;
+                }
+
                 ((GestionHuesped)FormPadre).Load_Menu();
                 ((GestionHuesped)FormPadre).Modificar_Huesped(unHuesped);
             }

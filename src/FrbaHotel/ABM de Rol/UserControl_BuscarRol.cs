@@ -21,11 +21,6 @@ namespace FrbaHotel.ABM_de_Rol
             FormPadre = parent;
         }
 
-        private void SearchRol_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void button_search_Click(object sender, EventArgs e)
         {
             string query_str;
@@ -77,10 +72,12 @@ namespace FrbaHotel.ABM_de_Rol
         private void dataGrid_Roles_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             string query_str;
-            int id_Rol = Convert.ToInt32(TablaRoles.Rows[e.RowIndex]["idRol"].ToString());
+            int id_Rol;
 
-            if (e.ColumnIndex == 3)
+            if (e.ColumnIndex == 3 && e.RowIndex > -1)
             {
+                id_Rol = Convert.ToInt32(TablaRoles.Rows[e.RowIndex]["idRol"].ToString());
+                
                 if (flag_deletion)
                 {
                     switch (id_Rol)

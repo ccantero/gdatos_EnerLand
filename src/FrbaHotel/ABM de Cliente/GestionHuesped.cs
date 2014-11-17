@@ -46,10 +46,10 @@ namespace FrbaHotel.ABM_de_Cliente
             this.Controls.Clear();
             this.Controls.Add(this.menuStrip1);
 
-            UserControl_BuscarHuesped BuscarHuesped = new UserControl_BuscarHuesped(this);
-            this.Controls.Add(BuscarHuesped);
-            BuscarHuesped.Location = new System.Drawing.Point(0, 20);
-            BuscarHuesped.Name = "UserControlBuscarHuesped";
+            UserControlBuscarHuesped = new UserControl_BuscarHuesped(this);
+            this.Controls.Add(UserControlBuscarHuesped);
+            UserControlBuscarHuesped.Location = new System.Drawing.Point(0, 20);
+            UserControlBuscarHuesped.Name = "UserControlBuscarHuesped";
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -63,7 +63,7 @@ namespace FrbaHotel.ABM_de_Cliente
             this.Controls.Clear();
             this.Controls.Add(this.menuStrip1);
 
-            UserControl_Huesped UserControlHuesped = new UserControl_Huesped();
+            UserControlHuesped = new UserControl_Huesped();
             this.Controls.Add(UserControlHuesped);
             UserControlHuesped.Location = new System.Drawing.Point(0, 20);
             UserControlHuesped.Name = "UserControlHuesped";
@@ -73,17 +73,24 @@ namespace FrbaHotel.ABM_de_Cliente
 
         private void agregarHuéspedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        
+            this.Controls.Clear();
+            this.Controls.Add(this.menuStrip1);
+
+            UserControlHuesped = new UserControl_Huesped();
+            this.Controls.Add(UserControlHuesped);
+            UserControlHuesped.Location = new Point(0, 10);
+            UserControlHuesped.Name = "UserControlHuesped";
         }
 
         private void modificarHuéspedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        
+            Load_Menu();
         }
 
         private void eliminarHuéspedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        
+            Load_Menu();
+            UserControlBuscarHuesped.flag_deletion = true;
         }
     }
 }

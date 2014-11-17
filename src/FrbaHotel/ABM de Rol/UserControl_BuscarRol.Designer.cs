@@ -110,7 +110,6 @@
             this.Controls.Add(this.groupBox_FiltroBusqueda);
             this.Name = "SearchRol";
             this.Size = new System.Drawing.Size(375, 330);
-            this.Load += new System.EventHandler(this.SearchRol_Load);
             this.groupBox_FiltroBusqueda.ResumeLayout(false);
             this.groupBox_FiltroBusqueda.PerformLayout();
             this.groupBox1.ResumeLayout(false);
