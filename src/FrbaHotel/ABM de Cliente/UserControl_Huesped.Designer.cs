@@ -49,7 +49,7 @@
             this.label_Nacionalidad = new System.Windows.Forms.Label();
             this.label_Piso = new System.Windows.Forms.Label();
             this.label_Departamento = new System.Windows.Forms.Label();
-            this.textBox_Localidad = new System.Windows.Forms.TextBox();
+            this.ComboBox_Localidad = new System.Windows.Forms.ComboBox();
             this.label_Localidad = new System.Windows.Forms.Label();
             this.textBox_Nacionalidad = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -58,7 +58,7 @@
             this.Box_FecNac = new System.Windows.Forms.DateTimePicker();
             this.label_FechaNacimiento = new System.Windows.Forms.Label();
             this.label_PaisOrigen = new System.Windows.Forms.Label();
-            this.textBox_PaisOrigen = new System.Windows.Forms.TextBox();
+            this.ComboBox_PaisOrigen = new System.Windows.Forms.ComboBox();
             this.checkBox_Habilitado = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -232,12 +232,12 @@
             this.label_Departamento.TabIndex = 22;
             this.label_Departamento.Text = "Departamento";
             // 
-            // textBox_Localidad
+            // ComboBox_Localidad
             // 
-            this.textBox_Localidad.Location = new System.Drawing.Point(524, 189);
-            this.textBox_Localidad.Name = "textBox_Localidad";
-            this.textBox_Localidad.Size = new System.Drawing.Size(250, 20);
-            this.textBox_Localidad.TabIndex = 23;
+            this.ComboBox_Localidad.Location = new System.Drawing.Point(524, 189);
+            this.ComboBox_Localidad.Name = "ComboBox_Localidad";
+            this.ComboBox_Localidad.Size = new System.Drawing.Size(250, 20);
+            this.ComboBox_Localidad.TabIndex = 23;
             // 
             // label_Localidad
             // 
@@ -258,7 +258,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.checkBox_Habilitado);
-            this.groupBox1.Controls.Add(this.textBox_PaisOrigen);
+            this.groupBox1.Controls.Add(this.ComboBox_PaisOrigen);
             this.groupBox1.Controls.Add(this.label_PaisOrigen);
             this.groupBox1.Controls.Add(this.button_Save);
             this.groupBox1.Controls.Add(this.Button_Clean);
@@ -266,7 +266,7 @@
             this.groupBox1.Controls.Add(this.label_FechaNacimiento);
             this.groupBox1.Controls.Add(this.textBox_Nacionalidad);
             this.groupBox1.Controls.Add(this.label_Localidad);
-            this.groupBox1.Controls.Add(this.textBox_Localidad);
+            this.groupBox1.Controls.Add(this.ComboBox_Localidad);
             this.groupBox1.Controls.Add(this.label_Departamento);
             this.groupBox1.Controls.Add(this.label_Piso);
             this.groupBox1.Controls.Add(this.label_Nacionalidad);
@@ -342,12 +342,12 @@
             this.label_PaisOrigen.TabIndex = 31;
             this.label_PaisOrigen.Text = "Pais de Origen";
             // 
-            // textBox_PaisOrigen
+            // ComboBox_PaisOrigen
             // 
-            this.textBox_PaisOrigen.Location = new System.Drawing.Point(103, 298);
-            this.textBox_PaisOrigen.Name = "textBox_PaisOrigen";
-            this.textBox_PaisOrigen.Size = new System.Drawing.Size(250, 20);
-            this.textBox_PaisOrigen.TabIndex = 32;
+            this.ComboBox_PaisOrigen.Location = new System.Drawing.Point(103, 298);
+            this.ComboBox_PaisOrigen.Name = "ComboBox_PaisOrigen";
+            this.ComboBox_PaisOrigen.Size = new System.Drawing.Size(250, 20);
+            this.ComboBox_PaisOrigen.TabIndex = 32;
             // 
             // checkBox_Habilitado
             // 
@@ -398,7 +398,7 @@
         private System.Windows.Forms.Label label_Nacionalidad;
         private System.Windows.Forms.Label label_Piso;
         private System.Windows.Forms.Label label_Departamento;
-        private System.Windows.Forms.TextBox textBox_Localidad;
+        private System.Windows.Forms.ComboBox ComboBox_Localidad;
         private System.Windows.Forms.Label label_Localidad;
         private System.Windows.Forms.TextBox textBox_Nacionalidad;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -406,7 +406,7 @@
         private System.Windows.Forms.Label label_FechaNacimiento;
         private System.Windows.Forms.Button Button_Clean;
         private System.Windows.Forms.Button button_Save;
-        private System.Windows.Forms.TextBox textBox_PaisOrigen;
+        private System.Windows.Forms.ComboBox ComboBox_PaisOrigen;
         private System.Windows.Forms.Label label_PaisOrigen;
         private System.Windows.Forms.CheckBox checkBox_Habilitado;
 

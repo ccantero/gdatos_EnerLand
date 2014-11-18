@@ -21,7 +21,7 @@ namespace FrbaHotel.ABM_de_Cliente
         public char Departamento;
         public int idLocalidad;
         public DateTime Fecha_Nacimiento;
-        public string PaisOrigen;
+        public int idPais;
         public string Nacionalidad;
         public Boolean Habilitado;
 
@@ -44,6 +44,7 @@ namespace FrbaHotel.ABM_de_Cliente
             Telefono = 0;
             Mail = "";
             idLocalidad = -1;
+            idPais = -1;
             Fecha_Nacimiento = DateTime.Today;
             Nacionalidad = "Argentina";
             Habilitado = false;

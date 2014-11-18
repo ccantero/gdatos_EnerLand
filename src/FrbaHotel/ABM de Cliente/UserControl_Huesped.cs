@@ -13,22 +13,30 @@ namespace FrbaHotel.ABM_de_Cliente
     {
         public Boolean flag_Modificacion;
         public Huesped huesped_A_Modificar;
+        public static DataTable TablaLocalidades;
+        public static DataTable TablaPaises;
         
         public UserControl_Huesped()
         {
             InitializeComponent();
             CargarTipoDoc();
             flag_Modificacion = false;
+            CargarTipoDoc();
+            CargarLocalidades();
+            CargarPaises();
         }
 
         public void Cargar_Huesped(Huesped unHuesped)
         {
             flag_Modificacion = true;            
             huesped_A_Modificar = unHuesped;
-            
-            if (unHuesped.idLocalidad != -1)
-                Cargar_Localidad(unHuesped.idLocalidad);
 
+            if (unHuesped.idLocalidad != -1)
+            {
+                DataRow[] Rows = TablaLocalidades.Select("idLocalidad = " + unHuesped.idLocalidad.ToString().Trim());
+                this.ComboBox_Localidad.Text = Rows[0][1].ToString().Trim();
+            }
+         
             this.textBox_Apellido.Text = unHuesped.Apellido;
             this.textBox_Calle.Text = unHuesped.Calle;
             this.textBox_DNI.Text = unHuesped.Numero.ToString();
@@ -50,32 +58,81 @@ namespace FrbaHotel.ABM_de_Cliente
                 this.checkBox_Habilitado.CheckState = CheckState.Unchecked;
         }
 
-        private void Cargar_Localidad(int idLocalidad)
+        private void CargarLocalidades()
         {
             DbResultSet rs;
-            string myQuery = "SELECT DESCRIPCION FROM ENER_LAND.Localidad WHERE idLocalidad = " + idLocalidad.ToString();
+            string myQuery = "SELECT * FROM ENER_LAND.Localidad";
 
             rs = DbManager.GetDataTable(myQuery);
             if (rs.operationState == 1)
                 MessageBox.Show("Falló la busqueda");
 
-            this.textBox_Localidad.Text = rs.dataTable.Rows[0][0].ToString();
+            TablaLocalidades = rs.dataTable;
 
+            foreach (DataRow Row in TablaLocalidades.Rows)
+            {
+                this.ComboBox_Localidad.Items.Add(Row[1].ToString().Trim());
+            }
+
+            this.ComboBox_Localidad.Items.Add("");
+
+            return;
         }
 
         private void CargarTipoDoc()
         {
-            DbResultSet rs = DbManager.GetDataTable("SELECT DISTINCT Tipo_Documento FROM ENER_LAND.Huesped");
-
-            foreach (DataRow Row in rs.dataTable.Rows)
-            {
-                this.ComboBox_TipoDoc.Items.Add(Row[0].ToString().Trim());
-            }
-
+            this.ComboBox_TipoDoc.Items.Clear();
+            this.ComboBox_TipoDoc.Items.Add("C.I.");
+            this.ComboBox_TipoDoc.Items.Add("D.N.I");
+            this.ComboBox_TipoDoc.Items.Add("Pasaporte");
         }
 
+        private void CargarPaises()
+        {
+            DbResultSet rs;
+            string myQuery = "SELECT * FROM ENER_LAND.Pais";
+
+            rs = DbManager.GetDataTable(myQuery);
+            if (rs.operationState == 1)
+                MessageBox.Show("Falló la busqueda");
+
+            TablaPaises = rs.dataTable;
+
+            foreach (DataRow Row in TablaPaises.Rows)
+            {
+                this.ComboBox_PaisOrigen.Items.Add(Row[1].ToString().Trim());
+            }
+
+            return;
+        }
+       
         private void button_Save_Click(object sender, EventArgs e)
         {
+            Huesped nuevoHuesped = new Huesped();
+
+            nuevoHuesped.Apellido = this.textBox_Apellido.Text.Trim();
+            nuevoHuesped.Calle = this.textBox_Calle.Text.Trim();
+            
+            if(textBox_Departamento.Text.Trim().Equals(""))
+                nuevoHuesped.Departamento = '\0';
+            else
+                nuevoHuesped.Departamento = Convert.ToChar(textBox_Departamento.Text.Trim());
+            
+            nuevoHuesped.Fecha_Nacimiento = this.Box_FecNac.Value;
+
+            if (this.checkBox_Habilitado.CheckState == CheckState.Checked)
+                nuevoHuesped.Habilitado = true;
+            else
+                nuevoHuesped.Habilitado = false;
+
+            if (this.ComboBox_Localidad.Text.Equals(""))
+            {
+                DataRow[] Rows = TablaLocalidades.Select("Descripcion = '" + this.ComboBox_Localidad.Text.ToString().Trim() + "'");
+                nuevoHuesped.idLocalidad = Convert.ToInt32(Rows[0][0].ToString().Trim());
+            }
+
+
+
             if (!Check_Unique_Mail())
                 MessageBox.Show("Mail no es unico. Existe otro huesped con el mismo Mail. Verifique e intente nuevamente");
         }
@@ -120,5 +177,8 @@ namespace FrbaHotel.ABM_de_Cliente
 
             return false;
         }
+    
+    
+    
     }
 }

@@ -27,3 +27,8 @@ Notas, Decisiones de Diseño e Implementación:
 * El campo Total Factura no se migra de la base de datos sino que se calcula en base a la sumatoria de los items_factura migrados.
 
 * El campo Descripcion y Comodidades son englobados en un único campo de Texto Libre.
+
+* El campo Tipo de Documento no podrá soportar más de los siguientes valores:
+	* D.N.I
+	* C.I.
+	* Pasaporte
