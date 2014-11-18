@@ -63,7 +63,7 @@ namespace FrbaHotel.ABM_de_Cliente
             this.Controls.Clear();
             this.Controls.Add(this.menuStrip1);
 
-            UserControlHuesped = new UserControl_Huesped();
+            UserControlHuesped = new UserControl_Huesped(this);
             this.Controls.Add(UserControlHuesped);
             UserControlHuesped.Location = new System.Drawing.Point(0, 20);
             UserControlHuesped.Name = "UserControlHuesped";
@@ -76,7 +76,7 @@ namespace FrbaHotel.ABM_de_Cliente
             this.Controls.Clear();
             this.Controls.Add(this.menuStrip1);
 
-            UserControlHuesped = new UserControl_Huesped();
+            UserControlHuesped = new UserControl_Huesped(this);
             this.Controls.Add(UserControlHuesped);
             UserControlHuesped.Location = new Point(0, 10);
             UserControlHuesped.Name = "UserControlHuesped";

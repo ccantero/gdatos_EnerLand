@@ -260,8 +260,8 @@ namespace FrbaHotel
                 return false;
             }
         }
-        
-        //Inserta un Rol en DB
+
+        //Inserta un Huesped en DB
         static public bool Agregar_Huesped(Huesped unHuesped)
         {
             try
@@ -278,8 +278,16 @@ namespace FrbaHotel
 	            cmd.Parameters.Add(new SqlParameter("@Telefono",unHuesped.Telefono));
                 cmd.Parameters.Add(new SqlParameter("@Calle",unHuesped.Calle));
                 cmd.Parameters.Add(new SqlParameter("@Numero",unHuesped.Numero));
-	            cmd.Parameters.Add(new SqlParameter("@Piso",unHuesped.Piso));
-	            cmd.Parameters.Add(new SqlParameter("@Departamento",unHuesped.Departamento));
+                if(unHuesped.Piso == -1)
+                    cmd.Parameters.Add(new SqlParameter("@Piso", DBNull.Value));
+                else
+	                cmd.Parameters.Add(new SqlParameter("@Piso",unHuesped.Piso));
+
+                if (unHuesped.Departamento == '\0')
+                    cmd.Parameters.Add(new SqlParameter("@Departamento", DBNull.Value));
+                else
+                    cmd.Parameters.Add(new SqlParameter("@Departamento", unHuesped.Departamento));
+
 	            cmd.Parameters.Add(new SqlParameter("@idLocalidad",unHuesped.idLocalidad));
 	            cmd.Parameters.Add(new SqlParameter("@idPais",unHuesped.idPais));
 	            cmd.Parameters.Add(new SqlParameter("@Fecha_Nacimiento",unHuesped.Fecha_Nacimiento));
@@ -314,5 +322,70 @@ namespace FrbaHotel
             }
         
         }
+
+        //Modifica un Huesped en DB
+        static public bool Modificar_Huesped(Huesped unHuesped)
+        {
+            try
+            {
+                SqlConnection dbsession = DbManager.dbConnect();
+                SqlCommand cmd = new SqlCommand("ENER_LAND.Modificar_Huesped", dbsession);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@idHuesped", unHuesped.idHuesped));
+                cmd.Parameters.Add(new SqlParameter("@Tipo_Documento", unHuesped.Tipo_Documento));
+                cmd.Parameters.Add(new SqlParameter("@Nro_Documento", unHuesped.Nro_Documento));
+                cmd.Parameters.Add(new SqlParameter("@Nombre", unHuesped.Nombre));
+                cmd.Parameters.Add(new SqlParameter("@Apellido", unHuesped.Apellido));
+                cmd.Parameters.Add(new SqlParameter("@Mail", unHuesped.Mail));
+                cmd.Parameters.Add(new SqlParameter("@Telefono", unHuesped.Telefono));
+                cmd.Parameters.Add(new SqlParameter("@Calle", unHuesped.Calle));
+                cmd.Parameters.Add(new SqlParameter("@Numero", unHuesped.Numero));
+                if (unHuesped.Piso == -1)
+                    cmd.Parameters.Add(new SqlParameter("@Piso", DBNull.Value));
+                else
+                    cmd.Parameters.Add(new SqlParameter("@Piso", unHuesped.Piso));
+
+                if (unHuesped.Departamento == '\0')
+                    cmd.Parameters.Add(new SqlParameter("@Departamento", DBNull.Value));
+                else
+                    cmd.Parameters.Add(new SqlParameter("@Departamento", unHuesped.Departamento));
+
+                cmd.Parameters.Add(new SqlParameter("@idLocalidad", unHuesped.idLocalidad));
+                cmd.Parameters.Add(new SqlParameter("@idPais", unHuesped.idPais));
+                cmd.Parameters.Add(new SqlParameter("@Fecha_Nacimiento", unHuesped.Fecha_Nacimiento));
+                cmd.Parameters.Add(new SqlParameter("@Nacionalidad", unHuesped.Nacionalidad));
+                if (unHuesped.Habilitado)
+                    cmd.Parameters.Add(new SqlParameter("@Habilitado", 1));
+                else
+                    cmd.Parameters.Add(new SqlParameter("@Habilitado", 0));
+
+                SqlParameter ValorDeRetorno = cmd.Parameters.Add("returnParameter", SqlDbType.Int);
+                ValorDeRetorno.Direction = ParameterDirection.ReturnValue;
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    int resultado = Convert.ToInt32(ValorDeRetorno.SqlValue.ToString());
+                    if (resultado != 0)
+                        return false;
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("[ERROR] - " + e.ToString());
+                    return false;
+                    throw;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+
+        }
+    
+    
     }
 }

@@ -50,6 +50,7 @@ namespace FrbaHotel.ABM_de_Cliente
 		                        "x1.Piso, " +
 		                        "x1.Departamento, " +
 		                        "x1.idLocalidad, " +
+                                "x1.idPais, " +
 		                        "x1.Telefono, " +
 		                        "x1.Habilitado, " +
 		                        "MailIncorrecto = CASE WHEN x1.Mail IS NULL THEN 1 ELSE 0 END " +
@@ -86,6 +87,7 @@ namespace FrbaHotel.ABM_de_Cliente
             this.dataGrid_Huespedes.Visible = true;
             
             this.dataGrid_Huespedes.Columns["idLocalidad"].Visible = false;
+            this.dataGrid_Huespedes.Columns["idPais"].Visible = false;
             this.dataGrid_Huespedes.Columns["idHuesped"].Visible = false;
             this.dataGrid_Huespedes.Columns["MailIncorrecto"].Visible = false;
             this.dataGrid_Huespedes.Columns["Habilitado"].Visible = false;
@@ -119,7 +121,7 @@ namespace FrbaHotel.ABM_de_Cliente
             string query_str;
             Huesped unHuesped;
 
-            if (e.ColumnIndex == 16 && e.RowIndex > -1)
+            if (e.ColumnIndex == 17 && e.RowIndex > -1)
             {
                 unHuesped = CargarDatosAfiliado(e.RowIndex);
                 
@@ -147,7 +149,8 @@ namespace FrbaHotel.ABM_de_Cliente
             Huesped cliente = new Huesped();
             cliente.Apellido = TablaHuespedes.Rows[fila]["Apellido"].ToString();
             cliente.Calle = TablaHuespedes.Rows[fila]["Calle"].ToString();
-            cliente.Departamento = Convert.ToChar(TablaHuespedes.Rows[fila]["Departamento"].ToString());
+            if (!TablaHuespedes.Rows[fila]["Departamento"].ToString().Equals(""))
+                cliente.Departamento = Convert.ToChar(TablaHuespedes.Rows[fila]["Departamento"].ToString());
             cliente.Fecha_Nacimiento = Convert.ToDateTime(TablaHuespedes.Rows[fila]["Fecha_Nacimiento"].ToString());
             if (TablaHuespedes.Rows[fila]["Habilitado"].ToString().Trim().Equals("1"))
             {
@@ -167,13 +170,23 @@ namespace FrbaHotel.ABM_de_Cliente
             {
                 cliente.idLocalidad = Convert.ToInt32(TablaHuespedes.Rows[fila]["idLocalidad"].ToString());
             }
+
+            if (TablaHuespedes.Rows[fila]["idPais"].ToString().Equals(""))
+            {
+                cliente.idPais = -1;
+            }
+            else
+            {
+                cliente.idPais = Convert.ToInt32(TablaHuespedes.Rows[fila]["idPais"].ToString());
+            }
             
             cliente.Mail = TablaHuespedes.Rows[fila]["Mail"].ToString();
             cliente.Nacionalidad = TablaHuespedes.Rows[fila]["Nacionalidad"].ToString();
             cliente.Nombre = TablaHuespedes.Rows[fila]["Nombre"].ToString();
             cliente.Nro_Documento = Convert.ToInt32(TablaHuespedes.Rows[fila]["Nro_Documento"].ToString());
             cliente.Numero = Convert.ToInt32(TablaHuespedes.Rows[fila]["Numero"].ToString());
-            cliente.Piso = Convert.ToInt32(TablaHuespedes.Rows[fila]["Piso"].ToString());
+            if (!TablaHuespedes.Rows[fila]["Piso"].ToString().Equals(""))
+                cliente.Piso = Convert.ToInt32(TablaHuespedes.Rows[fila]["Piso"].ToString());
 
             if (TablaHuespedes.Rows[fila]["Telefono"].ToString().Equals(""))
             {

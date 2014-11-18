@@ -626,3 +626,103 @@ VALUES (@idAdmin,@nombre,@mail, @telefono,@cantEstrellas,10,@calle,@numero,@idLo
 
 SELECT @@IDENTITY AS idHotel
 GO
+
+
+CREATE PROCEDURE ENER_LAND.Agregar_Huesped
+(
+	@Tipo_Documento VARCHAR(25),
+	@Nro_Documento INTEGER,
+	@Nombre VARCHAR(50),
+	@Apellido VARCHAR(50),
+	@Mail VARCHAR(50),
+	@Telefono INTEGER,
+	@Calle VARCHAR(50),
+	@Numero INTEGER,
+	@Piso INTEGER,
+	@Departamento CHAR,
+	@idLocalidad INTEGER,
+	@idPais INTEGER,
+	@Fecha_Nacimiento DATE,
+	@Nacionalidad VARCHAR(50),
+	@Habilitado CHAR
+)
+AS 
+	DECLARE @idHuesped INTEGER
+
+	IF NOT EXISTS(SELECT 1 FROM ENER_LAND.Huesped WHERE Mail=@Mail)
+	BEGIN	
+		INSERT INTO [ENER_LAND].[Huesped] 
+		([Tipo_Documento],[Nro_Documento],[Apellido],[Nombre],[Mail],[Telefono],[Calle],[Numero],[Piso],[Departamento],[Fecha_Nacimiento],[Nacionalidad],[Habilitado]) 
+		VALUES (@Tipo_Documento,@Nro_Documento,@Apellido,@Nombre,@Mail,@Telefono,@Calle,@Numero,@Piso,@Departamento,@Fecha_Nacimiento,@Nacionalidad,@Habilitado);
+
+		SET @idHuesped = @@IDENTITY
+
+		IF @idLocalidad <> -1
+			BEGIN
+				UPDATE [ENER_LAND].[Huesped] 
+					SET idLocalidad = @idLocalidad
+				WHERE idHuesped = @idHuesped
+			END
+
+		IF @idPais <> -1
+			BEGIN
+				UPDATE [ENER_LAND].[Huesped] 
+					SET idPais = @idPais
+				WHERE idHuesped = @idHuesped
+			END			
+	END
+ELSE
+	RAISERROR('Mail existente',16,1)
+	RETURN -1
+GO
+
+CREATE PROCEDURE ENER_LAND.Modificar_Huesped
+(
+	@idHuesped INTEGER,
+	@Tipo_Documento VARCHAR(25),
+	@Nro_Documento INTEGER,
+	@Nombre VARCHAR(50),
+	@Apellido VARCHAR(50),
+	@Mail VARCHAR(50),
+	@Telefono INTEGER,
+	@Calle VARCHAR(50),
+	@Numero INTEGER,
+	@Piso INTEGER,
+	@Departamento CHAR,
+	@idLocalidad INTEGER,
+	@idPais INTEGER,
+	@Fecha_Nacimiento DATE,
+	@Nacionalidad VARCHAR(50),
+	@Habilitado CHAR
+)
+AS 
+	UPDATE [ENER_LAND].[Huesped]
+		SET Apellido = @Apellido,
+			Calle = @Calle,
+			Departamento = @Departamento,
+			Fecha_Nacimiento = @Fecha_Nacimiento,
+			Habilitado = @Habilitado,
+			Mail = @Mail,
+			Nacionalidad = @Nacionalidad,
+			Nombre = @Nombre,
+			Nro_Documento = @Nro_Documento,
+			Numero = @Numero,
+			Piso = @Piso,
+			Telefono = @Telefono,
+			Tipo_Documento = @Tipo_Documento
+	WHERE idHuesped = @idHuesped;
+	
+	IF @idLocalidad <> -1
+		BEGIN
+			UPDATE [ENER_LAND].[Huesped] 
+				SET idLocalidad = @idLocalidad
+			WHERE idHuesped = @idHuesped
+		END
+
+	IF @idPais <> -1
+		BEGIN
+			UPDATE [ENER_LAND].[Huesped] 
+				SET idPais = @idPais
+			WHERE idHuesped = @idHuesped
+		END			
+GO

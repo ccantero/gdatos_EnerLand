@@ -53,13 +53,13 @@
             this.label_Localidad = new System.Windows.Forms.Label();
             this.textBox_Nacionalidad = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox_Habilitado = new System.Windows.Forms.CheckBox();
+            this.ComboBox_PaisOrigen = new System.Windows.Forms.ComboBox();
+            this.label_PaisOrigen = new System.Windows.Forms.Label();
             this.button_Save = new System.Windows.Forms.Button();
             this.Button_Clean = new System.Windows.Forms.Button();
             this.Box_FecNac = new System.Windows.Forms.DateTimePicker();
             this.label_FechaNacimiento = new System.Windows.Forms.Label();
-            this.label_PaisOrigen = new System.Windows.Forms.Label();
-            this.ComboBox_PaisOrigen = new System.Windows.Forms.ComboBox();
-            this.checkBox_Habilitado = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -92,7 +92,7 @@
             this.textBox_Apellido.Location = new System.Drawing.Point(103, 78);
             this.textBox_Apellido.Name = "textBox_Apellido";
             this.textBox_Apellido.Size = new System.Drawing.Size(250, 20);
-            this.textBox_Apellido.TabIndex = 3;
+            this.textBox_Apellido.TabIndex = 2;
             // 
             // label_NroDocumento
             // 
@@ -108,7 +108,7 @@
             this.textBox_DNI.Location = new System.Drawing.Point(103, 189);
             this.textBox_DNI.Name = "textBox_DNI";
             this.textBox_DNI.Size = new System.Drawing.Size(250, 20);
-            this.textBox_DNI.TabIndex = 8;
+            this.textBox_DNI.TabIndex = 4;
             // 
             // label_Calle
             // 
@@ -124,7 +124,7 @@
             this.textBox_Calle.Location = new System.Drawing.Point(524, 26);
             this.textBox_Calle.Name = "textBox_Calle";
             this.textBox_Calle.Size = new System.Drawing.Size(250, 20);
-            this.textBox_Calle.TabIndex = 9;
+            this.textBox_Calle.TabIndex = 8;
             // 
             // label_mail
             // 
@@ -156,7 +156,7 @@
             this.textBox_Telefono.Location = new System.Drawing.Point(524, 298);
             this.textBox_Telefono.Name = "textBox_Telefono";
             this.textBox_Telefono.Size = new System.Drawing.Size(250, 20);
-            this.textBox_Telefono.TabIndex = 15;
+            this.textBox_Telefono.TabIndex = 14;
             // 
             // label_TipoDoc
             // 
@@ -173,7 +173,7 @@
             this.ComboBox_TipoDoc.Location = new System.Drawing.Point(103, 133);
             this.ComboBox_TipoDoc.Name = "ComboBox_TipoDoc";
             this.ComboBox_TipoDoc.Size = new System.Drawing.Size(250, 21);
-            this.ComboBox_TipoDoc.TabIndex = 4;
+            this.ComboBox_TipoDoc.TabIndex = 3;
             // 
             // label_Altura
             // 
@@ -189,21 +189,21 @@
             this.textBox_Numero.Location = new System.Drawing.Point(524, 74);
             this.textBox_Numero.Name = "textBox_Numero";
             this.textBox_Numero.Size = new System.Drawing.Size(250, 20);
-            this.textBox_Numero.TabIndex = 17;
+            this.textBox_Numero.TabIndex = 9;
             // 
             // textBox_Piso
             // 
             this.textBox_Piso.Location = new System.Drawing.Point(524, 133);
             this.textBox_Piso.Name = "textBox_Piso";
             this.textBox_Piso.Size = new System.Drawing.Size(75, 20);
-            this.textBox_Piso.TabIndex = 19;
+            this.textBox_Piso.TabIndex = 10;
             // 
             // textBox_Departamento
             // 
             this.textBox_Departamento.Location = new System.Drawing.Point(699, 133);
             this.textBox_Departamento.Name = "textBox_Departamento";
             this.textBox_Departamento.Size = new System.Drawing.Size(75, 20);
-            this.textBox_Departamento.TabIndex = 20;
+            this.textBox_Departamento.TabIndex = 11;
             // 
             // label_Nacionalidad
             // 
@@ -236,8 +236,8 @@
             // 
             this.ComboBox_Localidad.Location = new System.Drawing.Point(524, 189);
             this.ComboBox_Localidad.Name = "ComboBox_Localidad";
-            this.ComboBox_Localidad.Size = new System.Drawing.Size(250, 20);
-            this.ComboBox_Localidad.TabIndex = 23;
+            this.ComboBox_Localidad.Size = new System.Drawing.Size(250, 21);
+            this.ComboBox_Localidad.TabIndex = 12;
             // 
             // label_Localidad
             // 
@@ -253,7 +253,7 @@
             this.textBox_Nacionalidad.Location = new System.Drawing.Point(103, 244);
             this.textBox_Nacionalidad.Name = "textBox_Nacionalidad";
             this.textBox_Nacionalidad.Size = new System.Drawing.Size(250, 20);
-            this.textBox_Nacionalidad.TabIndex = 26;
+            this.textBox_Nacionalidad.TabIndex = 5;
             // 
             // groupBox1
             // 
@@ -295,43 +295,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de Contacto";
             // 
-            // button_Save
+            // checkBox_Habilitado
             // 
-            this.button_Save.Location = new System.Drawing.Point(699, 357);
-            this.button_Save.Name = "button_Save";
-            this.button_Save.Size = new System.Drawing.Size(75, 23);
-            this.button_Save.TabIndex = 30;
-            this.button_Save.Text = "Guardar";
-            this.button_Save.UseVisualStyleBackColor = true;
-            this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
+            this.checkBox_Habilitado.AutoSize = true;
+            this.checkBox_Habilitado.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_Habilitado.Checked = true;
+            this.checkBox_Habilitado.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Habilitado.Location = new System.Drawing.Point(272, 362);
+            this.checkBox_Habilitado.Name = "checkBox_Habilitado";
+            this.checkBox_Habilitado.Size = new System.Drawing.Size(73, 17);
+            this.checkBox_Habilitado.TabIndex = 15;
+            this.checkBox_Habilitado.Text = "Habilitado";
+            this.checkBox_Habilitado.UseVisualStyleBackColor = true;
             // 
-            // Button_Clean
+            // ComboBox_PaisOrigen
             // 
-            this.Button_Clean.Location = new System.Drawing.Point(443, 357);
-            this.Button_Clean.Name = "Button_Clean";
-            this.Button_Clean.Size = new System.Drawing.Size(75, 23);
-            this.Button_Clean.TabIndex = 29;
-            this.Button_Clean.Text = "Limpiar";
-            this.Button_Clean.UseVisualStyleBackColor = true;
-            this.Button_Clean.Click += new System.EventHandler(this.Button_Clean_Click);
-            // 
-            // Box_FecNac
-            // 
-            this.Box_FecNac.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.Box_FecNac.Location = new System.Drawing.Point(103, 356);
-            this.Box_FecNac.Name = "Box_FecNac";
-            this.Box_FecNac.Size = new System.Drawing.Size(83, 20);
-            this.Box_FecNac.TabIndex = 13;
-            this.Box_FecNac.Value = new System.DateTime(2013, 11, 5, 0, 0, 0, 0);
-            // 
-            // label_FechaNacimiento
-            // 
-            this.label_FechaNacimiento.AutoSize = true;
-            this.label_FechaNacimiento.Location = new System.Drawing.Point(6, 362);
-            this.label_FechaNacimiento.Name = "label_FechaNacimiento";
-            this.label_FechaNacimiento.Size = new System.Drawing.Size(93, 13);
-            this.label_FechaNacimiento.TabIndex = 27;
-            this.label_FechaNacimiento.Text = "Fecha Nacimiento";
+            this.ComboBox_PaisOrigen.Location = new System.Drawing.Point(103, 298);
+            this.ComboBox_PaisOrigen.Name = "ComboBox_PaisOrigen";
+            this.ComboBox_PaisOrigen.Size = new System.Drawing.Size(250, 21);
+            this.ComboBox_PaisOrigen.TabIndex = 6;
             // 
             // label_PaisOrigen
             // 
@@ -342,25 +324,43 @@
             this.label_PaisOrigen.TabIndex = 31;
             this.label_PaisOrigen.Text = "Pais de Origen";
             // 
-            // ComboBox_PaisOrigen
+            // button_Save
             // 
-            this.ComboBox_PaisOrigen.Location = new System.Drawing.Point(103, 298);
-            this.ComboBox_PaisOrigen.Name = "ComboBox_PaisOrigen";
-            this.ComboBox_PaisOrigen.Size = new System.Drawing.Size(250, 20);
-            this.ComboBox_PaisOrigen.TabIndex = 32;
+            this.button_Save.Location = new System.Drawing.Point(699, 357);
+            this.button_Save.Name = "button_Save";
+            this.button_Save.Size = new System.Drawing.Size(75, 23);
+            this.button_Save.TabIndex = 16;
+            this.button_Save.Text = "Guardar";
+            this.button_Save.UseVisualStyleBackColor = true;
+            this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
             // 
-            // checkBox_Habilitado
+            // Button_Clean
             // 
-            this.checkBox_Habilitado.AutoSize = true;
-            this.checkBox_Habilitado.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox_Habilitado.Checked = true;
-            this.checkBox_Habilitado.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Habilitado.Location = new System.Drawing.Point(272, 362);
-            this.checkBox_Habilitado.Name = "checkBox_Habilitado";
-            this.checkBox_Habilitado.Size = new System.Drawing.Size(73, 17);
-            this.checkBox_Habilitado.TabIndex = 34;
-            this.checkBox_Habilitado.Text = "Habilitado";
-            this.checkBox_Habilitado.UseVisualStyleBackColor = true;
+            this.Button_Clean.Location = new System.Drawing.Point(443, 357);
+            this.Button_Clean.Name = "Button_Clean";
+            this.Button_Clean.Size = new System.Drawing.Size(75, 23);
+            this.Button_Clean.TabIndex = 17;
+            this.Button_Clean.Text = "Limpiar";
+            this.Button_Clean.UseVisualStyleBackColor = true;
+            this.Button_Clean.Click += new System.EventHandler(this.Button_Clean_Click);
+            // 
+            // Box_FecNac
+            // 
+            this.Box_FecNac.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.Box_FecNac.Location = new System.Drawing.Point(103, 356);
+            this.Box_FecNac.Name = "Box_FecNac";
+            this.Box_FecNac.Size = new System.Drawing.Size(83, 20);
+            this.Box_FecNac.TabIndex = 7;
+            this.Box_FecNac.Value = new System.DateTime(2013, 11, 5, 0, 0, 0, 0);
+            // 
+            // label_FechaNacimiento
+            // 
+            this.label_FechaNacimiento.AutoSize = true;
+            this.label_FechaNacimiento.Location = new System.Drawing.Point(6, 362);
+            this.label_FechaNacimiento.Name = "label_FechaNacimiento";
+            this.label_FechaNacimiento.Size = new System.Drawing.Size(93, 13);
+            this.label_FechaNacimiento.TabIndex = 27;
+            this.label_FechaNacimiento.Text = "Fecha Nacimiento";
             // 
             // UserControl_Huesped
             // 

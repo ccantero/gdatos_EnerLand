@@ -40,7 +40,7 @@ namespace FrbaHotel.ABM_de_Cliente
             Calle = "";
             Numero = -1;
             Piso = -1;
-            Departamento = '1';
+            Departamento = '\0';
             Telefono = 0;
             Mail = "";
             idLocalidad = -1;
