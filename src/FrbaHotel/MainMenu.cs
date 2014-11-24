@@ -12,39 +12,101 @@ namespace FrbaHotel
     public partial class MainMenu : UserControl
     {
         public Form parentForm;
+        public int actualUser = 2;  /* Usuario Guest */
+        
         public MainMenu(Form parent)
         {
             this.parentForm = parent;
             InitializeComponent();
+            actualUser = 2;
         }
 
         private void menu_Load(object sender, EventArgs e)
         {
-            User testUser = new User(1);
+            CargarPermisos();            
+        }
 
+        public void CargarPermisos()
+        {
+            User testUser = new User(actualUser);
+            
+            // Se ocultan todos los Menu.
+            foreach (ToolStripItem X in this.menuStrip1.Items)
+            {
+                X.Visible = false;
+                if (X.Name == "ingresarToolStripMenuItem")
+                    X.Visible = true;
+            }
+            
             int[] permissions = testUser.getUserPermissions();
             int i = 0;
             while (i < permissions.Length)
             {
                 switch (permissions[i])
                 {   // ABM usuario
-                    case 1: { gestionarUsuariosToolStripMenuItem.Visible = true; break; }
+                    case 1:
+                        {
+                            usuariosToolStripMenuItem.Visible = true;
+                            gestionarUsuariosToolStripMenuItem.Visible = true;
+                            break;
+                        }
                     // ABM Huesped
-                    case 2: { gestionarHuespedesToolStripMenuItem.Visible = true; break; }
-                    // ABM Hotel
-                    case 3: { gestionarHotelesToolStripMenuItem.Visible = true; break; }
-                    // ABM Habitacion
-                    case 4: {   break; }
+                    case 2:
+                        {
+                            huespedesToolStripMenuItem.Visible = true;
+                            gestionarHuespedesToolStripMenuItem.Visible = true;
+                            break;
+                        }
+                    // ABM Hotel y ABM Habitacion
+                    case 3:
+                        {
+                            hotelesToolStripMenuItem.Visible = true;
+                            gestionarHotelesToolStripMenuItem.Visible = true;
+                            break;
+                        }
                     // Generar Reserva
-                    case 5: { generarReservaToolStripMenuItem.Visible = true; break; }
+                    case 4:
+                        {
+                            reservasToolStripMenuItem.Visible = true;
+                            generarReservaToolStripMenuItem.Visible = true;
+                            break;
+                        }
+                    // Modificar Reserva
+                    case 5:
+                        {
+                            reservasToolStripMenuItem.Visible = true;
+                            modificarReservaToolStripMenuItem.Visible = true;
+                            break;
+                        }
                     // Cancelar Reserva
-                    case 6: { cancelarReservaToolStripMenuItem.Visible = true; break; }
+                    case 6:
+                        {
+                            reservasToolStripMenuItem.Visible = true;
+                            cancelarReservaToolStripMenuItem.Visible = true;
+                            break;
+                        }
                     // Registrar Estadia
-                    case 7: { registrarIngresoToolStripMenuItem.Visible = true; break; }
+                    case 7:
+                        {
+                            estadiasToolStripMenuItem.Visible = true;
+                            registrarIngresoToolStripMenuItem.Visible = true;
+                            registrarCheckoutToolStripMenuItem.Visible = true;
+                            break;
+                        }
                     //Registrar Consumible
-                    case 8: { registrarConsumiblesToolStripMenuItem.Visible = true; break; }
+                    case 8:
+                        {
+                            estadiasToolStripMenuItem.Visible = true;
+                            registrarConsumiblesToolStripMenuItem.Visible = true;
+                            break;
+                        }
                     //Facturar
-                    case 9: { facturarEstadíasToolStripMenuItem.Visible = true; break; }
+                    case 9:
+                        {
+                            estadiasToolStripMenuItem.Visible = true;
+                            facturarEstadíasToolStripMenuItem.Visible = true;
+                            break;
+                        }
                     //Estadisticas
                     case 10: { estadísticasToolStripMenuItem.Visible = true; break; }
                 }
@@ -62,12 +124,6 @@ namespace FrbaHotel
         {
             ABM_de_Rol.GestionRoles formRol = new FrbaHotel.ABM_de_Rol.GestionRoles(parentForm);
             formRol.Show();
-        }
-
-        private void ingresarToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Login.LoginForm formLogin = new FrbaHotel.Login.LoginForm(parentForm);
-            formLogin.Show();
         }
 
         private void generarReservaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -91,5 +147,11 @@ namespace FrbaHotel
             formHuesped.Show();
         }
 
+        private void ingresarToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            Login.LoginForm formLogin = new FrbaHotel.Login.LoginForm(parentForm);
+            formLogin.Visible = true;
+        }
+        
    }
 }

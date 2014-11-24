@@ -45,7 +45,7 @@
             this.botonCancelar.TabIndex = 11;
             this.botonCancelar.Text = "Cancelar";
             this.botonCancelar.UseVisualStyleBackColor = true;
-            this.botonCancelar.Click += new System.EventHandler(this.botonCancelar_Click_1);
+            this.botonCancelar.Click += new System.EventHandler(this.botonCancelar_Click);
             // 
             // botonAceptar
             // 
@@ -55,7 +55,7 @@
             this.botonAceptar.TabIndex = 10;
             this.botonAceptar.Text = "Aceptar";
             this.botonAceptar.UseVisualStyleBackColor = true;
-            this.botonAceptar.Click += new System.EventHandler(this.botonAceptar_Click_1);
+            this.botonAceptar.Click += new System.EventHandler(this.botonAceptar_Click);
             // 
             // contraseña
             // 
@@ -104,6 +104,7 @@
             this.Name = "LoginForm";
             this.Text = "EnerLand - Inicio de Sesión";
             this.Load += new System.EventHandler(this.LoginForm_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

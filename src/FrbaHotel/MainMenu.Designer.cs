@@ -182,6 +182,7 @@ namespace FrbaHotel
             this.ingresarToolStripMenuItem.Name = "ingresarToolStripMenuItem";
             this.ingresarToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.ingresarToolStripMenuItem.Text = "Ingresar";
+            this.ingresarToolStripMenuItem.Click += new System.EventHandler(this.ingresarToolStripMenuItem_Click_1);
             // 
             // menuStrip1
             // 

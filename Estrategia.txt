@@ -32,3 +32,5 @@ Notas, Decisiones de Diseño e Implementación:
 	* D.N.I
 	* C.I.
 	* Pasaporte
+
+* El ABM de Hoteles y ABM de Habitaciones se unen en una unica funcionalidad.

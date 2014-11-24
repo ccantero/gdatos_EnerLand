@@ -14,13 +14,13 @@ namespace FrbaHotel.Login
     public partial class LoginForm : Form
     {
         public Form MenuPrincipal;
+        const string single_quote = "\'";
 
         public LoginForm(Form parentForm)
         {
             InitializeComponent();
             MenuPrincipal = parentForm;
-            //MenuPrincipal.Visible = false;
-            //this.ShowDialog();
+            MenuPrincipal.Visible = false;
         }
 
         // Metodo para encriptacion de contraseña
@@ -39,71 +39,68 @@ namespace FrbaHotel.Login
         }
 
         // Metodo para deshabilitar usuario
-        private void deshabilitarUsuario(string usuario)//, SqlConnection conexion)
+        private void deshabilitarUsuario(string usuario)
         {
-            /*SqlCommand comando = new SqlCommand("ORACLE_FANS.deshabilitar_usuario", conexion);
-            comando.CommandType = CommandType.StoredProcedure;
-            comando.Parameters.Add("@user_name", SqlDbType.VarChar, 10).Value = usuario;
-            comando.ExecuteReader();*/
+            string query_str =  "UPDATE ENER_LAND.Usuario " + 
+                                "SET Habilitado = 0 " +
+                                "WHERE username = " + single_quote + usuario + single_quote;
+            DbResultSet unResultSet = DbManager.dbSqlStatementExec(query_str);
+            if (unResultSet.operationState == 1)
+                MessageBox.Show("No se pudo deshabilitar el Usuario. Falla en la BD");
         }
 
         // Metodo para registrar login invalido
-        private void registrarLoginInvalido(string usuario)//, SqlConnection conexion)
+        private void registrarLoginInvalido(string usuario)//
         {
-            /*SqlCommand comando = new SqlCommand("ORACLE_FANS.intentos_fallidos", conexion);
-            comando.CommandType = CommandType.StoredProcedure;
-            comando.Parameters.Add("@user_name", SqlDbType.VarChar, 10).Value = usuario;
-            comando.ExecuteReader();*/
+            string query_str = "UPDATE ENER_LAND.Usuario " +
+                                "SET intentosFallidos = intentosFallidos + 1 " +
+                                "WHERE username = " + single_quote + usuario + single_quote;
+
+            DbResultSet unResultSet = DbManager.dbSqlStatementExec(query_str);
+            if (unResultSet.operationState == 1)
+                MessageBox.Show("No se pudo registrar intento Fallido de Login. Falla en la BD");
         }
-        
-        private void LoginForm_FormClosing(object sender, EventArgs e) // Método en caso de Boton Cerrar
+
+        // Metodo para registrar login correcto
+        private void registrarLoginCorrecto(int idUsuario)//
+        {
+            string query_str = "UPDATE ENER_LAND.Usuario " +
+                                "SET intentosFallidos = 0 " +
+                                "WHERE idUsuario = " + idUsuario.ToString();
+
+            DbResultSet unResultSet = DbManager.dbSqlStatementExec(query_str);
+            if (unResultSet.operationState == 1)
+                MessageBox.Show("No se pudo registrar intento correcto de Login. Falla en la BD");
+        }
+
+        private void botonCancelar_Click(object sender, EventArgs e)
         {
             MenuPrincipal.Show();
             this.Dispose();
         }
 
-        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MenuPrincipal.Show();
-            this.Dispose();
-        }
-
-        private void botonCancelar_Click_1(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void botonAceptar_Click_1(object sender, EventArgs e)
+        private void botonAceptar_Click(object sender, EventArgs e)
         {
             // Variable para determinar si el login fue correcto o no
             bool errorLogin = false;
             try
             {
-
                 String query;
-
 
                 if (this.usuario.Text.Length == 0) errorLogin = true;
                 if (this.contraseña.Text.Length == 0) errorLogin = true;
 
                 if (errorLogin == false)
                 {
-                    query = " SELECT U.IdUsuario, U.Nombre, U.Apellido, U.Habilitado, ROL.idRol" +
+                    query = " SELECT U.IdUsuario, U.Contraseña, U.Habilitado, ROL.idRol, U.intentosfallidos" +
                             " FROM ENER_LAND.Usuario U" +
                             " JOIN ENER_LAND.Rol_Usuario RU " +
                             "      ON RU.IdUsuario = U.IdUsuario " +
                             " JOIN ENER_LAND.Rol ROL " +
                             "      ON ROL.IdRol = RU.IdRol " +
-                            " WHERE U.username = " + this.usuario.Text +
-                            " AND U.Contraseña = " + encriptar(this.contraseña.Text);
+                            " WHERE U.username = " + single_quote + this.usuario.Text + single_quote;
 
                     DbResultSet rs = DbManager.GetDataTable(query);
-                    /*tbCalle.Text = rs.dataTable.Rows[0].Field<String>(0);
-                    tbAltura.Text = rs.dataTable.Rows[0].Field<Int32>(1).ToString();
-                    tbMail.Text = rs.dataTable.Rows[0].Field<String>(2);
-                    tbTelefono.Text = rs.dataTable.Rows[0].Field<Int32>(3).ToString();
-                    dtpFechaCreacion.Value = rs.dataTable.Rows[0].Field<DateTime>(4);*/
-
 
                     if (rs.dataTable.Rows.Count == 0)
                     {
@@ -113,53 +110,42 @@ namespace FrbaHotel.Login
                     else
                     {
                         // El usuario existe
-                        String idUsuario = rs.dataTable.Rows[0].Field<Int32>(0).ToString();
-                        MessageBox.Show("idUsuario:" + idUsuario);
-                        MessageBox.Show("Habilitado:" + rs.dataTable.Rows[0]["Habilitado"].ToString());
-                        /*if (ds.Tables["Usuarios"].Rows[0]["estado"].ToString().Trim().Equals("False"))
-                        {
-                            // Usuario no activo
-                            MessageBox.Show("El usuario con el que desea ingresar esta inhabilitado.", "Usuario Inhabilitado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            this.contraseña.Text = "";
-                            this.usuario.Text = "";
-                            this.usuario.Select();
-                            return;
+                        int idUsuario = Convert.ToInt32(rs.dataTable.Rows[0]["idUsuario"].ToString().Trim());
+                        String Password = rs.dataTable.Rows[0]["Contraseña"].ToString().Trim();
+                        Boolean habilitado;
+                        int intentos_fallidos = Convert.ToInt32(rs.dataTable.Rows[0]["intentosFallidos"].ToString().Trim());
 
-                        }
-
-                        if (ds.Tables["Usuarios"].Rows[0]["usuario_intentos_fallidos"].ToString().Equals("0"))
-                        {
-                            // Es la cuarta vez que se intenta iniciar sesion
-                            this.deshabilitarUsuario(this.usuario.Text, myConnection);
-                            MessageBox.Show("Ud. ha sido bloqueado, comuniquese con su administrador para que lo desbloquee.", "Usuario bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            //errorLogin = true;
-                            //return;
-                        }
+                        if (rs.dataTable.Rows[0]["Habilitado"].ToString().Trim().Equals("1"))
+                            habilitado = true;
                         else
-                        {
-                            // Intento valido de inicio de sesion
-                            if (ds.Tables["Usuarios"].Rows[0]["password"].ToString() == encriptar(this.contraseña.Text))
-                            {
-                                // La contraseña es correcta
-                                //this.Visible = false;
-                                int idRol = Convert.ToInt32(ds.Tables["Usuarios"].Rows[0]["id_Rol"].ToString());
-                                int numero_documento = -1;
-                                if (idRol != 2)
-                                {
-                                    numero_documento = Convert.ToInt32(ds.Tables["Usuarios"].Rows[0]["username"].ToString());
-                                }
+                            habilitado = false;
 
-                                menu.SetRol(idRol, numero_documento);
+                        if (habilitado)
+                        {
+                            if (Password.Equals(encriptar(this.contraseña.Text.Trim()).Trim()))
+                            {
+                                ((MainForm)MenuPrincipal).UserControl_MainMenu.actualUser = 1;
+                                ((MainForm)MenuPrincipal).UserControl_MainMenu.CargarPermisos();
+                                registrarLoginCorrecto(idUsuario);
+                                MenuPrincipal.Visible = true;
                                 this.Dispose();
-                                return;
                             }
                             else
                             {
-                                // La contraseña es incorrecta
+                                if (intentos_fallidos == 3)
+                                {
+                                    MessageBox.Show("Ud. ha sido bloqueado, comuniquese con su administrador para que lo desbloquee.", "Usuario bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    deshabilitarUsuario(this.usuario.Text);
+                                }
+
+                                registrarLoginInvalido(this.usuario.Text);
                                 errorLogin = true;
-                                this.registrarLoginInvalido(this.usuario.Text, myConnection);
                             }
-                        }*/
+                        }
+                        else
+                        {
+                            MessageBox.Show("El usuario con el que desea ingresar esta inhabilitado.", "Usuario Inhabilitado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
                 }
 
@@ -175,10 +161,6 @@ namespace FrbaHotel.Login
             {
                 MessageBox.Show("Error en la aplicación: " + excepcion.Message);
             }
-            finally
-            {
-
-            }
         }
 
         private void LoginForm_Load(object sender, EventArgs e)
@@ -187,7 +169,12 @@ namespace FrbaHotel.Login
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            MenuPrincipal.Hide();
+        }
+
+        private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MenuPrincipal.Show();
+            this.Dispose();
         }
     }
     

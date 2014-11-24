@@ -42,6 +42,7 @@ CREATE TABLE ENER_LAND.Usuario (
   Telefono INTEGER NULL,
   Tipo VARCHAR(50) NULL,
   Documento INTEGER NULL,
+  intentosFallidos INT NOT NULL,
   Habilitado CHAR NOT NULL,
   PRIMARY KEY(idUsuario)
 );
@@ -342,18 +343,18 @@ INSERT [ENER_LAND].[Rol] ([Descripcion], [Habilitado]) VALUES ('Guest', 1);
 
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Usuario');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Huesped');
-INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Hotel');
-INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Habitacion');
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Hotel y Habitacion');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Generar Reserva');
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Modificar Reserva');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Cancelar Reserva');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Registrar Estadia');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Registrar Consumible');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Facturar');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Estadisticas');	
 
-INSERT [ENER_LAND].[Usuario] ([username], [Contraseña], [Habilitado]) VALUES ('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 1);
+INSERT [ENER_LAND].[Usuario] ([username], [Contraseña], [intentosFallidos], [Habilitado]) VALUES ('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 0, 1);
 -- w23e encriptado en SHA256 es e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7
-INSERT [ENER_LAND].[Usuario] ([username], [Contraseña], [Habilitado]) VALUES ('guest', '280d44ab1e9f79b5cce2dd4f58f5fe91f0fbacdac9f7447dffc318ceb79f2d02', 1);
+INSERT [ENER_LAND].[Usuario] ([username], [Contraseña], [intentosFallidos], [Habilitado]) VALUES ('guest', '280d44ab1e9f79b5cce2dd4f58f5fe91f0fbacdac9f7447dffc318ceb79f2d02', 0, 1);
 -- welcome encriptado en SHA256 es 280d44ab1e9f79b5cce2dd4f58f5fe91f0fbacdac9f7447dffc318ceb79f2d02
 
 INSERT [ENER_LAND].[Rol_Usuario] ([idRol], [idUsuario]) VALUES (1, 1);
@@ -371,13 +372,14 @@ INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 9
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (1, 10);
 
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 2);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 4);
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 5);
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 6);
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 7);
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 8);
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (2, 9);
 
-INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (3, 2);
+INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (3, 4);
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (3, 5);
 INSERT [ENER_LAND].[Rol_Funcionalidad] ([idRol], [idFuncionalidad]) VALUES (3, 6);
 
