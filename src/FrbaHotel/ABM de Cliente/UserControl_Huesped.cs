@@ -20,7 +20,6 @@ namespace FrbaHotel.ABM_de_Cliente
         public UserControl_Huesped(Form Parent)
         {
             InitializeComponent();
-            CargarTipoDoc();
             flag_Modificacion = false;
             FormPadre = Parent;
             CargarTipoDoc();
@@ -129,7 +128,7 @@ namespace FrbaHotel.ABM_de_Cliente
 
             return;
         }
-       
+
         private void button_Save_Click(object sender, EventArgs e)
         {
             Huesped nuevoHuesped = new Huesped();

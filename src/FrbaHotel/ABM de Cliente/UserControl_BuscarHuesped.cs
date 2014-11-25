@@ -22,6 +22,14 @@ namespace FrbaHotel.ABM_de_Cliente
             flag_deletion = false;
         }
 
+        private void UserControl_BuscarHuesped_Load(object sender, EventArgs e)
+        {
+            this.comboBox_TipoDocumento.Items.Clear();
+            this.comboBox_TipoDocumento.Items.Add("C.I.");
+            this.comboBox_TipoDocumento.Items.Add("D.N.I");
+            this.comboBox_TipoDocumento.Items.Add("Pasaporte");
+        }
+        
         private void button_search_Click(object sender, EventArgs e)
         {   
             DbResultSet rs;
@@ -58,10 +66,12 @@ namespace FrbaHotel.ABM_de_Cliente
                                 "WHERE Nombre LIKE '%" + this.textBox_nombre.Text.Trim() + "%' " +
                                 "AND Apellido LIKE '%" + this.textBox_apellido.Text.Trim() + "%' " +
                                 "AND Tipo_Documento LIKE '%" + this.comboBox_TipoDocumento.Text.Trim() + "%' " +
-                                "AND Nro_Documento LIKE '%" + this.textbox_NroDocumento.Text.Trim() + "%' " +
                                 "AND ( Mail LIKE '%" + this.textBox_Mail.Text.Trim() + "%' " +
                                       "OR Mail_Alternativo LIKE '%" + this.textBox_Mail.Text.Trim() + "%' " +
                                 ")";
+
+            if (!this.textbox_NroDocumento.Text.Trim().Equals(""))
+                myQuery = myQuery + " AND Nro_Documento = " + this.textbox_NroDocumento.Text.Trim();
 
             if (flag_deletion)
                 myQuery = myQuery + " AND Habilitado = 1";
@@ -212,5 +222,19 @@ namespace FrbaHotel.ABM_de_Cliente
             }
 
         }
+
+        private void button_clean_Click(object sender, EventArgs e)
+        {
+            foreach (Control X in this.groupBox1.Controls)
+            {
+                if (X is TextBox)
+                {
+                    (X as TextBox).Text = string.Empty;
+                }
+            }
+
+        }
+
+        
     }
 }

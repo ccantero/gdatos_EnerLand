@@ -176,6 +176,7 @@ namespace FrbaHotel
             this.gestionarUsuariosToolStripMenuItem.Name = "gestionarUsuariosToolStripMenuItem";
             this.gestionarUsuariosToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.gestionarUsuariosToolStripMenuItem.Text = "Gestionar usuarios";
+            this.gestionarUsuariosToolStripMenuItem.Click += new System.EventHandler(this.gestionarUsuariosToolStripMenuItem_Click);
             // 
             // ingresarToolStripMenuItem
             // 

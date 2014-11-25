@@ -97,12 +97,25 @@
     <Compile Include="ABM de Rol\UserControl_BuscarRol.Designer.cs">
       <DependentUpon>UserControl_BuscarRol.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM de Usuario\Form1.cs">
+    <Compile Include="ABM de Usuario\GestionUsuarios.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM de Usuario\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ABM de Usuario\GestionUsuarios.Designer.cs">
+      <DependentUpon>GestionUsuarios.cs</DependentUpon>
     </Compile>
+    <Compile Include="ABM de Usuario\UserControl_BuscarUsuario.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ABM de Usuario\UserControl_BuscarUsuario.Designer.cs">
+      <DependentUpon>UserControl_BuscarUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM de Usuario\UserControl_Usuario.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ABM de Usuario\UserControl_Usuario.Designer.cs">
+      <DependentUpon>UserControl_Usuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM de Usuario\Usuario.cs" />
     <Compile Include="Cancelar Reserva\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +141,12 @@
     </Compile>
     <Compile Include="Login\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\RolSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\RolSelectionForm.Designer.cs">
+      <DependentUpon>RolSelectionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -165,12 +184,24 @@
     <EmbeddedResource Include="ABM de Rol\UserControl_BuscarRol.resx">
       <DependentUpon>UserControl_BuscarRol.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Usuario\GestionUsuarios.resx">
+      <DependentUpon>GestionUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Usuario\UserControl_BuscarUsuario.resx">
+      <DependentUpon>UserControl_BuscarUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Usuario\UserControl_Usuario.resx">
+      <DependentUpon>UserControl_Usuario.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Generar Modificar Reserva\Reserva.resx">
       <DependentUpon>Reserva.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\RolSelectionForm.resx">
+      <DependentUpon>RolSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

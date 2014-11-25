@@ -34,14 +34,21 @@ CREATE TABLE ENER_LAND.Rol_Funcionalidad (
 
 CREATE TABLE ENER_LAND.Usuario (
   idUsuario	INTEGER IDENTITY(1,1),
-  username VARCHAR(20) NOT NULL,
+  username VARCHAR(20) UNIQUE NOT NULL,
   Contraseña VARCHAR(100) NOT NULL,
   Nombre VARCHAR(50) NULL,
   Apellido VARCHAR(50) NULL,
+  Tipo_Documento VARCHAR(50) NULL,
+  Nro_Documento INTEGER NULL,
   Mail VARCHAR(50) NULL,
   Telefono INTEGER NULL,
-  Tipo VARCHAR(50) NULL,
-  Documento INTEGER NULL,
+  Calle VARCHAR(50) NULL,
+  Numero INTEGER NULL,
+  Piso INTEGER NULL,
+  Departamento CHAR NULL,
+  idLocalidad INTEGER NULL,
+  idPais INTEGER NULL,
+  Fecha_Nacimiento DATE NULL,
   intentosFallidos INT NOT NULL,
   Habilitado CHAR NOT NULL,
   PRIMARY KEY(idUsuario)
@@ -129,7 +136,6 @@ CREATE TABLE ENER_LAND.Hotel (
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
 );
-
 
 CREATE TABLE ENER_LAND.Habitacion (
   Numero INTEGER NOT NULL,
@@ -572,6 +578,7 @@ FROM ENER_LAND.Factura f
 
 /* STORE PROCEDURES */
 GO
+
 CREATE PROCEDURE ENER_LAND.Agregar_Rol
 (
 	@NombreRol	VARCHAR(25),
@@ -727,4 +734,95 @@ AS
 				SET idPais = @idPais
 			WHERE idHuesped = @idHuesped
 		END			
+GO
+
+
+CREATE PROCEDURE ENER_LAND.Agregar_Usuario
+(
+	@username VARCHAR(20),
+	@contraseña VARCHAR(100),
+	@Nombre VARCHAR(50),
+	@Apellido VARCHAR(50),
+	@Tipo_Documento VARCHAR(50),
+	@Nro_Documento INTEGER,
+	@Mail VARCHAR(50),
+	@Telefono INTEGER,
+	@Calle VARCHAR(50),
+	@Numero INTEGER,
+	@Piso INTEGER,
+	@Departamento CHAR,
+	@idLocalidad INTEGER,
+	@idPais INTEGER,
+	@Fecha_Nacimiento DATE,
+	@Habilitado INT
+)
+AS 
+	DECLARE @idUsuario INTEGER
+
+	IF NOT EXISTS(SELECT 1 FROM ENER_LAND.Usuario WHERE username=@username)
+	BEGIN	
+		INSERT INTO [ENER_LAND].[Usuario] 
+		([username],[Contraseña],[Nombre],[Apellido],[Tipo_Documento],[Nro_Documento],[Mail],[Telefono],[Calle],[Numero],[Piso],[Departamento],[Fecha_Nacimiento], [intentosFallidos],[Habilitado]) 
+		VALUES (@username,@contraseña,@Nombre,@Apellido,@Tipo_Documento,@Nro_Documento,@Mail,@Telefono,@Calle,@Numero,@Piso,@Departamento,@Fecha_Nacimiento,0,@Habilitado);
+
+		SET @idUsuario = @@IDENTITY
+
+		IF @idLocalidad <> -1
+			BEGIN
+				UPDATE [ENER_LAND].[Usuario] 
+					SET idLocalidad = @idLocalidad
+				WHERE idUsuario = @idUsuario
+			END
+
+		IF @idPais <> -1
+			BEGIN
+				UPDATE [ENER_LAND].[Usuario] 
+					SET idPais = @idPais
+				WHERE idUsuario = @idUsuario
+			END
+			
+		RETURN @idUsuario			
+	END
+ELSE
+	RAISERROR('Username is not UNIQUE',16,1)
+	RETURN -1
+GO
+
+CREATE PROCEDURE ENER_LAND.Modificar_Usuario
+(
+	@idUsuario INTEGER,
+	@contraseña VARCHAR(100),
+	@Nombre VARCHAR(50),
+	@Apellido VARCHAR(50),
+	@Tipo_Documento VARCHAR(50),
+	@Nro_Documento INTEGER,
+	@Mail VARCHAR(50),
+	@Telefono INTEGER,
+	@Calle VARCHAR(50),
+	@Numero INTEGER,
+	@Piso INTEGER,
+	@Departamento CHAR,
+	@idLocalidad INTEGER,
+	@idPais INTEGER,
+	@Fecha_Nacimiento DATE,
+	@Habilitado INT
+)
+AS 
+	UPDATE ENER_LAND.Usuario
+		SET Contraseña = @contraseña,
+			Nombre = @Nombre,
+			Apellido = @Apellido,
+			Tipo_Documento = @Tipo_Documento,
+			Nro_Documento = @Nro_Documento,
+			Mail = @Mail,
+			Telefono = @Telefono,
+			Calle = @Calle,
+			Numero = @Numero,
+			Piso = @Piso,
+			Departamento = @Departamento,
+			idLocalidad = @idLocalidad,
+			idPais = @idPais,
+			Fecha_Nacimiento = @Fecha_Nacimiento
+	WHERE idUsuario = @idUsuario;
+		
 GO

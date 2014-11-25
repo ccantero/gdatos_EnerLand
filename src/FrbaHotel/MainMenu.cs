@@ -13,6 +13,7 @@ namespace FrbaHotel
     {
         public Form parentForm;
         public int actualUser = 2;  /* Usuario Guest */
+        public int actualRol = 3;  /* Rol Guest */
         
         public MainMenu(Form parent)
         {
@@ -28,7 +29,7 @@ namespace FrbaHotel
 
         public void CargarPermisos()
         {
-            User testUser = new User(actualUser);
+            User testUser = new User(actualUser, actualRol);
             
             // Se ocultan todos los Menu.
             foreach (ToolStripItem X in this.menuStrip1.Items)
@@ -151,6 +152,12 @@ namespace FrbaHotel
         {
             Login.LoginForm formLogin = new FrbaHotel.Login.LoginForm(parentForm);
             formLogin.Visible = true;
+        }
+
+        private void gestionarUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ABM_de_Usuario.GestionUsuarios formUsuario = new FrbaHotel.ABM_de_Usuario.GestionUsuarios(parentForm);
+            formUsuario.Visible = true;
         }
         
    }
