@@ -113,6 +113,9 @@ namespace FrbaHotel
                 }
                 i++;
             }
+
+            if (actualUser != 2)
+                this.ingresarToolStripMenuItem.Text = "Logout";
         }
 
         private void gestionarHotelesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -150,6 +153,14 @@ namespace FrbaHotel
 
         private void ingresarToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
+            if (actualUser != 2)
+            {
+                actualUser = 2;
+                actualRol = 3;
+                CargarPermisos();
+                this.ingresarToolStripMenuItem.Text = "Ingresar";
+                return;
+            }
             Login.LoginForm formLogin = new FrbaHotel.Login.LoginForm(parentForm);
             formLogin.Visible = true;
         }

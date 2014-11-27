@@ -431,7 +431,7 @@ namespace FrbaHotel
                 {
                     cmd.ExecuteNonQuery();
                     int resultado = Convert.ToInt32(ValorDeRetorno.SqlValue.ToString());
-                    if (resultado != 0)
+                    if (resultado == -1)
                         return -1;
 
                     return resultado;

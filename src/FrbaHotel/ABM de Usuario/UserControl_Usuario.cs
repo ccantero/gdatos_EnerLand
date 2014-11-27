@@ -12,10 +12,12 @@ namespace FrbaHotel.ABM_de_Usuario
     public partial class UserControl_Usuario : UserControl
     {
         public Boolean flag_Modificacion;
+        public Boolean cambiar_contraseña;
         public Usuario Usuario_A_Modificar;
         public static DataTable TablaLocalidades;
         public static DataTable TablaPaises;
         public static DataTable TablaRoles;
+        public static DataTable TablaRolUsuario;
         private Form FormPadre;
         
         public UserControl_Usuario(Form Parent)
@@ -29,6 +31,7 @@ namespace FrbaHotel.ABM_de_Usuario
             CargarRoles();
 
             this.checkBox_Habilitado.Enabled = false;
+            cambiar_contraseña = true;
         }
 
         private void CargarTipoDoc()
@@ -86,6 +89,8 @@ namespace FrbaHotel.ABM_de_Usuario
             flag_Modificacion = true;
             Usuario_A_Modificar = unUsuario;
             this.checkBox_Habilitado.Enabled = true;
+            this.textBox_Usuario.Enabled = false;
+            
 
             if (unUsuario.idLocalidad != -1)
             {
@@ -132,7 +137,30 @@ namespace FrbaHotel.ABM_de_Usuario
 
             this.ComboBox_FecNac.Value = unUsuario.Fecha_Nacimiento;
 
+            string query_str = "SELECT * FROM ENER_LAND.Rol_Usuario WHERE idUsuario = " + unUsuario.idUsuario.ToString();
+            DbResultSet rs;
 
+            rs = DbManager.GetDataTable(query_str);
+            if (rs.operationState == 1)
+            {
+                MessageBox.Show("ERROR al cargar roles para este usuario");
+                ((GestionUsuarios)FormPadre).Load_Menu();
+                this.Dispose();
+                return;
+            }
+
+            TablaRolUsuario = rs.dataTable;
+
+            foreach (DataRow Row in TablaRolUsuario.Rows)
+            {
+                int idRol = Convert.ToInt32(Row["idRol"]);
+                DataRow[] Rows = TablaRoles.Select("idRol = '" + idRol.ToString() + "'");
+                String Rol_Description = Rows[0]["Descripcion"].ToString().Trim();
+                int index = checkedListBox1.Items.IndexOf(Rol_Description);
+                checkedListBox1.SetItemChecked(index, true);
+            }
+
+            cambiar_contraseña = false;
         }
 
         private void CargarRoles()
@@ -191,7 +219,10 @@ namespace FrbaHotel.ABM_de_Usuario
             unUsuario.Nombre = textBox_Name.Text.Trim();
             unUsuario.Nro_Documento = Convert.ToInt32(textBox_DNI.Text.Trim());
             unUsuario.Numero = Convert.ToInt32(textBox_Numero.Text.Trim());
-            unUsuario.password = Login.LoginForm.encriptar(textBox_Contraseña.Text.Trim());
+            if (cambiar_contraseña)
+                unUsuario.password = Login.LoginForm.encriptar(textBox_Contraseña.Text.Trim());
+            else
+                unUsuario.password = Usuario_A_Modificar.password;
             
             if (!this.textBox_Piso.Text.Trim().Equals(""))
                 unUsuario.Piso = Convert.ToInt32(this.textBox_Piso.Text.Trim());
@@ -201,42 +232,66 @@ namespace FrbaHotel.ABM_de_Usuario
 
             unUsuario.username = textBox_Usuario.Text.Trim();
 
+            DbResultSet rs;
+            string query_str;
+            int idRol;
+
             if (!flag_Modificacion)
             {
                 int idUsuario = DbManager.Agregar_Usuario(unUsuario);
-                DbResultSet rs;
-
-                foreach (var Rol in this.checkedListBox1.CheckedItems)
-                {
-                    DataRow[] Rows = TablaRoles.Select("Descripcion = '" + Rol.ToString().Trim() + "'");
-                    int idRol;
-                    if (Rows.Length > 0)
-                    {
-                        idRol = Convert.ToInt32(Rows[0][0].ToString().Trim());
-                        string query_str =  "INSERT INTO ENER_LAND.Usuario ([idUsuario],[idRol]) " +
-                                            "VALUES( " + idUsuario.ToString() + ", " + idRol + ")";
-
-
-                        rs = DbManager.dbSqlStatementExec(query_str);
-                        if (rs.operationState == 1)
-                        {
-                            MessageBox.Show("Falló en la Base de Datos");
-                            // TODO: Borrar el Usuario creado.
-                            return;
-                        }
-                    }
-                }
+                unUsuario.idUsuario = idUsuario;
             }
             else
             {
                 unUsuario.idUsuario = Usuario_A_Modificar.idUsuario;
                 DbManager.Modificar_Huesped(unUsuario);
+
+                query_str = "DELETE FROM ENER_LAND.Rol_Usuario  " +
+                            "WHERE idUsuario = " + unUsuario.idUsuario.ToString();
+
+                rs = DbManager.dbSqlStatementExec(query_str);
+
+                if (rs.operationState == 1)
+                {
+                    MessageBox.Show("No se pudo Modificar el Rol para este Usuario. Posible fallo en la Base de Datos");
+                    return;
+                }
             }
 
+            foreach (var Rol in this.checkedListBox1.CheckedItems)
+            {
+                
+                DataRow[] Rows = TablaRoles.Select("Descripcion = '" + Rol.ToString().Trim() + "'");
+                
+                if (Rows.Length > 0)
+                {
+                    idRol = Convert.ToInt32(Rows[0][0].ToString().Trim());
+                    query_str = "INSERT INTO ENER_LAND.Rol_Usuario ([idUsuario],[idRol]) " +
+                                "VALUES( " + unUsuario.idUsuario.ToString() + ", " + idRol.ToString() + ")";
+
+
+                    rs = DbManager.dbSqlStatementExec(query_str);
+                    if (rs.operationState == 1)
+                    {
+                        MessageBox.Show("No se pudo ingresar el Rol para este Usuario. Posible fallo en la Base de Datos");
+                        query_str = "DELETE FROM ENER_LAND.Usuario WHERE idUsuario = " + unUsuario.idUsuario.ToString();
+                        rs = DbManager.dbSqlStatementExec(query_str);
+                        if (rs.operationState == 1)
+                        {
+                            MessageBox.Show("Falló en la Base de Datos");
+                        }
+                        return;
+                    }
+                }
+            }
 
             ((GestionUsuarios)FormPadre).Load_Menu();
 
-            MessageBox.Show("Usuario creado");
+        }
+
+        private void textBox_Contraseña_TextChanged(object sender, EventArgs e)
+        {
+            cambiar_contraseña = true;
         }
     
     }

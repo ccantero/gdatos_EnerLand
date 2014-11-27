@@ -217,6 +217,7 @@ namespace FrbaHotel.ABM_de_Usuario
 
             unUsuario.username = TablaUsuarios.Rows[fila]["username"].ToString();
 
+            unUsuario.password = TablaUsuarios.Rows[fila]["contraseña"].ToString();
             return unUsuario;
         }
     }
