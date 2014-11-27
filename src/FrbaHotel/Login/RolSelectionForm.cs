@@ -14,7 +14,7 @@ namespace FrbaHotel.Login
         private Form parentForm;
         private int idUsuario;
         private string[,] roles;
-        
+
         public RolSelectionForm(String Title, String Prompt, string[,] items, Form padre, int id_Usuario)
         {
             InitializeComponent();
@@ -22,20 +22,22 @@ namespace FrbaHotel.Login
             this.Text = Title;
             parentForm = padre;
 
-            for (int i = 0; i < roles.Length; i++)
+            roles = items;
+
+            for (int i = 0; i < roles.GetLength(0); i++)
 			{
                 this.comboBox1.Items.Add(roles[i, 1]);
 			}
             idUsuario = id_Usuario;
 
-            roles = items;
+            
         }
 
         private void button_Accept_Click(object sender, EventArgs e)
         {
             int idRol = -1;
-            
-            for (int i = 0; i < roles.Length; i++)
+
+            for (int i = 0; i < roles.GetLength(0); i++)
             {
                 if (roles[i, 1].Equals(this.comboBox1.Text.Trim()))
                     idRol = Convert.ToInt32(roles[i, 0]);
@@ -44,9 +46,22 @@ namespace FrbaHotel.Login
             if (idRol != -1)
             {
                 ((LoginForm)parentForm).CargarMenu(idUsuario, idRol);
-                parentForm.Visible = true;
+                //parentForm.Visible = true;
                 this.Dispose();
             }
+        }
+
+        private void RolSelectionForm_Load(object sender, EventArgs e)
+        {
+            // Metodos Cutufiales
+
+            this.CenterToScreen();
+
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+
+            parentForm.Hide();
         }
     }
 }

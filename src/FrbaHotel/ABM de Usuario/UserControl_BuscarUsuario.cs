@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FrbaHotel;
 
 namespace FrbaHotel.ABM_de_Usuario
 {
@@ -72,15 +73,21 @@ namespace FrbaHotel.ABM_de_Usuario
                 MessageBox.Show("Debe introducir al menos un criterio de búsqueda");
                 return;
             }
-            
+
+            GestionUsuarios Form_GestionUsuarios = (GestionUsuarios)FormPadre;
+            MainForm Form_MainForm = (MainForm)Form_GestionUsuarios.MenuPrincipal;
+            MainMenu Form_MainMenu = (MainMenu)Form_MainForm.UserControl_MainMenu;
+
+            int idUsuarioActual = Form_MainMenu.actualUser;
+
             string myQuery =   "SELECT * " +
                                "FROM ENER_LAND.Usuario " +
-                               "WHERE username LIKE '%" + this.textBox_username.Text.Trim() + "%'" +
-                               "AND idUsuario NOT IN ( 1, 2) " +
-                               "AND ( " + "ISNULL(Nombre,'-') = '-' OR Nombre LIKE '%" + this.textBox_nombre.Text.Trim() + "%' )" +
-	                           "AND ( " + "ISNULL(Apellido,'-') = '-' OR Apellido LIKE '%" + this.textBox_apellido.Text.Trim() + "%' )" +
+                               "WHERE username LIKE '%" + this.textBox_username.Text.Trim() + "%' " +
+                               "AND idUsuario NOT IN ( 1, 2, " + idUsuarioActual.ToString() + ") " +
+                               "AND ( " + "ISNULL(Nombre,'-') = '-' OR Nombre LIKE '%" + this.textBox_nombre.Text.Trim() + "%' ) " +
+	                           "AND ( " + "ISNULL(Apellido,'-') = '-' OR Apellido LIKE '%" + this.textBox_apellido.Text.Trim() + "%' ) " +
                                "AND ( " + "ISNULL(Mail,'-') = '-' OR Mail LIKE '%" + this.textBox_Mail.Text.Trim() + "%' )" +
-                               "AND ( " + "ISNULL(Tipo_Documento,'-') = '-' OR Tipo_Documento LIKE '%" + this.comboBox_TipoDocumento.Text.Trim() + "%' )";
+                               "AND ( " + "ISNULL(Tipo_Documento,'-') = '-' OR Tipo_Documento LIKE '%" + this.comboBox_TipoDocumento.Text.Trim() + "%' ) ";
 
             if (!this.textbox_NroDocumento.Text.Trim().Equals(""))
                 myQuery = myQuery + " AND Nro_Documento = " + this.textBox_Mail.Text.Trim();

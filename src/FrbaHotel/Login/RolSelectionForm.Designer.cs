@@ -70,6 +70,7 @@
             this.Controls.Add(this.label_Prompt);
             this.Name = "RolSelectionForm";
             this.Text = "RolSelectionForm";
+            this.Load += new System.EventHandler(this.RolSelectionForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

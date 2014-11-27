@@ -162,7 +162,7 @@ namespace FrbaHotel.Login
                                                                                           roles,
                                                                                           this,
                                                                                           idUsuario);
-                                    this.Visible = false;
+                                    selectRolForm.Visible = true;
                                 }
                             }
 

@@ -38,3 +38,7 @@ Notas, Decisiones de Diseño e Implementación:
 * El login unicamente es necesario en caso de que el usuario haga click en ingresar.
 
 * Para evitar cualquier tipo de error durante la aplicacion, los usuarios admin y guest no pueden ser modificados ni eliminados.
+
+* Para facilitar la solucion propuesta durante la modificacion de Usuarios, no se podrá modificar el username de ningun usuario.
+
+* Durante la modificacion de Usuarios no esta permitida. la modificacion del Usuario Logueado.
