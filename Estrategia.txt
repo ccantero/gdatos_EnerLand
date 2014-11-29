@@ -42,3 +42,5 @@ Notas, Decisiones de Diseño e Implementación:
 * Para facilitar la solucion propuesta durante la modificacion de Usuarios, no se podrá modificar el username.
 
 * La Funcionalidad ABM Usuario y ABM Roles es una unica y no esta disponible para la creacion y/o modificacion de Nuevos Roles.
+
+* El Usuario Administrador del Sistema es un usuario unico. Que a pesar de poseer el rol de "Administrador", sus funcionalidades son de mayor alcance.

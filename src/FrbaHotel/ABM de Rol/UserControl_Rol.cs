@@ -29,7 +29,7 @@ namespace FrbaHotel.ABM_de_Rol
 
         private void Cargar_Funcionalidades()
         {
-            DbResultSet rs = DbManager.GetDataTable("SELECT * FROM ENER_LAND.Funcionalidad");
+            DbResultSet rs = DbManager.GetDataTable("SELECT * FROM ENER_LAND.Funcionalidad WHERE idFuncionalidad <> 1");
             TablaFuncionalidades = rs.dataTable;
 
             foreach (DataRow Row in TablaFuncionalidades.Rows)
