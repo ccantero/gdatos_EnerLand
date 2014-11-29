@@ -170,8 +170,6 @@ namespace FrbaHotel.Login
             this.usuario.Select();       
         }
 
-        
-
         private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             MenuPrincipal.Show();
@@ -253,7 +251,7 @@ namespace FrbaHotel.Login
             }
         }
 
-        private void usuario_ChooseHotel(int idUsuario)
+        public void usuario_ChooseHotel(int idUsuario)
         {
             string query;
             DbResultSet rs;
@@ -267,15 +265,19 @@ namespace FrbaHotel.Login
             rs = DbManager.GetDataTable(query);
 
             if (rs.dataTable.Rows.Count == 0)
+            {
                 MessageBox.Show("El Usuario no dispone de Hoteles Habilitados para Ingresar al Sistema",
                                 "Hotel Inhabilitado",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
+                MenuPrincipal.Show();
+                this.Dispose();
+            }
             else
             {
                 if (rs.dataTable.Rows.Count == 1)
                 {
-                    currentHotel = Convert.ToInt32(rs.dataTable.Rows[0]["idHotel"].ToString()); 
+                    currentHotel = Convert.ToInt32(rs.dataTable.Rows[0]["idHotel"].ToString());
                 }
                 else
                 {

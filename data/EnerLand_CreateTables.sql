@@ -493,6 +493,9 @@ INSERT [ENER_LAND].[Habitacion]
 INSERT [ENER_LAND].[Usuario_Hoteles]
 	SELECT 1,idHotel FROM ENER_LAND.Hotel;
 	
+INSERT [ENER_LAND].[Usuario_Hoteles]
+	SELECT 2,idHotel FROM ENER_LAND.Hotel;	
+	
 INSERT [ENER_LAND].[Regimen_Hotel]
 	SELECT DISTINCT x3.idHotel, x2.idRegimen
 	FROM gd_esquema.Maestra x1, ENER_LAND.Regimen x2, ENER_LAND.Hotel x3, ENER_LAND.Localidad x4
