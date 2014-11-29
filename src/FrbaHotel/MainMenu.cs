@@ -186,5 +186,11 @@ namespace FrbaHotel
             formLogin.currentRol = actualRol;
             formLogin.usuario_ChooseHotel(actualUser);
         }
+
+        private void estadísticasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Listado_Estadistico.Form_ListadoEstadistico formListado = new FrbaHotel.Listado_Estadistico.Form_ListadoEstadistico(parentForm);
+            formListado.Show();
+        }
    }
 }

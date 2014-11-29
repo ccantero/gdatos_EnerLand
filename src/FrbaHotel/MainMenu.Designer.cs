@@ -139,6 +139,7 @@ namespace FrbaHotel
             this.estadísticasToolStripMenuItem.Name = "estadísticasToolStripMenuItem";
             this.estadísticasToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.estadísticasToolStripMenuItem.Text = "Estadísticas";
+            this.estadísticasToolStripMenuItem.Click += new System.EventHandler(this.estadísticasToolStripMenuItem_Click);
             // 
             // hotelesToolStripMenuItem
             // 
