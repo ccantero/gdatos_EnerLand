@@ -347,7 +347,7 @@ INSERT [ENER_LAND].[Rol] ([Descripcion], [Habilitado]) VALUES ('Administrador', 
 INSERT [ENER_LAND].[Rol] ([Descripcion], [Habilitado]) VALUES ('Recepcionista', 1);
 INSERT [ENER_LAND].[Rol] ([Descripcion], [Habilitado]) VALUES ('Guest', 1);
 
-INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Usuario');
+INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Rol y Usuario');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Huesped');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('ABM Hotel y Habitacion');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Generar Reserva');

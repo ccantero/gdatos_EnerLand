@@ -63,7 +63,9 @@
             this.label_Pais = new System.Windows.Forms.Label();
             this.ComboBox_PaisOrigen = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBox_Hotel = new System.Windows.Forms.CheckedListBox();
+            this.label_Hotel = new System.Windows.Forms.Label();
+            this.checkedListBox_Roles = new System.Windows.Forms.CheckedListBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -282,7 +284,7 @@
             this.Button_Clean.Location = new System.Drawing.Point(443, 357);
             this.Button_Clean.Name = "Button_Clean";
             this.Button_Clean.Size = new System.Drawing.Size(75, 23);
-            this.Button_Clean.TabIndex = 17;
+            this.Button_Clean.TabIndex = 19;
             this.Button_Clean.Text = "Limpiar";
             this.Button_Clean.UseVisualStyleBackColor = true;
             this.Button_Clean.Click += new System.EventHandler(this.Button_Clean_Click);
@@ -292,7 +294,7 @@
             this.button_Save.Location = new System.Drawing.Point(699, 357);
             this.button_Save.Name = "button_Save";
             this.button_Save.Size = new System.Drawing.Size(75, 23);
-            this.button_Save.TabIndex = 16;
+            this.button_Save.TabIndex = 18;
             this.button_Save.Text = "Guardar";
             this.button_Save.UseVisualStyleBackColor = true;
             this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
@@ -355,10 +357,12 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkedListBox_Hotel);
+            this.groupBox1.Controls.Add(this.label_Hotel);
             this.groupBox1.Controls.Add(this.ComboBox_PaisOrigen);
             this.groupBox1.Controls.Add(this.label_Pais);
             this.groupBox1.Controls.Add(this.label_Rol);
-            this.groupBox1.Controls.Add(this.checkedListBox1);
+            this.groupBox1.Controls.Add(this.checkedListBox_Roles);
             this.groupBox1.Controls.Add(this.textBox_Contraseña);
             this.groupBox1.Controls.Add(this.checkBox_Habilitado);
             this.groupBox1.Controls.Add(this.label_Contraseña);
@@ -397,13 +401,31 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de Usuario";
             // 
-            // checkedListBox1
+            // checkedListBox_Hotel
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(443, 244);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(352, 79);
-            this.checkedListBox1.TabIndex = 15;
+            this.checkedListBox_Hotel.CheckOnClick = true;
+            this.checkedListBox_Hotel.FormattingEnabled = true;
+            this.checkedListBox_Hotel.Location = new System.Drawing.Point(619, 244);
+            this.checkedListBox_Hotel.Name = "checkedListBox_Hotel";
+            this.checkedListBox_Hotel.Size = new System.Drawing.Size(176, 79);
+            this.checkedListBox_Hotel.TabIndex = 17;
+            // 
+            // label_Hotel
+            // 
+            this.label_Hotel.AutoSize = true;
+            this.label_Hotel.Location = new System.Drawing.Point(586, 247);
+            this.label_Hotel.Name = "label_Hotel";
+            this.label_Hotel.Size = new System.Drawing.Size(32, 13);
+            this.label_Hotel.TabIndex = 38;
+            this.label_Hotel.Text = "Hotel";
+            // 
+            // checkedListBox_Roles
+            // 
+            this.checkedListBox_Roles.FormattingEnabled = true;
+            this.checkedListBox_Roles.Location = new System.Drawing.Point(443, 244);
+            this.checkedListBox_Roles.Name = "checkedListBox_Roles";
+            this.checkedListBox_Roles.Size = new System.Drawing.Size(137, 79);
+            this.checkedListBox_Roles.TabIndex = 15;
             // 
             // UserControl_Usuario
             // 
@@ -455,7 +477,9 @@
         private System.Windows.Forms.Label label_Pais;
         private System.Windows.Forms.ComboBox ComboBox_PaisOrigen;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox checkedListBox_Roles;
+        private System.Windows.Forms.Label label_Hotel;
+        private System.Windows.Forms.CheckedListBox checkedListBox_Hotel;
 
 
     }

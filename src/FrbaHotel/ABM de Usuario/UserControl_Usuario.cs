@@ -17,7 +17,9 @@ namespace FrbaHotel.ABM_de_Usuario
         public static DataTable TablaLocalidades;
         public static DataTable TablaPaises;
         public static DataTable TablaRoles;
+        public static DataTable TablaHoteles;
         public static DataTable TablaRolUsuario;
+        public static DataTable TablaHotelUsuario;
         private Form FormPadre;
         
         public UserControl_Usuario(Form Parent)
@@ -29,6 +31,7 @@ namespace FrbaHotel.ABM_de_Usuario
             CargarLocalidades();
             CargarPaises();
             CargarRoles();
+            CargarHoteles();
 
             this.checkBox_Habilitado.Enabled = false;
             cambiar_contraseña = true;
@@ -156,8 +159,30 @@ namespace FrbaHotel.ABM_de_Usuario
                 int idRol = Convert.ToInt32(Row["idRol"]);
                 DataRow[] Rows = TablaRoles.Select("idRol = '" + idRol.ToString() + "'");
                 String Rol_Description = Rows[0]["Descripcion"].ToString().Trim();
-                int index = checkedListBox1.Items.IndexOf(Rol_Description);
-                checkedListBox1.SetItemChecked(index, true);
+                int index = checkedListBox_Roles.Items.IndexOf(Rol_Description);
+                checkedListBox_Roles.SetItemChecked(index, true);
+            }
+
+            query_str = "SELECT * FROM ENER_LAND.Usuario_Hoteles WHERE idUsuario = " + unUsuario.idUsuario.ToString();
+
+            rs = DbManager.GetDataTable(query_str);
+            if (rs.operationState == 1)
+            {
+                MessageBox.Show("ERROR al cargar hoteles para este usuario");
+                ((GestionUsuarios)FormPadre).Load_Menu();
+                this.Dispose();
+                return;
+            }
+
+            TablaHotelUsuario = rs.dataTable;
+
+            foreach (DataRow Row in TablaHotelUsuario.Rows)
+            {
+                int idHotel = Convert.ToInt32(Row["idHotel"]);
+                DataRow[] Rows = TablaHoteles.Select("idHotel = '" + idHotel.ToString() + "'");
+                String Hotel_Description = Rows[0]["Nombre"].ToString().Trim();
+                int index = checkedListBox_Hotel.Items.IndexOf(Hotel_Description);
+                checkedListBox_Hotel.SetItemChecked(index, true);
             }
 
             cambiar_contraseña = false;
@@ -170,10 +195,21 @@ namespace FrbaHotel.ABM_de_Usuario
 
             foreach (DataRow Row in TablaRoles.Rows)
             {
-                this.checkedListBox1.Items.Add(Row[1].ToString().Trim());
+                this.checkedListBox_Roles.Items.Add(Row[1].ToString().Trim());
             }
         }
-               
+
+        private void CargarHoteles()
+        {
+            DbResultSet rs = DbManager.GetDataTable("SELECT * FROM ENER_LAND.Hotel WHERE Habilitado = 1");
+            TablaHoteles = rs.dataTable;
+
+            foreach (DataRow Row in TablaHoteles.Rows)
+            {
+                this.checkedListBox_Hotel.Items.Add(Row["Nombre"].ToString().Trim());
+            }
+        }
+        
         private void Button_Clean_Click(object sender, EventArgs e)
         {
             foreach (Control X in this.groupBox1.Controls)
@@ -256,9 +292,22 @@ namespace FrbaHotel.ABM_de_Usuario
                     MessageBox.Show("No se pudo Modificar el Rol para este Usuario. Posible fallo en la Base de Datos");
                     return;
                 }
+
+                query_str = "DELETE FROM ENER_LAND.Usuario_Hoteles  " +
+                            "WHERE idUsuario = " + unUsuario.idUsuario.ToString();
+
+                rs = DbManager.dbSqlStatementExec(query_str);
+
+                if (rs.operationState == 1)
+                {
+                    MessageBox.Show("No se pudo Modificar el Hotel para este Usuario. Posible fallo en la Base de Datos");
+                    return;
+                }
+
             }
 
-            foreach (var Rol in this.checkedListBox1.CheckedItems)
+            // Carga de Roles
+            foreach (var Rol in this.checkedListBox_Roles.CheckedItems)
             {
                 
                 DataRow[] Rows = TablaRoles.Select("Descripcion = '" + Rol.ToString().Trim() + "'");
@@ -274,12 +323,47 @@ namespace FrbaHotel.ABM_de_Usuario
                     if (rs.operationState == 1)
                     {
                         MessageBox.Show("No se pudo ingresar el Rol para este Usuario. Posible fallo en la Base de Datos");
+                        // TODO: Manejo de Errores
+                        /*
                         query_str = "DELETE FROM ENER_LAND.Usuario WHERE idUsuario = " + unUsuario.idUsuario.ToString();
                         rs = DbManager.dbSqlStatementExec(query_str);
                         if (rs.operationState == 1)
                         {
                             MessageBox.Show("Falló en la Base de Datos");
                         }
+                         */
+                        return;
+                    }
+                }
+            }
+
+            // Carga de Hoteles
+            int idHotel;
+            foreach (var Hotel in this.checkedListBox_Hotel.CheckedItems)
+            {
+
+                DataRow[] Rows = TablaHoteles.Select("Nombre = '" + Hotel.ToString().Trim() + "'");
+
+                if (Rows.Length > 0)
+                {
+                    idHotel = Convert.ToInt32(Rows[0]["idHotel"].ToString().Trim());
+                    query_str = "INSERT INTO ENER_LAND.Usuario_Hoteles ([idUsuario],[idHotel]) " +
+                                "VALUES( " + unUsuario.idUsuario.ToString() + ", " + idHotel.ToString() + ")";
+
+
+                    rs = DbManager.dbSqlStatementExec(query_str);
+                    if (rs.operationState == 1)
+                    {
+                        MessageBox.Show("No se pudo ingresar el Hotel para este Usuario. Posible fallo en la Base de Datos");
+                        // TODO: Manejo de Errores
+                        /*
+                        query_str = "DELETE FROM ENER_LAND.Usuario WHERE idUsuario = " + unUsuario.idUsuario.ToString();
+                        rs = DbManager.dbSqlStatementExec(query_str);
+                        if (rs.operationState == 1)
+                        {
+                            MessageBox.Show("Falló en la Base de Datos");
+                        }
+                        */
                         return;
                     }
                 }

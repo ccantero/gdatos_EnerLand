@@ -14,6 +14,7 @@ namespace FrbaHotel
         public Form parentForm;
         public int actualUser = 2;  /* Usuario Guest */
         public int actualRol = 3;  /* Rol Guest */
+        public int actualHotel = -1;  /* Hotel No Definido */
         
         public MainMenu(Form parent)
         {
@@ -47,8 +48,11 @@ namespace FrbaHotel
                 {   // ABM usuario
                     case 1:
                         {
-                            usuariosToolStripMenuItem.Visible = true;
-                            gestionarUsuariosToolStripMenuItem.Visible = true;
+                            if (actualUser == 1) // Usuario Administrador
+                            {
+                                usuariosToolStripMenuItem.Visible = true;
+                                gestionarUsuariosToolStripMenuItem.Visible = true;
+                            }
                             break;
                         }
                     // ABM Huesped
@@ -157,6 +161,7 @@ namespace FrbaHotel
             {
                 actualUser = 2;
                 actualRol = 3;
+                actualHotel = -1;
                 CargarPermisos();
                 this.ingresarToolStripMenuItem.Text = "Ingresar";
                 return;

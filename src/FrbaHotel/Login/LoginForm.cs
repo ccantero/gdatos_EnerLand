@@ -15,6 +15,9 @@ namespace FrbaHotel.Login
     {
         public Form MenuPrincipal;
         const string single_quote = "\'";
+        public int currentUser;  /* Usuario Guest */
+        public int currentRol;  /* Rol Guest */
+        public int currentHotel;  /* Hotel No Definido */
 
         public LoginForm(Form parentForm)
         {
@@ -23,6 +26,18 @@ namespace FrbaHotel.Login
             MenuPrincipal.Visible = false;
         }
 
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            this.CenterToScreen();
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+
+            currentUser = -1;
+            currentRol = -1;
+            currentHotel = -1;
+        }
+        
         // Metodo para encriptacion de contraseña
         public static string encriptar(string contraseña)
         {
@@ -109,7 +124,7 @@ namespace FrbaHotel.Login
                 else
                 {
                     // El usuario existe
-                    int idUsuario = Convert.ToInt32(rs.dataTable.Rows[0]["idUsuario"].ToString().Trim());
+                    currentUser = Convert.ToInt32(rs.dataTable.Rows[0]["idUsuario"].ToString().Trim());
                     String Password = rs.dataTable.Rows[0]["Contraseña"].ToString().Trim();
                     Boolean habilitado;
                     int intentos_fallidos = Convert.ToInt32(rs.dataTable.Rows[0]["intentosFallidos"].ToString().Trim());
@@ -123,49 +138,9 @@ namespace FrbaHotel.Login
                     {
                         if (Password.Equals(encriptar(this.contraseña.Text.Trim()).Trim()))
                         {
-                            registrarLoginCorrecto(idUsuario);
-
-                            query = "SELECT x1.IdRol, x2.Habilitado, x2.Descripcion " +
-                                    "FROM ENER_LAND.Rol_Usuario x1, ENER_LAND.Rol x2 " +
-                                    "WHERE x1.idRol = x2.idRol " +
-                                    "AND x2.Habilitado = 1 " +
-                                    "AND x1.idUsuario = " + idUsuario.ToString();
-
-                            rs = DbManager.GetDataTable(query);
-
-                            if (rs.dataTable.Rows.Count == 0)
-                                MessageBox.Show("El Usuario no dispone de Roles Habilitados para Ingresar al Sistema",
-                                                "Rol Inhabilitado",
-                                                MessageBoxButtons.OK,
-                                                MessageBoxIcon.Warning);
-                            else
-                            {
-                                if (rs.dataTable.Rows.Count == 1)
-                                {
-                                    int idRol = Convert.ToInt32(rs.dataTable.Rows[0]["idRol"].ToString());
-                                    CargarMenu(idUsuario, idRol);
-                                }
-                                else
-                                {
-                                    string[,] roles = new string[rs.dataTable.Rows.Count, 2];
-                                    int i = 0;
-
-                                    foreach (DataRow Row in rs.dataTable.Rows)
-                                    {
-                                        roles[i, 0] = Row["idRol"].ToString();
-                                        roles[i, 1] = Row["Descripcion"].ToString();
-                                        i++;
-                                    }
-
-                                    RolSelectionForm selectRolForm = new RolSelectionForm("Seleccion de Rol",
-                                                                                          "Por favor seleccione el Rol para Acceder al Sistema",
-                                                                                          roles,
-                                                                                          this,
-                                                                                          idUsuario);
-                                    selectRolForm.Visible = true;
-                                }
-                            }
-
+                            registrarLoginCorrecto(currentUser);
+                            usuario_ChooseRol(currentUser);
+                            usuario_ChooseHotel(currentUser);
                         }
                         else
                         {
@@ -195,13 +170,7 @@ namespace FrbaHotel.Login
             this.usuario.Select();       
         }
 
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-            this.CenterToScreen();
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-        }
+        
 
         private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -209,11 +178,14 @@ namespace FrbaHotel.Login
             this.Dispose();
         }
 
-        public void CargarMenu(int idUsuario, int idRol)
+        public void CargarMenu()
         {
-            
-            ((MainForm)MenuPrincipal).UserControl_MainMenu.actualUser = idUsuario;
-            ((MainForm)MenuPrincipal).UserControl_MainMenu.actualRol = idRol;
+            if (currentUser == -1 || currentRol == -1 || currentHotel == -1)
+                return;
+
+            ((MainForm)MenuPrincipal).UserControl_MainMenu.actualUser = currentUser;
+            ((MainForm)MenuPrincipal).UserControl_MainMenu.actualRol = currentRol;
+            ((MainForm)MenuPrincipal).UserControl_MainMenu.actualHotel = currentHotel;
             ((MainForm)MenuPrincipal).UserControl_MainMenu.CargarPermisos();
             MenuPrincipal.Visible = true;
             this.Dispose();
@@ -234,7 +206,98 @@ namespace FrbaHotel.Login
                 Check_Login_Attempt();
             }
         }
-        
+
+        private void usuario_ChooseRol(int idUsuario)
+        {
+            string query;
+            DbResultSet rs;
+            
+            query = "SELECT x1.IdRol, x2.Habilitado, x2.Descripcion " +
+                    "FROM ENER_LAND.Rol_Usuario x1, ENER_LAND.Rol x2 " +
+                    "WHERE x1.idRol = x2.idRol " +
+                    "AND x2.Habilitado = 1 " +
+                    "AND x1.idUsuario = " + idUsuario.ToString();
+
+            rs = DbManager.GetDataTable(query);
+
+            if (rs.dataTable.Rows.Count == 0)
+                MessageBox.Show("El Usuario no dispone de Roles Habilitados para Ingresar al Sistema",
+                                "Rol Inhabilitado",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+            else
+            {
+                if (rs.dataTable.Rows.Count == 1)
+                {
+                    currentRol = Convert.ToInt32(rs.dataTable.Rows[0]["idRol"].ToString());
+                }
+                else
+                {
+                    string[,] roles = new string[rs.dataTable.Rows.Count, 3];
+                    int i = 0;
+
+                    foreach (DataRow Row in rs.dataTable.Rows)
+                    {
+                        roles[i, 0] = Row["idRol"].ToString();
+                        roles[i, 1] = Row["Descripcion"].ToString();
+                        roles[i, 2] = "Rol";
+                        i++;
+                    }
+
+                    RolSelectionForm selectRolForm = new RolSelectionForm("Seleccion de Rol",
+                                                                          "Por favor seleccione el Rol para Acceder al Sistema",
+                                                                          roles,
+                                                                          this);
+                    selectRolForm.Visible = true;
+                }
+            }
+        }
+
+        private void usuario_ChooseHotel(int idUsuario)
+        {
+            string query;
+            DbResultSet rs;
+
+            query = "SELECT x1.idHotel, x2.Nombre " +
+                    "FROM ENER_LAND.Usuario_Hoteles x1, ENER_LAND.Hotel x2 " +
+                    "WHERE x1.idHotel = x2.idHotel " +
+                    "AND x2.Habilitado = 1 " +
+                    "AND x1.idUsuario = " + idUsuario.ToString();
+
+            rs = DbManager.GetDataTable(query);
+
+            if (rs.dataTable.Rows.Count == 0)
+                MessageBox.Show("El Usuario no dispone de Hoteles Habilitados para Ingresar al Sistema",
+                                "Hotel Inhabilitado",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+            else
+            {
+                if (rs.dataTable.Rows.Count == 1)
+                {
+                    currentHotel = Convert.ToInt32(rs.dataTable.Rows[0]["idHotel"].ToString()); 
+                }
+                else
+                {
+                    string[,] hoteles = new string[rs.dataTable.Rows.Count, 3];
+                    int i = 0;
+
+                    foreach (DataRow Row in rs.dataTable.Rows)
+                    {
+                        hoteles[i, 0] = Row["idHotel"].ToString();
+                        hoteles[i, 1] = Row["Nombre"].ToString().Trim();
+                        hoteles[i, 2] = "Hotel";
+                        i++;
+                    }
+
+                    RolSelectionForm selectRolForm = new RolSelectionForm("Seleccion de Hotel",
+                                                                          "Por favor seleccione el Hotel para Acceder al Sistema",
+                                                                          hoteles,
+                                                                          this);
+                    selectRolForm.Visible = true;
+                }
+            }
+        }
     }
     
     
