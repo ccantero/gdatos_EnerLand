@@ -30,8 +30,8 @@
         {
             this.dataGridView_Listado = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.ComboBox_cancelador = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.ComboBox_Listados = new System.Windows.Forms.ComboBox();
+            this.label_Listados = new System.Windows.Forms.Label();
             this.ComboBox_To = new System.Windows.Forms.TextBox();
             this.button_Accept = new System.Windows.Forms.Button();
             this.label_hasta = new System.Windows.Forms.Label();
@@ -56,8 +56,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.ComboBox_cancelador);
-            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.ComboBox_Listados);
+            this.groupBox1.Controls.Add(this.label_Listados);
             this.groupBox1.Controls.Add(this.ComboBox_To);
             this.groupBox1.Controls.Add(this.button_Accept);
             this.groupBox1.Controls.Add(this.label_hasta);
@@ -72,29 +72,29 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos a completar";
             // 
-            // ComboBox_cancelador
+            // ComboBox_Listados
             // 
-            this.ComboBox_cancelador.FormattingEnabled = true;
-            this.ComboBox_cancelador.Location = new System.Drawing.Point(322, 32);
-            this.ComboBox_cancelador.Name = "ComboBox_cancelador";
-            this.ComboBox_cancelador.Size = new System.Drawing.Size(121, 21);
-            this.ComboBox_cancelador.TabIndex = 9;
+            this.ComboBox_Listados.FormattingEnabled = true;
+            this.ComboBox_Listados.Location = new System.Drawing.Point(58, 29);
+            this.ComboBox_Listados.Name = "ComboBox_Listados";
+            this.ComboBox_Listados.Size = new System.Drawing.Size(377, 21);
+            this.ComboBox_Listados.TabIndex = 9;
             // 
-            // label1
+            // label_Listados
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(255, 35);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Cancelador";
+            this.label_Listados.AutoSize = true;
+            this.label_Listados.Location = new System.Drawing.Point(6, 32);
+            this.label_Listados.Name = "label_Listados";
+            this.label_Listados.Size = new System.Drawing.Size(46, 13);
+            this.label_Listados.TabIndex = 8;
+            this.label_Listados.Text = "Listados";
             // 
             // ComboBox_To
             // 
-            this.ComboBox_To.Location = new System.Drawing.Point(322, 88);
+            this.ComboBox_To.Location = new System.Drawing.Point(335, 89);
             this.ComboBox_To.Name = "ComboBox_To";
             this.ComboBox_To.ReadOnly = true;
-            this.ComboBox_To.Size = new System.Drawing.Size(121, 20);
+            this.ComboBox_To.Size = new System.Drawing.Size(100, 20);
             this.ComboBox_To.TabIndex = 7;
             // 
             // button_Accept
@@ -105,11 +105,12 @@
             this.button_Accept.TabIndex = 6;
             this.button_Accept.Text = "Calcular";
             this.button_Accept.UseVisualStyleBackColor = true;
+            this.button_Accept.Click += new System.EventHandler(this.button_Accept_Click);
             // 
             // label_hasta
             // 
             this.label_hasta.AutoSize = true;
-            this.label_hasta.Location = new System.Drawing.Point(255, 91);
+            this.label_hasta.Location = new System.Drawing.Point(294, 92);
             this.label_hasta.Name = "label_hasta";
             this.label_hasta.Size = new System.Drawing.Size(35, 13);
             this.label_hasta.TabIndex = 5;
@@ -118,15 +119,16 @@
             // ComboBox_DateFrom
             // 
             this.ComboBox_DateFrom.FormattingEnabled = true;
-            this.ComboBox_DateFrom.Location = new System.Drawing.Point(73, 88);
+            this.ComboBox_DateFrom.Location = new System.Drawing.Point(188, 88);
             this.ComboBox_DateFrom.Name = "ComboBox_DateFrom";
-            this.ComboBox_DateFrom.Size = new System.Drawing.Size(121, 21);
+            this.ComboBox_DateFrom.Size = new System.Drawing.Size(100, 21);
             this.ComboBox_DateFrom.TabIndex = 4;
+            this.ComboBox_DateFrom.SelectedIndexChanged += new System.EventHandler(this.ComboBox_DateFrom_SelectedIndexChanged);
             // 
             // label_desde
             // 
             this.label_desde.AutoSize = true;
-            this.label_desde.Location = new System.Drawing.Point(6, 91);
+            this.label_desde.Location = new System.Drawing.Point(144, 92);
             this.label_desde.Name = "label_desde";
             this.label_desde.Size = new System.Drawing.Size(38, 13);
             this.label_desde.TabIndex = 3;
@@ -135,15 +137,15 @@
             // comboBox_Anio
             // 
             this.comboBox_Anio.FormattingEnabled = true;
-            this.comboBox_Anio.Location = new System.Drawing.Point(73, 32);
+            this.comboBox_Anio.Location = new System.Drawing.Point(38, 88);
             this.comboBox_Anio.Name = "comboBox_Anio";
-            this.comboBox_Anio.Size = new System.Drawing.Size(121, 21);
+            this.comboBox_Anio.Size = new System.Drawing.Size(100, 21);
             this.comboBox_Anio.TabIndex = 1;
             // 
             // label_anio
             // 
             this.label_anio.AutoSize = true;
-            this.label_anio.Location = new System.Drawing.Point(6, 35);
+            this.label_anio.Location = new System.Drawing.Point(6, 92);
             this.label_anio.Name = "label_anio";
             this.label_anio.Size = new System.Drawing.Size(26, 13);
             this.label_anio.TabIndex = 0;
@@ -159,6 +161,7 @@
             this.Name = "Form_ListadoEstadistico";
             this.Text = "Listados Estadisticos";
             this.Load += new System.EventHandler(this.Form_ListadoEstadistico_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_ListadoEstadistico_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Listado)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -177,8 +180,8 @@
         private System.Windows.Forms.Label label_desde;
         private System.Windows.Forms.ComboBox comboBox_Anio;
         private System.Windows.Forms.Label label_anio;
-        private System.Windows.Forms.ComboBox ComboBox_cancelador;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox ComboBox_Listados;
+        private System.Windows.Forms.Label label_Listados;
 
     }
 }

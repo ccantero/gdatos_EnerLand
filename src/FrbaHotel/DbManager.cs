@@ -16,7 +16,6 @@ namespace FrbaHotel
     class DbManager
     {
 
-
         #region Variables de Clase
         public static bool DBConnectStatus = false;
         #endregion
@@ -503,6 +502,40 @@ namespace FrbaHotel
                 catch (Exception e)
                 {
                     MessageBox.Show("[ERROR] - " + e.ToString());
+                    return false;
+                    throw;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+
+        }
+
+        //Actualiza el estado de reserva
+        static public bool Actualizar_Reserva()
+        {
+            DateTime FechaActual = @FrbaHotel.Properties.Settings.Default.Fecha;
+
+            try
+            {
+                SqlConnection dbsession = DbManager.dbConnect();
+                SqlCommand cmd = new SqlCommand("ENER_LAND.ActualizarReservas", dbsession);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@FechaActual", FechaActual));
+
+                try
+                {
+                    cmd.ExecuteReader();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("[ERROR] - " + e.ToString());
+                    MessageBox.Show("[ERROR] - " + e.Message);
                     return false;
                     throw;
                 }

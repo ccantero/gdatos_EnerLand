@@ -16,6 +16,7 @@ namespace FrbaHotel
         public MainForm()
         {
             InitializeComponent();
+            DbManager.Actualizar_Reserva();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -45,5 +46,6 @@ namespace FrbaHotel
             this.MinimizeBox = false;            
             
        }
+
     }
 }

@@ -254,13 +254,15 @@ CREATE TABLE ENER_LAND.Estadias (
 CREATE TABLE ENER_LAND.Auditoria_Reserva (
   idReserva INTEGER NOT NULL,
   Fecha DATE NOT NULL,
-  Operacion VARCHAR NULL,
-  Usuario VARCHAR NULL,
-  Motivo_Cancelacion VARCHAR NULL,
+  idEstado_Reserva INTEGER NOT NULL,
+  idUsuario INTEGER NOT NULL,
+  Motivo_Cancelacion VARCHAR(50) NULL,
   FOREIGN KEY(idReserva)
-    REFERENCES ENER_LAND.Reserva(idReserva)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
+    REFERENCES ENER_LAND.Reserva(idReserva),
+  FOREIGN KEY(idEstado_Reserva)
+    REFERENCES ENER_LAND.Estado_Reserva(idEstado_Reserva),
+  FOREIGN KEY(idUsuario)
+    REFERENCES ENER_LAND.Usuario(idUsuario),		
 );
 
 CREATE TABLE ENER_LAND.Hotel_Inhabilitado (
@@ -340,6 +342,8 @@ CREATE TABLE ENER_LAND.Reserva_Habitacion (
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
 );
+
+CREATE INDEX IDX_Auditoria_Reserva ON ENER_LAND.Auditoria_Reserva (idReserva);
 
 /* INSERT */
 
@@ -525,6 +529,12 @@ INSERT ENER_LAND.Reserva
 	AND x1.Cliente_Nombre = x6.Nombre
 	ORDER BY 1;
 
+
+INSERT INTO ENER_LAND.Auditoria_Reserva
+	SELECT idReserva, FechaDesde, 1, 1, NULL
+	FROM ENER_LAND.Reserva;
+
+
 INSERT ENER_LAND.Reserva_Habitacion
 	SELECT DISTINCT R.idReserva, Hab.idHotel, Hab.Numero
 	FROM gd_esquema.Maestra M, ENER_LAND.Hotel Hot, ENER_LAND.Localidad L, ENER_LAND.Habitacion Hab, ENER_LAND.Reserva R
@@ -544,7 +554,18 @@ INSERT INTO ENER_LAND.Estadias
 	AND M.Estadia_Cant_Noches IS NOT NULL
 	AND M.Factura_Nro IS NULL
 	AND M.Reserva_Codigo = R.idReserva;
+
+INSERT INTO ENER_LAND.Auditoria_Reserva
+	SELECT idReserva, Fecha_Ingreso, 6, 1, NULL
+	FROM ENER_LAND.Estadias;
 	
+UPDATE ENER_LAND.Reserva
+	SET idEstado_Reserva = 6
+FROM ENER_LAND.Reserva x1, ENER_LAND.Estadias x2
+WHERE x1.idReserva = x2.idReserva;
+
+
+
 INSERT INTO ENER_LAND.Consumible_Reserva
 	SELECT C.idConsumible, R.idReserva
 	FROM gd_esquema.Maestra M, ENER_LAND.Reserva R, ENER_LAND.Consumible C
@@ -828,4 +849,40 @@ AS
 			Fecha_Nacimiento = @Fecha_Nacimiento
 	WHERE idUsuario = @idUsuario;
 		
+GO
+
+CREATE PROCEDURE ENER_LAND.ActualizarReservas
+(
+	@FechaActual	DateTime
+)
+AS
+	UPDATE ENER_LAND.Reserva
+		SET idEstado_Reserva = 5
+	WHERE idEstado_Reserva IN ( 1, 2 )
+	AND FechaDesde < @FechaActual
+	
+	INSERT INTO ENER_LAND.Auditoria_Reserva
+		SELECT idReserva, FechaDesde, 5, 1, 'Proceso Automático'
+		FROM ENER_LAND.Reserva x1
+		WHERE idEstado_Reserva = 5
+		AND FechaDesde < @FechaActual
+		AND NOT EXISTS (	SELECT 1 
+							FROM ENER_LAND.Auditoria_Reserva y1 
+							WHERE y1.idReserva = x1.idReserva 
+							AND y1.idEstado_Reserva = 5
+							AND FechaDesde < @FechaActual
+						)
+	
+GO
+
+CREATE VIEW ENER_LAND.ReservasCanceladas 
+AS
+	SELECT x4.Nombre, x1.idReserva, x1.Fecha, x1.idEstado_Reserva
+	FROM ENER_LAND.Auditoria_Reserva x1, ENER_LAND.Reserva_Habitacion x2, ENER_LAND.Habitacion x3, ENER_LAND.Hotel x4
+	WHERE x1.idReserva = x2.idReserva
+	AND x2.Habitacion_Numero = x3.Numero
+	AND x2.IdHotel = x3.idHotel
+	AND x3.idHotel = x4.idHotel
+	AND x1.idEstado_Reserva IN ( 3, 4, 5)
+	
 GO

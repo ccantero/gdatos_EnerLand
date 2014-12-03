@@ -136,20 +136,16 @@ namespace FrbaHotel
 
         private void generarReservaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(actualHotel == -1) 
-                elegirHotel();
         }
 
         private void modificarReservaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (actualHotel == -1)
-                elegirHotel();
+
         }
 
         private void cancelarReservaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (actualHotel == -1)
-                elegirHotel();
+
         }
 
         private void gestionarHuespedesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -177,14 +173,6 @@ namespace FrbaHotel
         {
             ABM_de_Usuario.GestionUsuarios formUsuario = new FrbaHotel.ABM_de_Usuario.GestionUsuarios(parentForm);
             formUsuario.Visible = true;
-        }
-
-        private void elegirHotel()
-        {
-            Login.LoginForm formLogin = new FrbaHotel.Login.LoginForm(parentForm);
-            formLogin.currentUser = actualUser;
-            formLogin.currentRol = actualRol;
-            formLogin.usuario_ChooseHotel(actualUser);
         }
 
         private void estadísticasToolStripMenuItem_Click(object sender, EventArgs e)

@@ -16,6 +16,8 @@ El Nombre del Esquema es ENER_LAND al contrario del nombre del grupo ENERLAND.
 
 Notas, Decisiones de Diseño e Implementación:
 
+* En el DER Figura dos tablas Paises. Son la misma entidad y estan separadas unicamente para visibilidad del diagrama.
+
 * Existen varios usuarios con el mismo Mail. Por lo tanto se decide crear una columna Mail_Alternativo y agregar en ella aquellos mails que tienen más de una aparición. Cuando la aplicacion encuentre un Mail Primario en NULL, requerirá el cambio de dicho Mail_Primario.
 
 * Se informa que existirá una única Forma de Pago es unica por Factura.
@@ -44,3 +46,5 @@ Notas, Decisiones de Diseño e Implementación:
 * La Funcionalidad ABM Usuario y ABM Roles es una unica y no esta disponible para la creacion y/o modificacion de Nuevos Roles.
 
 * El Usuario Administrador del Sistema es un usuario unico. Que a pesar de poseer el rol de "Administrador", sus funcionalidades son de mayor alcance.
+
+* Al iniciar la ejecucion, la Aplicacion lanza un proceso que dada la fecha del sistema actualiza las reservas que no fueron efectivas a una determinada Fecha, actualiza el estado de la reserva a "Cancelada por No-Show". Esta cancelacion es guardada en el sistema a nombre del Usuario Admin.
