@@ -199,6 +199,17 @@ namespace FrbaHotel.Listado_Estadistico
                                     "ORDER BY 3 DESC";
                         break;
                     }
+                case 4:
+                    {
+                        myQuery =   "SELECT TOP 5 Apellido, Nombre, SUM(Puntos) Puntaje " +
+                                    "FROM ENER_LAND.PuntajeHuespedes " +
+                                    "WHERE YEAR(FechaDesde) = " + this.comboBox_Anio.SelectedItem.ToString() + " " +
+                                    "AND MONTH(FechaDesde) >= " + TrimestreInicio.ToString() + " " +
+                                    "AND MONTH(FechaDesde) <= " + TrimestreFin.ToString() + " " +
+                                    "GROUP BY idHuesped, Apellido, Nombre " +
+                                    "ORDER BY 3 DESC";
+                        break;
+                    }
             }
 
             rs = DbManager.GetDataTable(myQuery);

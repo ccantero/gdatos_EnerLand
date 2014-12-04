@@ -35,4 +35,5 @@ DROP PROCEDURE ENER_LAND.ActualizarReservas;
 DROP VIEW ENER_LAND.ReservasCanceladas;
 DROP VIEW ENER_LAND.ConsumiblesFacturados;
 DROP VIEW ENER_LAND.HabitacionesOcupadas;
+DROP VIEW ENER_LAND.PuntajeHuespedes
 DROP SCHEMA ENER_LAND;
