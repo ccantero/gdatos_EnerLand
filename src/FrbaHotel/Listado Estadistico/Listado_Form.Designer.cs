@@ -51,6 +51,7 @@
             this.dataGridView_Listado.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Listado.Location = new System.Drawing.Point(11, 169);
             this.dataGridView_Listado.Name = "dataGridView_Listado";
+            this.dataGridView_Listado.RowHeadersVisible = false;
             this.dataGridView_Listado.Size = new System.Drawing.Size(461, 281);
             this.dataGridView_Listado.TabIndex = 3;
             // 

@@ -151,14 +151,55 @@ namespace FrbaHotel.Listado_Estadistico
         private void button_Accept_Click(object sender, EventArgs e)
         {
             DbResultSet rs;
-            
-            string myQuery =    "SELECT TOP 5 Nombre, COUNT(1) Cantidad " +
-                                "FROM ENER_LAND.ReservasCanceladas " +
-                                "WHERE YEAR(Fecha) = " + this.comboBox_Anio.SelectedItem.ToString() + " " +
-                                "AND MONTH(Fecha) >= " + TrimestreInicio.ToString() + " " +
-                                "AND MONTH(Fecha) >= " + TrimestreFin.ToString() + " " +
-                                "GROUP BY Nombre " +
-                                "ORDER BY 2 DESC";
+            string myQuery = String.Empty;
+            switch (this.ComboBox_Listados.SelectedIndex)
+            {
+                case 0:
+                    {
+                        myQuery =   "SELECT TOP 5 Nombre, COUNT(1) Cantidad " +
+                                    "FROM ENER_LAND.ReservasCanceladas " +
+                                    "WHERE YEAR(Fecha) = " + this.comboBox_Anio.SelectedItem.ToString() + " " +
+                                    "AND MONTH(Fecha) >= " + TrimestreInicio.ToString() + " " +
+                                    "AND MONTH(Fecha) <= " + TrimestreFin.ToString() + " " +
+                                    "GROUP BY Nombre " +
+                                    "ORDER BY 2 DESC";
+                        break;
+                    }
+                case 1:
+                    {
+                        myQuery =   "SELECT TOP 5 Nombre, SUM(Cantidad) Cantidad " +
+                                    "FROM ENER_LAND.ConsumiblesFacturados " +
+                                    "WHERE YEAR(Fecha) = " + this.comboBox_Anio.SelectedItem.ToString() + " " +
+                                    "AND MONTH(Fecha) >= " + TrimestreInicio.ToString() + " " +
+                                    "AND MONTH(Fecha) <= " + TrimestreFin.ToString() + " " +
+                                    "GROUP BY Nombre " +
+                                    "ORDER BY 2 DESC";
+                        break;
+                    }
+                case 2:
+                    {
+                        myQuery =   "SELECT TOP 5 x2.Nombre, SUM(Cantidad_Dias) Cantidad " +
+                                    "FROM ENER_LAND.Hotel_Inhabilitado x1, ENER_LAND.Hotel x2 " +
+                                    "WHERE x1.IdHotel = x2.idHotel " +
+                                    "AND YEAR(FechaInicio) = " + this.comboBox_Anio.SelectedItem.ToString() + " " +
+                                    "AND MONTH(FechaInicio) >= " + TrimestreInicio.ToString() + " " +
+                                    "AND MONTH(FechaInicio) <= " + TrimestreFin.ToString() + " " +
+                                    "GROUP BY x1.IdHotel, x2.Nombre " +
+                                    "ORDER BY 2 DESC";
+                        break;
+                    }
+                case 3:
+                    {
+                        myQuery =   "SELECT TOP 5 Nombre, Habitacion_Numero, SUM(Cantidad_Dias) CantidadDias, COUNT(idReserva) 'Veces Utilizada' " +
+                                    "FROM ENER_LAND.HabitacionesOcupadas " +
+                                    "WHERE YEAR(Fecha_Ingreso) = " + this.comboBox_Anio.SelectedItem.ToString() + " " +
+                                    "AND MONTH(Fecha_Ingreso) >= " + TrimestreInicio.ToString() + " " +
+                                    "AND MONTH(Fecha_Ingreso) <= " + TrimestreFin.ToString() + " " +
+                                    "GROUP BY Nombre, Habitacion_Numero " +
+                                    "ORDER BY 3 DESC";
+                        break;
+                    }
+            }
 
             rs = DbManager.GetDataTable(myQuery);
             if (rs.operationState == 1)

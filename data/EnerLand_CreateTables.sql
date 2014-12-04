@@ -582,6 +582,8 @@ INSERT INTO ENER_LAND.Factura
 	WHERE Factura_Nro IS NOT NULL
 	AND Reserva_Codigo = R.idReserva;
 
+PRINT N'Revisar esto - ' + N'.';
+
 INSERT INTO ENER_LAND.Item_Factura([idItem],[idFactura],[Cantidad],[Descripcion],[PrecioUnitario])
 	SELECT	ROW_NUMBER() OVER (PARTITION BY Factura_Nro ORDER BY Factura_Nro), 
 			Factura_Nro, 
@@ -885,4 +887,22 @@ AS
 	AND x3.idHotel = x4.idHotel
 	AND x1.idEstado_Reserva IN ( 3, 4, 5)
 	
+GO
+
+CREATE VIEW ENER_LAND.ConsumiblesFacturados
+AS 
+	SELECT H.Nombre, F.idFactura, F.Fecha, F.idReserva, I.Cantidad, I.Descripcion
+	FROM ENER_LAND.Factura F, ENER_LAND.Reserva_Habitacion R_Hab, ENER_LAND.Hotel H, ENER_LAND.Item_Factura I
+	WHERE F.idReserva = R_Hab.idReserva
+	AND H.idHotel = R_Hab.IdHotel
+	AND I.idFactura = F.idFactura
+	AND I.Descripcion  <> 'Estadia'
+GO
+
+CREATE VIEW ENER_LAND.HabitacionesOcupadas
+AS 
+	SELECT H.Nombre,  R.Habitacion_Numero, E.Fecha_Ingreso, R.idReserva, E.Cantidad_Dias
+	FROM ENER_LAND.Estadias E, ENER_LAND.Reserva_Habitacion R, ENER_LAND.Hotel H
+	WHERE E.idReserva = R.idReserva
+	AND R.IdHotel = H.idHotel
 GO
