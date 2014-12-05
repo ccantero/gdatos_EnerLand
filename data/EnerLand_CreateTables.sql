@@ -67,7 +67,6 @@ CREATE TABLE ENER_LAND.Rol_Usuario (
       ON UPDATE NO ACTION
 );
 
-
 CREATE TABLE ENER_LAND.Regimen (
   idRegimen INTEGER NOT NULL IDENTITY(1,1),
   Descripcion VARCHAR(25) NULL,
@@ -181,13 +180,11 @@ CREATE TABLE ENER_LAND.Huesped (
     REFERENCES ENER_LAND.Pais(idPais) 
  );
 
-
 CREATE TABLE ENER_LAND.Forma_de_Pago (
   idForma_De_Pago INTEGER NOT NULL IDENTITY(1,1),
   Descripcion VARCHAR(50) NULL,
   PRIMARY KEY(idForma_De_Pago)
 );
-
 
 CREATE TABLE ENER_LAND.Reserva (
   idReserva INTEGER NOT NULL,
@@ -211,9 +208,21 @@ CREATE TABLE ENER_LAND.Reserva (
       ON UPDATE NO ACTION
 );
 
+CREATE TABLE ENER_LAND.Estadias (
+  idEstadia INTEGET IDENTITY(1,1),
+  idReserva INTEGER NOT NULL,
+  Fecha_Ingreso DATE NOT NULL,
+  Cantidad_Dias INTEGER NULL,
+  PRIMARY KEY(idEstadia),
+  FOREIGN KEY(idReserva)
+    REFERENCES ENER_LAND.Reserva(idReserva)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+);
+
 CREATE TABLE ENER_LAND.Factura (
   idFactura INTEGER NOT NULL,
-  idReserva INTEGER,
+  idEstadia INTEGER,
   Fecha DATE NULL,
   Total NUMERIC(18,2) NULL,
   idForma_De_Pago INTEGER NOT NULL,
@@ -222,10 +231,8 @@ CREATE TABLE ENER_LAND.Factura (
   REFERENCES ENER_LAND.Forma_de_Pago(idForma_De_Pago)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
-  FOREIGN KEY(idReserva)
-  REFERENCES ENER_LAND.Reserva(idReserva)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
+  FOREIGN KEY(idEstadia)
+  REFERENCES ENER_LAND.Estadias(idEstadia)
 );
 
 CREATE TABLE ENER_LAND.Item_Factura (
@@ -236,19 +243,7 @@ CREATE TABLE ENER_LAND.Item_Factura (
   PrecioUnitario NUMERIC(18,2) NOT NULL,
   PRIMARY KEY(idItem, idFactura),
   FOREIGN KEY(idFactura)
-    REFERENCES ENER_LAND.Factura(idFactura)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
-);
-
-CREATE TABLE ENER_LAND.Estadias (
-  idReserva INTEGER NOT NULL,
-  Fecha_Ingreso DATE NOT NULL,
-  Cantidad_Dias INTEGER NULL,
-  FOREIGN KEY(idReserva)
-    REFERENCES ENER_LAND.Reserva(idReserva)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
+  REFERENCES ENER_LAND.Factura(idFactura)
 );
 
 CREATE TABLE ENER_LAND.Auditoria_Reserva (
@@ -289,44 +284,31 @@ CREATE TABLE ENER_LAND.Usuario_Hoteles (
       ON UPDATE NO ACTION
 );
 
-
-CREATE TABLE ENER_LAND.Consumible_Reserva (
+CREATE TABLE ENER_LAND.Consumible_Estadia (
   idConsumible INTEGER NOT NULL,
-  idReserva INTEGER NOT NULL,
-  FOREIGN KEY(idReserva)
-    REFERENCES ENER_LAND.Reserva(idReserva)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
+  idEstadia INTEGER NOT NULL,
+  FOREIGN KEY(idEstadia)
+  REFERENCES ENER_LAND.Estadias(idEstadia),
   FOREIGN KEY(idConsumible)
-    REFERENCES ENER_LAND.Consumible(idConsumible)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
+  REFERENCES ENER_LAND.Consumible(idConsumible)
 );
 
 CREATE TABLE ENER_LAND.Huespedes_Alojados (
   idHuesped INTEGER NOT NULL,
-  idReserva INTEGER NOT NULL,
+  idEstadia INTEGER NOT NULL,
   FOREIGN KEY(idHuesped)
-    REFERENCES ENER_LAND.Huesped(idHuesped)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
+  REFERENCES ENER_LAND.Huesped(idHuesped),
   FOREIGN KEY(idReserva)
-    REFERENCES ENER_LAND.Reserva(idReserva)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
+  REFERENCES ENER_LAND.Estadia(idEstadia)
 );
 
 CREATE TABLE ENER_LAND.Regimen_Hotel (
   idHotel INTEGER NOT NULL,
   idRegimen INTEGER NOT NULL,
   FOREIGN KEY(idHotel)
-    REFERENCES ENER_LAND.Hotel(idHotel)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
+  REFERENCES ENER_LAND.Hotel(idHotel),
   FOREIGN KEY(idRegimen)
-    REFERENCES ENER_LAND.Regimen(idRegimen)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
+  REFERENCES ENER_LAND.Regimen(idRegimen)
 );
 
 CREATE TABLE ENER_LAND.Reserva_Habitacion (
@@ -334,13 +316,9 @@ CREATE TABLE ENER_LAND.Reserva_Habitacion (
   IdHotel INTEGER NOT NULL,
   Habitacion_Numero INTEGER NOT NULL,
   FOREIGN KEY(Habitacion_Numero, IdHotel)
-    REFERENCES ENER_LAND.Habitacion(Numero, IdHotel)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
+  REFERENCES ENER_LAND.Habitacion(Numero, IdHotel),
   FOREIGN KEY(idReserva)
-    REFERENCES ENER_LAND.Reserva(idReserva)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
+  REFERENCES ENER_LAND.Reserva(idReserva)
 );
 
 CREATE INDEX IDX_Auditoria_Reserva ON ENER_LAND.Auditoria_Reserva (idReserva);
@@ -454,9 +432,6 @@ INSERT [ENER_LAND].[Estado_Reserva] ([Descripcion]) VALUES ('Reserva con ingreso
 INSERT [ENER_LAND].[Forma_de_Pago] ([Descripcion]) VALUES ('Efectivo');
 INSERT [ENER_LAND].[Forma_de_Pago] ([Descripcion]) VALUES ('Tarjeta de Credito');
 
-
-
-
 BEGIN
 	DECLARE @ROW_NUMBER INT
 	DECLARE @Hotel_Ciudad INTEGER
@@ -534,7 +509,6 @@ INSERT INTO ENER_LAND.Auditoria_Reserva
 	SELECT idReserva, FechaDesde, 1, 1, NULL
 	FROM ENER_LAND.Reserva;
 
-
 INSERT ENER_LAND.Reserva_Habitacion
 	SELECT DISTINCT R.idReserva, Hab.idHotel, Hab.Numero
 	FROM gd_esquema.Maestra M, ENER_LAND.Hotel Hot, ENER_LAND.Localidad L, ENER_LAND.Habitacion Hab, ENER_LAND.Reserva R
@@ -546,7 +520,6 @@ INSERT ENER_LAND.Reserva_Habitacion
 	AND Hot.idHotel = Hab.idHotel
 	AND M.Habitacion_Numero = Hab.Numero;
 
-	
 INSERT INTO ENER_LAND.Estadias
 	SELECT R.idReserva, Estadia_Fecha_Inicio, Estadia_Cant_Noches
 	FROM gd_esquema.Maestra M, ENER_LAND.Reserva R
@@ -564,23 +537,22 @@ UPDATE ENER_LAND.Reserva
 FROM ENER_LAND.Reserva x1, ENER_LAND.Estadias x2
 WHERE x1.idReserva = x2.idReserva;
 
-
-
-INSERT INTO ENER_LAND.Consumible_Reserva
-	SELECT C.idConsumible, R.idReserva
-	FROM gd_esquema.Maestra M, ENER_LAND.Reserva R, ENER_LAND.Consumible C
+INSERT INTO ENER_LAND.Consumible_Estadia
+	SELECT C.idConsumible, E.idEstadia
+	FROM gd_esquema.Maestra M, ENER_LAND.Estadia E, ENER_LAND.Consumible C
 	WHERE M.Consumible_Codigo = C.idConsumible
-	AND M.Reserva_Codigo = R.idReserva;
+	AND M.Reserva_Codigo = E.idReserva;
 
 INSERT INTO ENER_LAND.Huespedes_Alojados
-	SELECT idHuesped, idReserva
-	FROM ENER_LAND.Reserva;
+	SELECT idHuesped, idEstadia
+	FROM ENER_LAND.Reserva R, ENER_LAND.Estadia E
+	WHERE R.idReserva = E.idReserva;
 	
 INSERT INTO ENER_LAND.Factura
-	SELECT DISTINCT Factura_Nro, R.idReserva, Factura_Fecha, Factura_Total, 1
-	FROM gd_esquema.Maestra M, ENER_LAND.Reserva R
+	SELECT DISTINCT Factura_Nro, E.idEstadia, Factura_Fecha, Factura_Total, 1
+	FROM gd_esquema.Maestra M, ENER_LAND.Estadias E
 	WHERE Factura_Nro IS NOT NULL
-	AND Reserva_Codigo = R.idReserva;
+	AND Reserva_Codigo = E.idReserva;
 
 PRINT N'Revisar esto - ' + N'.';
 
@@ -905,4 +877,22 @@ AS
 	FROM ENER_LAND.Estadias E, ENER_LAND.Reserva_Habitacion R, ENER_LAND.Hotel H
 	WHERE E.idReserva = R.idReserva
 	AND R.IdHotel = H.idHotel
+GO
+
+CREATE VIEW ENER_LAND.PuntajeHuespedes
+AS
+	SELECT H.idHuesped, H.Apellido, H.Nombre, R.idReserva, R.FechaDesde, CAST(I1.Cantidad * I1.PrecioUnitario / 10 AS INT) AS Puntos
+	FROM ENER_LAND.Reserva R, ENER_LAND.Huesped H, ENER_LAND.Factura F, ENER_LAND.Item_Factura I1
+	WHERE R.idHuesped = H.idHuesped
+	AND R.idReserva = F.idReserva
+	AND F.idFactura = I1.idFactura
+	AND I1.idItem = 1
+	AND R.idReserva = 10001
+	UNION
+	SELECT H.idHuesped, H.Apellido, H.Nombre, R.idReserva, R.FechaDesde, CAST(I1.Cantidad * I1.PrecioUnitario / 5 AS INT) AS Puntos
+	FROM ENER_LAND.Reserva R, ENER_LAND.Huesped H, ENER_LAND.Factura F, ENER_LAND.Item_Factura I1
+	WHERE R.idHuesped = H.idHuesped
+	AND R.idReserva = F.idReserva
+	AND F.idFactura = I1.idFactura
+	AND I1.idItem <> 1
 GO
