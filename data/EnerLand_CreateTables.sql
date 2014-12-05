@@ -209,7 +209,7 @@ CREATE TABLE ENER_LAND.Reserva (
 );
 
 CREATE TABLE ENER_LAND.Estadias (
-  idEstadia INTEGET IDENTITY(1,1),
+  idEstadia INTEGER IDENTITY(1,1),
   idReserva INTEGER NOT NULL,
   Fecha_Ingreso DATE NOT NULL,
   Cantidad_Dias INTEGER NULL,
@@ -298,8 +298,8 @@ CREATE TABLE ENER_LAND.Huespedes_Alojados (
   idEstadia INTEGER NOT NULL,
   FOREIGN KEY(idHuesped)
   REFERENCES ENER_LAND.Huesped(idHuesped),
-  FOREIGN KEY(idReserva)
-  REFERENCES ENER_LAND.Estadia(idEstadia)
+  FOREIGN KEY(idEstadia)
+  REFERENCES ENER_LAND.Estadias(idEstadia)
 );
 
 CREATE TABLE ENER_LAND.Regimen_Hotel (
@@ -539,13 +539,13 @@ WHERE x1.idReserva = x2.idReserva;
 
 INSERT INTO ENER_LAND.Consumible_Estadia
 	SELECT C.idConsumible, E.idEstadia
-	FROM gd_esquema.Maestra M, ENER_LAND.Estadia E, ENER_LAND.Consumible C
+	FROM gd_esquema.Maestra M, ENER_LAND.Estadias E, ENER_LAND.Consumible C
 	WHERE M.Consumible_Codigo = C.idConsumible
 	AND M.Reserva_Codigo = E.idReserva;
 
 INSERT INTO ENER_LAND.Huespedes_Alojados
 	SELECT idHuesped, idEstadia
-	FROM ENER_LAND.Reserva R, ENER_LAND.Estadia E
+	FROM ENER_LAND.Reserva R, ENER_LAND.Estadias E
 	WHERE R.idReserva = E.idReserva;
 	
 INSERT INTO ENER_LAND.Factura
@@ -863,9 +863,14 @@ GO
 
 CREATE VIEW ENER_LAND.ConsumiblesFacturados
 AS 
-	SELECT H.Nombre, F.idFactura, F.Fecha, F.idReserva, I.Cantidad, I.Descripcion
-	FROM ENER_LAND.Factura F, ENER_LAND.Reserva_Habitacion R_Hab, ENER_LAND.Hotel H, ENER_LAND.Item_Factura I
-	WHERE F.idReserva = R_Hab.idReserva
+	SELECT H.Nombre, F.idFactura, F.Fecha, E.idReserva, I.Cantidad, I.Descripcion
+	FROM	ENER_LAND.Factura F, 
+			ENER_LAND.Estadias E,
+			ENER_LAND.Reserva_Habitacion R_Hab, 
+			ENER_LAND.Hotel H, 
+			ENER_LAND.Item_Factura I
+	WHERE F.idEstadia = E.idEstadia
+	AND E.idReserva = R_Hab.idReserva
 	AND H.idHotel = R_Hab.IdHotel
 	AND I.idFactura = F.idFactura
 	AND I.Descripcion  <> 'Estadia'
@@ -882,17 +887,26 @@ GO
 CREATE VIEW ENER_LAND.PuntajeHuespedes
 AS
 	SELECT H.idHuesped, H.Apellido, H.Nombre, R.idReserva, R.FechaDesde, CAST(I1.Cantidad * I1.PrecioUnitario / 10 AS INT) AS Puntos
-	FROM ENER_LAND.Reserva R, ENER_LAND.Huesped H, ENER_LAND.Factura F, ENER_LAND.Item_Factura I1
-	WHERE R.idHuesped = H.idHuesped
-	AND R.idReserva = F.idReserva
+	FROM	ENER_LAND.Reserva R, 
+			ENER_LAND.Estadias E,
+			ENER_LAND.Huesped H, 
+			ENER_LAND.Factura F, 
+			ENER_LAND.Item_Factura I1
+	WHERE R.idReserva = E.idReserva
+	AND R.idHuesped = H.idHuesped
+	AND E.idEstadia = F.idEstadia
 	AND F.idFactura = I1.idFactura
 	AND I1.idItem = 1
-	AND R.idReserva = 10001
 	UNION
 	SELECT H.idHuesped, H.Apellido, H.Nombre, R.idReserva, R.FechaDesde, CAST(I1.Cantidad * I1.PrecioUnitario / 5 AS INT) AS Puntos
-	FROM ENER_LAND.Reserva R, ENER_LAND.Huesped H, ENER_LAND.Factura F, ENER_LAND.Item_Factura I1
-	WHERE R.idHuesped = H.idHuesped
-	AND R.idReserva = F.idReserva
+	FROM	ENER_LAND.Reserva R, 
+			ENER_LAND.Estadias E,
+			ENER_LAND.Huesped H, 
+			ENER_LAND.Factura F, 
+			ENER_LAND.Item_Factura I1
+	WHERE R.idReserva = E.idReserva
+	AND R.idHuesped = H.idHuesped
+	AND E.idEstadia = F.idEstadia
 	AND F.idFactura = I1.idFactura
 	AND I1.idItem <> 1
 GO
