@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GestionHoteles));
             this.cmbPaises = new System.Windows.Forms.ComboBox();
             this.cmbLocalidades = new System.Windows.Forms.ComboBox();
@@ -62,9 +62,9 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.dtpFechaCreacion = new System.Windows.Forms.DateTimePicker();
             this.tbHideDate = new System.Windows.Forms.TextBox();
+            this.btnDisableRoom = new System.Windows.Forms.Button();
             this.btnEditRoom = new System.Windows.Forms.Button();
             this.btnNewRoom = new System.Windows.Forms.Button();
-            this.btnDisableRoom = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHabitaciones)).BeginInit();
             this.SuspendLayout();
             // 
@@ -246,14 +246,14 @@
             this.dgvHabitaciones.AllowUserToResizeRows = false;
             this.dgvHabitaciones.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvHabitaciones.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvHabitaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvHabitaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvHabitaciones.ColumnHeadersHeight = 20;
             this.dgvHabitaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvHabitaciones.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -265,9 +265,9 @@
             this.dgvHabitaciones.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvHabitaciones.RowHeadersVisible = false;
             this.dgvHabitaciones.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvHabitaciones.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvHabitaciones.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvHabitaciones.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black;
             this.dgvHabitaciones.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
             this.dgvHabitaciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -419,34 +419,6 @@
             this.tbHideDate.Size = new System.Drawing.Size(141, 20);
             this.tbHideDate.TabIndex = 35;
             // 
-            // btnEditRoom
-            // 
-            this.btnEditRoom.BackColor = System.Drawing.Color.Transparent;
-            this.btnEditRoom.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnEditRoom.BackgroundImage")));
-            this.btnEditRoom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnEditRoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEditRoom.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEditRoom.Location = new System.Drawing.Point(598, 317);
-            this.btnEditRoom.Name = "btnEditRoom";
-            this.btnEditRoom.Size = new System.Drawing.Size(30, 31);
-            this.btnEditRoom.TabIndex = 38;
-            this.btnEditRoom.UseVisualStyleBackColor = false;
-            this.btnEditRoom.Visible = false;
-            // 
-            // btnNewRoom
-            // 
-            this.btnNewRoom.BackColor = System.Drawing.Color.Transparent;
-            this.btnNewRoom.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnNewRoom.BackgroundImage")));
-            this.btnNewRoom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnNewRoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNewRoom.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnNewRoom.Location = new System.Drawing.Point(598, 280);
-            this.btnNewRoom.Name = "btnNewRoom";
-            this.btnNewRoom.Size = new System.Drawing.Size(30, 31);
-            this.btnNewRoom.TabIndex = 37;
-            this.btnNewRoom.UseVisualStyleBackColor = false;
-            this.btnNewRoom.Visible = false;
-            // 
             // btnDisableRoom
             // 
             this.btnDisableRoom.BackColor = System.Drawing.Color.Transparent;
@@ -458,18 +430,50 @@
             this.btnDisableRoom.Location = new System.Drawing.Point(598, 354);
             this.btnDisableRoom.Name = "btnDisableRoom";
             this.btnDisableRoom.Size = new System.Drawing.Size(30, 31);
-            this.btnDisableRoom.TabIndex = 36;
+            this.btnDisableRoom.TabIndex = 38;
             this.btnDisableRoom.UseVisualStyleBackColor = false;
-            this.btnDisableRoom.Visible = false;
+            this.btnDisableRoom.Click += new System.EventHandler(this.btnDisableRoom_Click);
+            // 
+            // btnEditRoom
+            // 
+            this.btnEditRoom.BackColor = System.Drawing.Color.Transparent;
+            this.btnEditRoom.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnEditRoom.BackgroundImage")));
+            this.btnEditRoom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnEditRoom.Enabled = false;
+            this.btnEditRoom.FlatAppearance.BorderSize = 0;
+            this.btnEditRoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditRoom.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnEditRoom.Location = new System.Drawing.Point(598, 317);
+            this.btnEditRoom.Name = "btnEditRoom";
+            this.btnEditRoom.Size = new System.Drawing.Size(30, 31);
+            this.btnEditRoom.TabIndex = 37;
+            this.btnEditRoom.UseVisualStyleBackColor = false;
+            this.btnEditRoom.Click += new System.EventHandler(this.btnEditRoom_Click);
+            // 
+            // btnNewRoom
+            // 
+            this.btnNewRoom.BackColor = System.Drawing.Color.Transparent;
+            this.btnNewRoom.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnNewRoom.BackgroundImage")));
+            this.btnNewRoom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnNewRoom.Enabled = false;
+            this.btnNewRoom.FlatAppearance.BorderSize = 0;
+            this.btnNewRoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNewRoom.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnNewRoom.Location = new System.Drawing.Point(598, 280);
+            this.btnNewRoom.Name = "btnNewRoom";
+            this.btnNewRoom.Size = new System.Drawing.Size(30, 31);
+            this.btnNewRoom.TabIndex = 36;
+            this.btnNewRoom.UseVisualStyleBackColor = false;
+            this.btnNewRoom.Click += new System.EventHandler(this.btnNewRoom_Click);
             // 
             // GestionHoteles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.btnDisableRoom);
             this.Controls.Add(this.btnEditRoom);
             this.Controls.Add(this.btnNewRoom);
-            this.Controls.Add(this.btnDisableRoom);
             this.Controls.Add(this.tbHideDate);
             this.Controls.Add(this.dtpFechaCreacion);
             this.Controls.Add(this.btnCancel);
@@ -544,9 +548,9 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.DateTimePicker dtpFechaCreacion;
         private System.Windows.Forms.TextBox tbHideDate;
+        private System.Windows.Forms.Button btnDisableRoom;
         private System.Windows.Forms.Button btnEditRoom;
         private System.Windows.Forms.Button btnNewRoom;
-        private System.Windows.Forms.Button btnDisableRoom;
 
     }
 }

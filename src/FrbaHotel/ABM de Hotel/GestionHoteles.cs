@@ -165,11 +165,23 @@ namespace FrbaHotel.ABM_de_Hotel
                 getRegimenes(Convert.ToInt32(cmbHoteles.SelectedValue));
                 btnEdit.Enabled = true;
                 btnStatusChange.Enabled = true;
+                btnNewRoom.Visible = true;
+                btnEditRoom.Visible = true;
+                btnDisableRoom.Visible = true;
+                dgvHabitaciones.Visible = true;
+                btnNewRoom.Enabled = true;
+                btnEditRoom.Enabled = true;
+                btnDisableRoom.Enabled = true;
+                
             }
             else
             {
                 btnEdit.Enabled = false;
                 btnStatusChange.Enabled = false;
+                btnNewRoom.Visible = false;
+                btnEditRoom.Visible = false;
+                btnDisableRoom.Visible = false;
+                dgvHabitaciones.Visible = false;
             }
             //MessageBox.Show(cmbHoteles.SelectedIndex.ToString() + " - " + cmbHoteles.Text + " - " + cmbHoteles.Name);
        }
@@ -187,6 +199,9 @@ namespace FrbaHotel.ABM_de_Hotel
                 tbHideDate.Visible = false;
                 dtpFechaCreacion.Visible = true;
                 getHabitacionesHotel(Convert.ToInt32(cmbHoteles.SelectedValue));
+                btnNewRoom.Visible = true;
+                btnEditRoom.Visible = true;
+                btnDisableRoom.Visible = true;
             }
             else
             {
@@ -200,8 +215,10 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void getHabitacionesHotel(int idHotel)
         {
-            DbResultSet rs = DbManager.GetDataTable("SELECT hb.NUMERO ,thb.idTipo_Habitacion TIPO,thb.Descripcion TIPODESC,hb.PISO,CASE hb.UBICACION WHEN 'N' THEN 'Contrafrente' WHEN 'S' THEN 'Frente' END UBICACION, hb.DESCRIPCION,hb.HABILITADO FROM ENER_LAND.Habitacion hb, ENER_LAND.Tipo_Habitacion thb WHERE hb.idTipo_Habitacion=thb.idTipo_Habitacion AND hb.IdHotel=" + idHotel + " ORDER BY hb.NUMERO ASC");
+            DbResultSet rs = DbManager.GetDataTable("SELECT hb.NUMERO ,thb.idTipo_Habitacion TIPO,thb.Descripcion TIPODESC,hb.PISO,CASE hb.UBICACION WHEN 'N' THEN 'Contrafrente' WHEN 'S' THEN 'Frente' END UBICACION, hb.DESCRIPCION,hb.Habilitado HABFLAG,CASE  hb.HABILITADO WHEN 1 THEN 'Si' ELSE 'No' END HABILITADO FROM ENER_LAND.Habitacion hb, ENER_LAND.Tipo_Habitacion thb WHERE hb.idTipo_Habitacion=thb.idTipo_Habitacion AND hb.IdHotel=" + idHotel + " ORDER BY hb.NUMERO ASC");
             dgvHabitaciones.DataSource = rs.dataTable;
+            dgvHabitaciones.Columns[1].Visible = false;
+            dgvHabitaciones.Columns[6].Visible = false;
             dgvHabitaciones.Visible = true;
             lblHabitaciones.Visible = true;
             btnNewRoom.Visible = true;
@@ -475,6 +492,54 @@ namespace FrbaHotel.ABM_de_Hotel
 
                 }
             }
+
+        private void bajaAltaHabitacion()
+        {
+            int i;
+            for (i = 0; i < dgvHabitaciones.SelectedRows.Count; i++)
+            {
+                MessageBox.Show("Hotel: " + cmbHoteles.SelectedValue + "tipo " +  dgvHabitaciones.SelectedRows[i].Cells[1].Value.ToString() + " habilitado: " +  dgvHabitaciones.SelectedRows[i].Cells[6].Value.ToString());
+
+                using (SqlConnection connection = DbManager.dbConnect())
+                {
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.Connection = connection;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = "UPDATE ENER_LAND.Habitacion SET HABILITADO= CASE HABILITADO WHEN 0 THEN 1 ELSE 0 END " +
+                                              "WHERE idHotel = @idHotel " + 
+                                              "AND NUMERO = @idHabitacion";
+                        command.Parameters.AddWithValue("@idHotel", cmbHoteles.SelectedValue); //Todo tomar de usuario
+                        command.Parameters.AddWithValue("@idHabitacion", dgvHabitaciones.SelectedRows[i].Cells[0].Value);
+                        int recordsAffected = command.ExecuteNonQuery();
+                        connection.Close();
+
+                    }
+                }
+
+            }
+            getHabitacionesHotel(Convert.ToInt32(cmbHoteles.SelectedValue));
         }
+
+        private void btnDisableRoom_Click(object sender, EventArgs e)
+        {
+            bajaAltaHabitacion();
+        }
+
+        private void btnNewRoom_Click(object sender, EventArgs e)
+        {
+            ABM_de_Hotel.GestionHabitacion formHabitacion = new ABM_de_Hotel.GestionHabitacion(this,(int)cmbHoteles.SelectedValue, cmbHoteles.Text);
+            formHabitacion.Show();
+        }
+
+        private void btnEditRoom_Click(object sender, EventArgs e)
+        {
+
+            ABM_de_Hotel.GestionHabitacion formHabitacion = new ABM_de_Hotel.GestionHabitacion(this,(int)cmbHoteles.SelectedValue, cmbHoteles.Text, dgvHabitaciones.SelectedRows[0].Cells);
+            formHabitacion.Show();
+        }
+
+
+    }
 
     }

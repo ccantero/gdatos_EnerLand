@@ -142,7 +142,7 @@ CREATE TABLE ENER_LAND.Habitacion (
   idTipo_Habitacion INTEGER NOT NULL,
   Piso INTEGER NULL,
   Ubicacion CHAR NULL,
-  Descripcion VARCHAR NULL,
+  Descripcion VARCHAR(200) NULL,
   Habilitado CHAR NOT NULL,
   PRIMARY KEY(Numero, IdHotel),
   FOREIGN KEY(idHotel)
@@ -316,7 +316,7 @@ CREATE TABLE ENER_LAND.Reserva_Habitacion (
   IdHotel INTEGER NOT NULL,
   Habitacion_Numero INTEGER NOT NULL,
   FOREIGN KEY(Habitacion_Numero, IdHotel)
-  REFERENCES ENER_LAND.Habitacion(Numero, IdHotel),
+  REFERENCES ENER_LAND.Habitacion(Numero, IdHotel) ON UPDATE CASCADE,
   FOREIGN KEY(idReserva)
   REFERENCES ENER_LAND.Reserva(idReserva)
 );
