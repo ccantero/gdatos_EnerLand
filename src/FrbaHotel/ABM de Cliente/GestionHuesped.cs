@@ -92,5 +92,11 @@ namespace FrbaHotel.ABM_de_Cliente
             Load_Menu();
             UserControlBuscarHuesped.flag_deletion = true;
         }
+
+        public void Cargar_Busqueda()
+        {
+            this.menuStrip1.Visible = false;
+            UserControlBuscarHuesped.flag_busqueda = true;
+        }
     }
 }

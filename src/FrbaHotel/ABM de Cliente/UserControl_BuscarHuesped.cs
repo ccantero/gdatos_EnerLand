@@ -14,12 +14,14 @@ namespace FrbaHotel.ABM_de_Cliente
         private Form FormPadre;
         public static DataTable TablaHuespedes = new DataTable();
         public Boolean flag_deletion;
+        public Boolean flag_busqueda;
 
         public UserControl_BuscarHuesped(Form parentForm)
         {
             InitializeComponent();
             FormPadre = parentForm;
             flag_deletion = false;
+            flag_busqueda = false;
         }
 
         private void UserControl_BuscarHuesped_Load(object sender, EventArgs e)
@@ -149,6 +151,13 @@ namespace FrbaHotel.ABM_de_Cliente
                     return;
                 }
 
+                if (flag_busqueda)
+                {
+                    //((Facturar.Factura_Form)((GestionHuesped)FormPadre).MenuPrincipal).CargarCliente(unHuesped);
+                    //((Facturar.Factura_Form)((GestionHuesped)FormPadre).MenuPrincipal).Visible = true;
+                    //((GestionHuesped)FormPadre).Dispose();
+                    return;
+                }
                 ((GestionHuesped)FormPadre).Load_Menu();
                 ((GestionHuesped)FormPadre).Modificar_Huesped(unHuesped);
             }

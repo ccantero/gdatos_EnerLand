@@ -88,6 +88,12 @@ CREATE TABLE ENER_LAND.Estado_Reserva (
   PRIMARY KEY(idEstado_Reserva)
 );
 
+CREATE TABLE ENER_LAND.Estado_Estadia (
+  idEstado_Estadia INTEGER NOT NULL IDENTITY(1,1),
+  Descripcion VARCHAR(50) NULL,
+  PRIMARY KEY(idEstado_Estadia)
+);
+
 CREATE TABLE ENER_LAND.Tipo_Habitacion (
   idTipo_Habitacion INTEGER NOT NULL,
   Descripcion VARCHAR(20) NULL,
@@ -211,13 +217,14 @@ CREATE TABLE ENER_LAND.Reserva (
 CREATE TABLE ENER_LAND.Estadias (
   idEstadia INTEGER IDENTITY(1,1),
   idReserva INTEGER NOT NULL,
+  idEstado_Estadia INTEGER NOT NULL,
   Fecha_Ingreso DATE NOT NULL,
   Cantidad_Dias INTEGER NULL,
   PRIMARY KEY(idEstadia),
   FOREIGN KEY(idReserva)
-    REFERENCES ENER_LAND.Reserva(idReserva)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
+    REFERENCES ENER_LAND.Reserva(idReserva),
+  FOREIGN KEY(idEstado_Estadia)
+  REFERENCES ENER_LAND.Estado_Estadia(idEstado_Estadia)
 );
 
 CREATE TABLE ENER_LAND.Factura (
@@ -429,6 +436,9 @@ INSERT [ENER_LAND].[Estado_Reserva] ([Descripcion]) VALUES ('Reserva cancelada p
 INSERT [ENER_LAND].[Estado_Reserva] ([Descripcion]) VALUES ('Reserva cancelada por No-Show');
 INSERT [ENER_LAND].[Estado_Reserva] ([Descripcion]) VALUES ('Reserva con ingreso (efectivizada)');
 
+INSERT [ENER_LAND].[Estado_Estadia] ([Descripcion]) VALUES ('CHECK-IN');
+INSERT [ENER_LAND].[Estado_Estadia] ([Descripcion]) VALUES ('CHECK-OUT');
+
 INSERT [ENER_LAND].[Forma_de_Pago] ([Descripcion]) VALUES ('Efectivo');
 INSERT [ENER_LAND].[Forma_de_Pago] ([Descripcion]) VALUES ('Tarjeta de Credito');
 
@@ -521,7 +531,7 @@ INSERT ENER_LAND.Reserva_Habitacion
 	AND M.Habitacion_Numero = Hab.Numero;
 
 INSERT INTO ENER_LAND.Estadias
-	SELECT R.idReserva, Estadia_Fecha_Inicio, Estadia_Cant_Noches
+	SELECT R.idReserva, 2, Estadia_Fecha_Inicio, Estadia_Cant_Noches
 	FROM gd_esquema.Maestra M, ENER_LAND.Reserva R
 	WHERE M.Estadia_Fecha_Inicio IS NOT NULL
 	AND M.Estadia_Cant_Noches IS NOT NULL
@@ -553,8 +563,6 @@ INSERT INTO ENER_LAND.Factura
 	FROM gd_esquema.Maestra M, ENER_LAND.Estadias E
 	WHERE Factura_Nro IS NOT NULL
 	AND Reserva_Codigo = E.idReserva;
-
-PRINT N'Revisar esto - ' + N'.';
 
 INSERT INTO ENER_LAND.Item_Factura([idItem],[idFactura],[Cantidad],[Descripcion],[PrecioUnitario])
 	SELECT	ROW_NUMBER() OVER (PARTITION BY Factura_Nro ORDER BY Factura_Nro), 
@@ -911,4 +919,39 @@ AS
 	AND E.idEstadia = F.idEstadia
 	AND F.idFactura = I1.idFactura
 	AND I1.idItem <> 1
+GO
+
+CREATE PROCEDURE ENER_LAND.CheckReserva
+(
+	@ReservaId INT
+)
+AS
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva 
+					WHERE idReserva = @ReservaId 
+				  )
+		RETURN -1 /* No existe reserva*/
+	
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva R
+					WHERE R.idReserva = @ReservaId 
+					AND R.idEstado_Reserva = 6
+				  )
+		RETURN -2 /* La reserva no ha sido concretada */
+	
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Estadias E
+					WHERE E.idReserva = @ReservaId 
+					AND E.idEstado_Estadia = 2
+				  )
+		RETURN -3 /* No se ha realizado el Check-Out */	
+		
+	IF EXISTS ( SELECT 1 
+				FROM ENER_LAND.Estadias E, ENER_LAND.Factura F
+				WHERE E.idEstadia = F.idEstadia
+				AND E.idReserva = @ReservaId
+			  )
+		RETURN -4 /* Esta Estadia ya ha sido Facturada. */		
+
+	RETURN 0
 GO

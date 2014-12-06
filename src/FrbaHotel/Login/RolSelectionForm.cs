@@ -29,7 +29,7 @@ namespace FrbaHotel.Login
 			}
         }
 
-        private void button_Accept_Click(object sender, EventArgs e)
+        private void RolChoosing()
         {
             int idRol = -1;
             int idHotel = -1;
@@ -38,7 +38,7 @@ namespace FrbaHotel.Login
             {
                 if (roles[i, 1].Equals(this.comboBox1.Text.Trim()))
                 {
-                    if(roles[i, 2].Equals("Hotel"))
+                    if (roles[i, 2].Equals("Hotel"))
                         idHotel = Convert.ToInt32(roles[i, 0]);
 
                     if (roles[i, 2].Equals("Rol"))
@@ -49,7 +49,7 @@ namespace FrbaHotel.Login
 
             if (idRol != -1)
             {
-                
+
                 ((LoginForm)parentForm).currentRol = idRol;
                 this.Dispose();
             }
@@ -63,6 +63,11 @@ namespace FrbaHotel.Login
 
             ((LoginForm)parentForm).CargarMenu();
         }
+        
+        private void button_Accept_Click(object sender, EventArgs e)
+        {
+            RolChoosing();
+        }
 
         private void RolSelectionForm_Load(object sender, EventArgs e)
         {
@@ -75,6 +80,14 @@ namespace FrbaHotel.Login
             this.MinimizeBox = false;
 
             parentForm.Hide();
+        }
+
+        private void comboBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                RolChoosing();
+            }
         }
     }
 }
