@@ -133,6 +133,7 @@ namespace FrbaHotel
             this.facturarEstadíasToolStripMenuItem.Name = "facturarEstadíasToolStripMenuItem";
             this.facturarEstadíasToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.facturarEstadíasToolStripMenuItem.Text = "Facturar estadías";
+            this.facturarEstadíasToolStripMenuItem.Click += new System.EventHandler(this.facturarEstadíasToolStripMenuItem_Click);
             // 
             // estadísticasToolStripMenuItem
             // 

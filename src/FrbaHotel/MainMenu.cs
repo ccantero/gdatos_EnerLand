@@ -180,5 +180,11 @@ namespace FrbaHotel
             Listado_Estadistico.Form_ListadoEstadistico formListado = new FrbaHotel.Listado_Estadistico.Form_ListadoEstadistico(parentForm);
             formListado.Show();
         }
+
+        private void facturarEstadíasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Facturar.Factura_Form facturaForm = new FrbaHotel.Facturar.Factura_Form(parentForm);
+            facturaForm.Show();
+        }
    }
 }

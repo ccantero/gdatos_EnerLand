@@ -849,6 +849,8 @@ AS
 	
 GO
 
+/* Vistas */
+
 CREATE VIEW ENER_LAND.ReservasCanceladas 
 AS
 	SELECT x4.Nombre, x1.idReserva, x1.Fecha, x1.idEstado_Reserva
