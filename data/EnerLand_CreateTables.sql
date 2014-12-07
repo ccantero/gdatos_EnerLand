@@ -253,6 +253,19 @@ CREATE TABLE ENER_LAND.Item_Factura (
   REFERENCES ENER_LAND.Factura(idFactura)
 );
 
+CREATE TABLE ENER_LAND.PagoTarjetaCredito (
+  idPagoTarjetaCredito INTEGER IDENTITY(1,1),
+  idFactura INTEGER NOT NULL,
+  Titular VARCHAR(100) NOT NULL,
+  Numero VARCHAR(20) NOT NULL,
+  VencimientoMes INTEGER NOT NULL,
+  VencimientoAnio INTEGER NOT NULL,
+  Cod_Seguridad INTEGER NOT NULL,
+  PRIMARY KEY(idPagoTarjetaCredito),
+  FOREIGN KEY(idFactura)
+  REFERENCES ENER_LAND.Factura(idFactura)
+);
+
 CREATE TABLE ENER_LAND.Auditoria_Reserva (
   idReserva INTEGER NOT NULL,
   Fecha DATE NOT NULL,

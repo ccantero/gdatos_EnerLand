@@ -130,11 +130,18 @@
     </Compile>
     <Compile Include="DbManager.cs" />
     <Compile Include="DbResultSet.cs" />
+    <Compile Include="Facturar\CreditCard.cs" />
     <Compile Include="Facturar\Factura_Form.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Facturar\Factura_Form.Designer.cs">
       <DependentUpon>Factura_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Facturar\TarjetaCredito_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturar\TarjetaCredito_Form.Designer.cs">
+      <DependentUpon>TarjetaCredito_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Generar Modificar Reserva\Reserva.cs">
       <SubType>Form</SubType>
@@ -211,6 +218,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Facturar\Factura_Form.resx">
       <DependentUpon>Factura_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Facturar\TarjetaCredito_Form.resx">
+      <DependentUpon>TarjetaCredito_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Modificar Reserva\Reserva.resx">
       <DependentUpon>Reserva.cs</DependentUpon>

@@ -16,7 +16,9 @@ namespace FrbaHotel.Facturar
         public DataTable TablaReservas = new DataTable();
         public ABM_de_Cliente.Huesped Huesped = new FrbaHotel.ABM_de_Cliente.Huesped();
         public int currentHotel;
-        
+        public CreditCard tarjetaDeCredito = new CreditCard();
+        public Boolean PagoTarjetaCredito = false;
+
         public Factura_Form(Form parentForm)
         {
             InitializeComponent();
@@ -25,26 +27,46 @@ namespace FrbaHotel.Facturar
 
         private void button_Save_Click(object sender, EventArgs e)
         {
-            DbResultSet rs;
-
             if (!Check_Reserva())
                 return;
 
             if (comboBox_FormaDePago.Text.Equals(String.Empty))
+            {
+                MessageBox.Show("Por favor seleccione una forma de pago.",
+                                "Forma de Pago Faltante",
+                                 MessageBoxButtons.OK,
+                                 MessageBoxIcon.Hand
+                               );
+                
                 return;
+            }
+                
+
+            if (comboBox_FormaDePago.SelectedIndex == 0)
+                Facturar();
+            else
+            {
+                TarjetaCredito_Form creditCardForm = new TarjetaCredito_Form(this);
+                creditCardForm.Show();
+            }
+        }
+
+        public void Facturar()
+        {
+            DbResultSet rs;
+            string myQuery;
 
             int idEstadia = Convert.ToInt32(this.textBox_idEstadia.Text);
 
             DataRow[] Rows = TablaFormasDePago.Select("Descripcion = '" + this.comboBox_FormaDePago.Text.ToString().Trim() + "'");
             int idPago = Convert.ToInt32(Rows[0][0].ToString().Trim());
-
-
+            
             DbManager.Facturar_Estadia(idEstadia, idPago);
 
-            string myQuery =    "SELECT x1.*, x2.Total " +
-                                "FROM ENER_LAND.Item_Factura x1, ENER_LAND.Factura x2 " +
-                                "WHERE x1.idFactura = x2.idFactura " +
-                                "AND x2.idEstadia = " + idEstadia.ToString();
+            myQuery =   "SELECT x1.*, x2.Total " +
+                        "FROM ENER_LAND.Item_Factura x1, ENER_LAND.Factura x2 " +
+                        "WHERE x1.idFactura = x2.idFactura " +
+                        "AND x2.idEstadia = " + idEstadia.ToString();
 
             rs = DbManager.GetDataTable(myQuery);
             if (rs.operationState == 1)
@@ -74,11 +96,28 @@ namespace FrbaHotel.Facturar
             foreach (DataGridViewColumn column in dataGrid_ItemFactura.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
-                if(column.HeaderText.Equals("Descripcion"))
+                if (column.HeaderText.Equals("Descripcion"))
                     column.Width = 175;
                 else
                     column.Width = 75;
             }
+
+            if (PagoTarjetaCredito)
+            {
+                myQuery = "INSERT INTO ENER_LAND.PagoTarjetaCredito( idFactura, Titular, Numero, VencimientoMes, VencimientoAnio, Cod_Seguridad) " +
+                          "VALUES (" + textBox_FacturaNro.Text + ", " +
+                                   "'" + tarjetaDeCredito.Titular + "', " +
+                                       tarjetaDeCredito.Numero_Tarjeta + ", " +
+                                       tarjetaDeCredito.MesVencimiento.ToString() + ", " +
+                                       tarjetaDeCredito.AnioVencimiento.ToString() + ", " +
+                                       tarjetaDeCredito.Cod_Seguridad.ToString() + ")";
+
+                rs = DbManager.dbSqlStatementExec(myQuery);
+                if (rs.operationState == 1)
+                {
+                    MessageBox.Show("Falló la documentacion del Pago de la tarjeta");
+                }
+            }            
         }
 
         private void button_Clean_Click(object sender, EventArgs e)
@@ -90,6 +129,9 @@ namespace FrbaHotel.Facturar
                     (X as TextBox).Text = string.Empty;
                 }
             }
+
+            this.textBox_FacturaNro.Text = string.Empty;
+            this.textBox_Total.Text = string.Empty;
 
             this.comboBox_FormaDePago.Text = String.Empty;
 
