@@ -536,7 +536,8 @@ INSERT INTO ENER_LAND.Estadias
 	WHERE M.Estadia_Fecha_Inicio IS NOT NULL
 	AND M.Estadia_Cant_Noches IS NOT NULL
 	AND M.Factura_Nro IS NULL
-	AND M.Reserva_Codigo = R.idReserva;
+	AND M.Reserva_Codigo = R.idReserva
+	ORDER BY R.idReserva;
 
 INSERT INTO ENER_LAND.Auditoria_Reserva
 	SELECT idReserva, Fecha_Ingreso, 6, 1, NULL
@@ -923,7 +924,8 @@ GO
 
 CREATE PROCEDURE ENER_LAND.CheckReserva
 (
-	@ReservaId INT
+	@ReservaId INT,
+	@HotelId INT
 )
 AS
 	IF NOT EXISTS ( SELECT 1 
@@ -933,25 +935,123 @@ AS
 		RETURN -1 /* No existe reserva*/
 	
 	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva R, ENER_LAND.Reserva_Habitacion RH
+					WHERE R.idReserva = RH.idReserva
+					AND R.idReserva = @ReservaId
+					AND RH.IdHotel = @HotelId
+				  )
+		RETURN -2 /* La reserva es de un hotel distinto */
+
+	IF NOT EXISTS ( SELECT 1 
 					FROM ENER_LAND.Reserva R
 					WHERE R.idReserva = @ReservaId 
 					AND R.idEstado_Reserva = 6
 				  )
-		RETURN -2 /* La reserva no ha sido concretada */
+		RETURN -3 /* La reserva no ha sido concretada */
 	
 	IF NOT EXISTS ( SELECT 1 
 					FROM ENER_LAND.Estadias E
 					WHERE E.idReserva = @ReservaId 
 					AND E.idEstado_Estadia = 2
 				  )
-		RETURN -3 /* No se ha realizado el Check-Out */	
+		RETURN -4 /* No se ha realizado el Check-Out */	
 		
 	IF EXISTS ( SELECT 1 
 				FROM ENER_LAND.Estadias E, ENER_LAND.Factura F
 				WHERE E.idEstadia = F.idEstadia
 				AND E.idReserva = @ReservaId
 			  )
-		RETURN -4 /* Esta Estadia ya ha sido Facturada. */		
+		RETURN -5 /* Esta Estadia ya ha sido Facturada. */		
 
 	RETURN 0
+GO
+
+CREATE PROCEDURE ENER_LAND.Facturar
+(
+	@EstadiaId INT,
+	@Fecha	DATETIME,
+	@idPago INT
+)
+AS
+	DECLARE @NroFactura INT
+	SET @NroFactura = ( SELECT ISNULL( MAX(idFactura) + 1,1) FROM ENER_LAND.Factura )
+	
+	INSERT INTO ENER_LAND.Factura (idFactura, idEstadia, Fecha, Total, idForma_De_Pago)
+	VALUES ( @NroFactura, @EstadiaId, @Fecha, 0, @idPago);
+	
+	INSERT INTO ENER_LAND.Item_Factura
+		SELECT 1, @NroFactura, E.Cantidad_Dias, 'Estadia', h2.PorcentajeRecarga + r2.Precio * TH.Porcentaje
+		FROM	ENER_LAND.Reserva r1, 
+				ENER_LAND.Regimen r2, 
+				ENER_LAND.Estadias E,
+				ENER_LAND.Reserva_Habitacion RH,
+				ENER_LAND.Habitacion H1,
+				ENER_LAND.Tipo_Habitacion TH,
+				ENER_LAND.Hotel h2
+		WHERE r1.idRegimen = r2.idRegimen
+		AND r1.idReserva = E.idReserva
+		AND r1.idReserva = RH.idReserva
+		AND H1.idHotel = RH.IdHotel
+		AND H1.Numero = RH.Habitacion_Numero
+		AND H1.idTipo_Habitacion = TH.idTipo_Habitacion
+		AND H1.idHotel = h2.idHotel
+		AND E.idEstadia = @EstadiaId
+		
+	IF EXISTS ( SELECT 1
+				FROM ENER_LAND.Reserva R, ENER_LAND.Estadias E
+				WHERE R.idReserva = E.idReserva
+				AND E.Cantidad_Dias < R.Cantidad_Dias
+			  )		
+		BEGIN
+			/* El Huesped se retiro antes de tiempo. */
+			INSERT INTO ENER_LAND.Item_Factura
+				SELECT 2, @NroFactura, r1.Cantidad_Dias - E.Cantidad_Dias, 0, 'Estadia - Dias sin Alojamiento'
+				FROM	ENER_LAND.Reserva r1, 
+						ENER_LAND.Regimen r2, 
+						ENER_LAND.Estadias E,
+						ENER_LAND.Reserva_Habitacion RH,
+						ENER_LAND.Habitacion H1,
+						ENER_LAND.Tipo_Habitacion TH,
+						ENER_LAND.Hotel h2
+			WHERE r1.idRegimen = r2.idRegimen
+			AND r1.idReserva = E.idReserva
+			AND r1.idReserva = RH.idReserva
+			AND H1.idHotel = RH.IdHotel
+			AND H1.Numero = RH.Habitacion_Numero
+			AND H1.idTipo_Habitacion = TH.idTipo_Habitacion
+			AND H1.idHotel = h2.idHotel
+			AND E.idEstadia = @EstadiaId
+		END
+	
+	DECLARE @ItemFacturaNro INT
+	DECLARE @Cantidad INT
+	DECLARE @Descripcion VARCHAR(50)
+	DECLARE @PrecioUnitario numeric(10,2)
+
+	DECLARE ItemFactura_Cursor CURSOR FOR
+		SELECT COUNT(1), C.Precio, C.Descripcion
+		FROM ENER_LAND.Consumible_Estadia CE, ENER_LAND.Consumible C
+		WHERE CE.idConsumible = C.idConsumible
+		AND CE.idEstadia = @EstadiaId
+		GROUP BY C.idConsumible, C.Descripcion, C.Precio;
+	
+	SET @ItemFacturaNro = ( SELECT MAX(idItem) + 1 FROM ENER_LAND.Item_Factura WHERE idFactura = @NroFactura );
+	OPEN ItemFactura_Cursor	
+	FETCH NEXT FROM ItemFactura_Cursor INTO @Cantidad, @PrecioUnitario, @Descripcion
+	
+	WHILE @@FETCH_STATUS = 0
+		BEGIN
+			INSERT INTO ENER_LAND.Item_Factura (idItem, idFactura, Cantidad, Descripcion, PrecioUnitario)
+			VALUES (@ItemFacturaNro, @NroFactura, @Cantidad, @Descripcion, @PrecioUnitario );
+						
+			FETCH NEXT FROM ItemFactura_Cursor INTO @Cantidad, @PrecioUnitario, @Descripcion
+			SET @ItemFacturaNro = @ItemFacturaNro + 1;
+		END;
+	CLOSE ItemFactura_Cursor;
+	DEALLOCATE ItemFactura_Cursor;
+	
+	UPDATE ENER_LAND.Factura
+		SET Total = ( SELECT SUM(Cantidad * PrecioUnitario) FROM ENER_LAND.Item_Factura it WHERE it.idFactura = F.idFactura GROUP BY it.idFactura)
+	FROM ENER_LAND.Factura f
+	WHERE f.idFactura = @NroFactura
 GO

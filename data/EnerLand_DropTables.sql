@@ -34,6 +34,7 @@ DROP PROCEDURE ENER_LAND.Agregar_Usuario;
 DROP PROCEDURE ENER_LAND.Modificar_Usuario;
 DROP PROCEDURE ENER_LAND.ActualizarReservas;
 DROP PROCEDURE ENER_LAND.CheckReserva;
+DROP PROCEDURE ENER_LAND.Facturar;
 DROP VIEW ENER_LAND.ReservasCanceladas;
 DROP VIEW ENER_LAND.ConsumiblesFacturados;
 DROP VIEW ENER_LAND.HabitacionesOcupadas;

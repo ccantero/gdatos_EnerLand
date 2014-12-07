@@ -450,7 +450,7 @@ namespace FrbaHotel
 
         }
 
-        //Modifica un Usuario en DB
+        //Modifica un Huesped en DB
         static public bool Modificar_Huesped(Usuario unUsuario)
         {
             try
@@ -548,7 +548,7 @@ namespace FrbaHotel
 
         }
 
-        static public bool Check_Reserva(int idReserva)
+        static public bool Check_Reserva(int idReserva, int idHotel)
         {
             DateTime FechaActual = @FrbaHotel.Properties.Settings.Default.Fecha;
             Boolean status = false;
@@ -560,6 +560,7 @@ namespace FrbaHotel
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@ReservaId", idReserva));
+                cmd.Parameters.Add(new SqlParameter("@HotelId", idHotel));
                 SqlParameter ValorDeRetorno = cmd.Parameters.Add("returnParameter", SqlDbType.Int);
                 ValorDeRetorno.Direction = ParameterDirection.ReturnValue;
 
@@ -576,7 +577,7 @@ namespace FrbaHotel
                                 break;
                             }
                         case -1:
-                            { 
+                            {
                                 MessageBox.Show("El Numero de Reserva es Incorrecto",
                                                 "Reserva Inexistente",
                                                 MessageBoxButtons.OK,
@@ -584,6 +585,14 @@ namespace FrbaHotel
                                 break;
                             }
                         case -2:
+                            { 
+                                MessageBox.Show("La reserva seleccionada corresponde a otro hotel",
+                                                "Hotel Incorrecto",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -3:
                             {
                                 MessageBox.Show("La reserva indicada aun no se ha hecho efectiva.",
                                                 "Reserva incorrecta",
@@ -591,7 +600,7 @@ namespace FrbaHotel
                                                 MessageBoxIcon.Hand);
                                 break;
                             }
-                        case -3:
+                        case -4:
                             {
                                 {
                                     MessageBox.Show("La estadia permanece activa. Favor realizar el Check-Out",
@@ -601,7 +610,7 @@ namespace FrbaHotel
                                     break;
                                 }
                             }
-                        case -4:
+                        case -5:
                             {
                                 {
                                     MessageBox.Show("La estadia seleccionada ya ha sido facturada.",
@@ -630,6 +639,40 @@ namespace FrbaHotel
             }
 
         }
-    
+
+        static public void Facturar_Estadia(int idEstadia, int idPago)
+        {
+            DateTime FechaActual = @FrbaHotel.Properties.Settings.Default.Fecha;
+
+            try
+            {
+                SqlConnection dbsession = DbManager.dbConnect();
+                SqlCommand cmd = new SqlCommand("ENER_LAND.Facturar", dbsession);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@EstadiaId", idEstadia));
+                cmd.Parameters.Add(new SqlParameter("@Fecha", FechaActual));
+                cmd.Parameters.Add(new SqlParameter("@idPago", idPago));
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    return;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("[ERROR] - " + e.ToString());
+                    MessageBox.Show("[ERROR] - " + e.Message);
+                    return;
+                    throw;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return;
+            }
+        
+        }
     }
 }

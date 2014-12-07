@@ -184,6 +184,7 @@ namespace FrbaHotel
         private void facturarEstadíasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Facturar.Factura_Form facturaForm = new FrbaHotel.Facturar.Factura_Form(parentForm);
+            facturaForm.currentHotel = actualHotel;
             facturaForm.Show();
         }
    }
