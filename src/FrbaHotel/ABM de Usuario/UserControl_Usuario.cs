@@ -223,6 +223,9 @@ namespace FrbaHotel.ABM_de_Usuario
 
         private void button_Save_Click(object sender, EventArgs e)
         {
+            if (!CheckFields())
+                return;            
+            
             Usuario unUsuario = new Usuario();
             
             unUsuario.Apellido = textBox_Apellido.Text.Trim();
@@ -377,6 +380,22 @@ namespace FrbaHotel.ABM_de_Usuario
         {
             cambiar_contraseña = true;
         }
-    
+
+        private bool CheckFields()
+        {
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_DNI.Text, "^[1-9][0-9]+").Success)
+            {
+                MessageBox.Show(    "Numero de Documento debe contener unicamente numeros",
+                                    "Numero de Documento Incorrecto",
+                                     MessageBoxButtons.OK,
+                                     MessageBoxIcon.Hand
+                                   );
+                return false;
+            }
+            
+
+            return true;
+
+        }
     }
 }

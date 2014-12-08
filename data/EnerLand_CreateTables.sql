@@ -98,6 +98,7 @@ CREATE TABLE ENER_LAND.Tipo_Habitacion (
   idTipo_Habitacion INTEGER NOT NULL,
   Descripcion VARCHAR(20) NULL,
   Porcentaje NUMERIC(18,2) NULL,
+  CantidadMaximaHuepedes INTEGER DEFAULT 1,
   PRIMARY KEY(idTipo_Habitacion)
 );
 
@@ -199,6 +200,7 @@ CREATE TABLE ENER_LAND.Reserva (
   idRegimen INTEGER NOT NULL,
   FechaDesde DATE NULL,
   Cantidad_Dias INTEGER NULL,
+  Cantidad_Huespedes INTEGER DEFAULT 1,
   PRIMARY KEY(idReserva),
   FOREIGN KEY(idRegimen)
     REFERENCES ENER_LAND.Regimen(idRegimen)
@@ -426,7 +428,8 @@ WHERE EXISTS (	SELECT 1 FROM ENER_LAND.Huesped x2
 				HAVING COUNT(1) = 1 )
 
 INSERT ENER_LAND.Tipo_Habitacion 
-	SELECT DISTINCT Habitacion_Tipo_Codigo, Habitacion_Tipo_Descripcion,Habitacion_Tipo_Porcentual FROM gd_esquema.Maestra
+	SELECT DISTINCT Habitacion_Tipo_Codigo, Habitacion_Tipo_Descripcion,Habitacion_Tipo_Porcentual, 1
+	FROM gd_esquema.Maestra
 	ORDER BY 1;
 	
 INSERT ENER_LAND.Regimen
@@ -509,7 +512,7 @@ INSERT [ENER_LAND].[Regimen_Hotel]
 	ORDER BY 1, 2;
 	
 INSERT ENER_LAND.Reserva
-	SELECT DISTINCT Reserva_Codigo, 1, x6.idHuesped, x5.idRegimen, x1.Reserva_Fecha_Inicio, x1.Reserva_Cant_Noches
+	SELECT DISTINCT Reserva_Codigo, 1, x6.idHuesped, x5.idRegimen, x1.Reserva_Fecha_Inicio, x1.Reserva_Cant_Noches, 1
 	FROM gd_esquema.Maestra x1, ENER_LAND.Hotel x2, ENER_LAND.Localidad x3, ENER_LAND.Habitacion x4, ENER_LAND.Regimen x5, ENER_LAND.Huesped x6
 	WHERE x1.Hotel_Calle = x2.Calle
 	AND x1.Hotel_Nro_Calle = x2.Numero

@@ -251,6 +251,9 @@
     <EmbeddedResource Include="Registrar Consumible\RegistroConsumible_Form.resx">
       <DependentUpon>RegistroConsumible_Form.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Registrar Estadia\RegistrarEntrada_Form.resx">
+      <DependentUpon>RegistrarEntrada_Form.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Registrar Estadia\RegistrarSalida_Form.resx">
       <DependentUpon>RegistrarSalida_Form.cs</DependentUpon>
     </EmbeddedResource>
@@ -278,11 +281,11 @@
     <Compile Include="Registrar Consumible\RegistroConsumible_Form.Designer.cs">
       <DependentUpon>RegistroConsumible_Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="Registrar Estadia\Form1.cs">
+    <Compile Include="Registrar Estadia\RegistrarEntrada_Form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Registrar Estadia\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Registrar Estadia\RegistrarEntrada_Form.Designer.cs">
+      <DependentUpon>RegistrarEntrada_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Registrar Estadia\RegistrarSalida_Form.cs">
       <SubType>Form</SubType>

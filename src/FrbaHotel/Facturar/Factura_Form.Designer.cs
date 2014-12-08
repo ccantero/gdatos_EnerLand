@@ -119,7 +119,7 @@
             this.textBox_idReserva.Location = new System.Drawing.Point(92, 26);
             this.textBox_idReserva.Name = "textBox_idReserva";
             this.textBox_idReserva.Size = new System.Drawing.Size(89, 20);
-            this.textBox_idReserva.TabIndex = 15;
+            this.textBox_idReserva.TabIndex = 1;
             // 
             // label_idReserva
             // 
@@ -135,7 +135,7 @@
             this.button_Clean.Location = new System.Drawing.Point(299, 194);
             this.button_Clean.Name = "button_Clean";
             this.button_Clean.Size = new System.Drawing.Size(75, 23);
-            this.button_Clean.TabIndex = 13;
+            this.button_Clean.TabIndex = 4;
             this.button_Clean.Text = "Limpiar";
             this.button_Clean.UseVisualStyleBackColor = true;
             this.button_Clean.Click += new System.EventHandler(this.button_Clean_Click);
@@ -145,7 +145,7 @@
             this.button_Save.Location = new System.Drawing.Point(299, 129);
             this.button_Save.Name = "button_Save";
             this.button_Save.Size = new System.Drawing.Size(75, 23);
-            this.button_Save.TabIndex = 12;
+            this.button_Save.TabIndex = 3;
             this.button_Save.Text = "Facturar";
             this.button_Save.UseVisualStyleBackColor = true;
             this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
@@ -156,7 +156,7 @@
             this.comboBox_FormaDePago.Location = new System.Drawing.Point(92, 191);
             this.comboBox_FormaDePago.Name = "comboBox_FormaDePago";
             this.comboBox_FormaDePago.Size = new System.Drawing.Size(145, 21);
-            this.comboBox_FormaDePago.TabIndex = 11;
+            this.comboBox_FormaDePago.TabIndex = 2;
             // 
             // label1
             // 

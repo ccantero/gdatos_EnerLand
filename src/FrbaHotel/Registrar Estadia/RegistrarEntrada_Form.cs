@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.Registrar_Estadia
 {
-    public partial class Form1 : Form
+    public partial class RegistrarEntrada_Form : Form
     {
-        public Form1()
+        public RegistrarEntrada_Form()
         {
             InitializeComponent();
         }
