@@ -194,5 +194,12 @@ namespace FrbaHotel
             registroConsumibleForm.currentHotel = actualHotel;
             registroConsumibleForm.Show();
         }
+
+        private void registrarCheckoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Registrar_Estadia.RegistrarSalida_Form registrarSalidaForm = new FrbaHotel.Registrar_Estadia.RegistrarSalida_Form(parentForm);
+            registrarSalidaForm.currentHotel = actualHotel;
+            registrarSalidaForm.Show();
+        }
    }
 }

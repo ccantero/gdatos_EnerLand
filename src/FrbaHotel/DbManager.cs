@@ -7,7 +7,6 @@ using System.Data;
 using System.Data.SqlClient;
 using FrbaHotel.ABM_de_Cliente;
 using FrbaHotel.ABM_de_Usuario;
-
 using System.Windows.Forms;
 
 namespace FrbaHotel
@@ -548,6 +547,7 @@ namespace FrbaHotel
 
         }
 
+        //Verifica si la reserva es correcta para Facturar
         static public bool Check_Reserva(int idReserva, int idHotel)
         {
             DateTime FechaActual = @FrbaHotel.Properties.Settings.Default.Fecha;
@@ -640,6 +640,7 @@ namespace FrbaHotel
 
         }
 
+        // Crea factura, e items de factura para una determinada estadia
         static public void Facturar_Estadia(int idEstadia, int idPago)
         {
             DateTime FechaActual = @FrbaHotel.Properties.Settings.Default.Fecha;
@@ -675,6 +676,7 @@ namespace FrbaHotel
         
         }
 
+        // Verifica si una estadia es correcta para registrar consumibles
         static public bool Check_Estadia(int idReserva, int idHotel)
         {
             DateTime FechaActual = @FrbaHotel.Properties.Settings.Default.Fecha;
@@ -775,5 +777,110 @@ namespace FrbaHotel
 
         }
 
+        // Verifica si una estadia es correcta para proceder con el Check-Out
+        static public bool Proceess_CheckOut(int idReserva, int idHotel)
+        {
+            DateTime FechaActual = @FrbaHotel.Properties.Settings.Default.Fecha;
+            Boolean status = false;
+
+            try
+            {
+                SqlConnection dbsession = DbManager.dbConnect();
+                SqlCommand cmd = new SqlCommand("ENER_LAND.Process_CheckOut", dbsession);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@ReservaId", idReserva));
+                cmd.Parameters.Add(new SqlParameter("@HotelId", idHotel));
+                cmd.Parameters.Add(new SqlParameter("@Fecha", FechaActual));
+                SqlParameter ValorDeRetorno = cmd.Parameters.Add("returnParameter", SqlDbType.Int);
+                ValorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    int resultado = Convert.ToInt32(ValorDeRetorno.SqlValue.ToString());
+
+                    switch (resultado)
+                    {
+                        case 0:
+                            {
+                                status = true;
+                                break;
+                            }
+                        case -1:
+                            {
+                                MessageBox.Show("El Numero de Reserva es Incorrecto",
+                                                "Reserva Inexistente",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -2:
+                            {
+                                MessageBox.Show("La reserva seleccionada corresponde a otro hotel",
+                                                "Hotel Incorrecto",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -3:
+                            {
+                                MessageBox.Show("La reserva indicada aun no se ha hecho efectiva.",
+                                                "Reserva incorrecta",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -4:
+                            {
+                                MessageBox.Show("No se ha realizado el Check-In para esta Reserva.",
+                                                "Estadia incorrecta",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -5:
+                            {
+                                MessageBox.Show("La estadia ya no se encuentra Activa",
+                                                 "Check-Out Realizado",
+                                                 MessageBoxButtons.OK,
+                                                 MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -6:
+                            {
+                                MessageBox.Show("La estadia seleccionada no puede ser cancelada un dia anterior a la fecha de Reserva.",
+                                                "Fecha de Egreso Incorrecta",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -7:
+                            {
+                                MessageBox.Show("La estadia seleccionada no puede ser cancelada en el dia de la fecha.",
+                                                "Fecha de Egreso Incorrecta",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                    }
+
+                    return status;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("[ERROR] - " + e.ToString());
+                    MessageBox.Show("[ERROR] - " + e.Message);
+                    return status;
+                    throw;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return status;
+            }
+        }
+    
     }
 }

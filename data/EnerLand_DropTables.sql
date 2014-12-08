@@ -37,6 +37,7 @@ DROP PROCEDURE ENER_LAND.ActualizarReservas;
 DROP PROCEDURE ENER_LAND.CheckReserva;
 DROP PROCEDURE ENER_LAND.Facturar;
 DROP PROCEDURE ENER_LAND.CheckEstadia;
+DROP PROCEDURE ENER_LAND.Process_CheckOut;
 DROP VIEW ENER_LAND.ReservasCanceladas;
 DROP VIEW ENER_LAND.ConsumiblesFacturados;
 DROP VIEW ENER_LAND.HabitacionesOcupadas;

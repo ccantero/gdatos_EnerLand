@@ -246,7 +246,7 @@ CREATE TABLE ENER_LAND.Item_Factura (
   idItem INTEGER NOT NULL,
   idFactura INTEGER NOT NULL,
   Cantidad INTEGER NOT NULL,
-  Descripcion VARCHAR(25) NOT NULL,
+  Descripcion VARCHAR(50) NOT NULL,
   PrecioUnitario NUMERIC(18,2) NOT NULL,
   PRIMARY KEY(idItem, idFactura),
   FOREIGN KEY(idFactura)
@@ -1018,7 +1018,7 @@ AS
 		BEGIN
 			/* El Huesped se retiro antes de tiempo. */
 			INSERT INTO ENER_LAND.Item_Factura
-				SELECT 2, @NroFactura, r1.Cantidad_Dias - E.Cantidad_Dias, 0, 'Estadia - Dias sin Alojamiento'
+				SELECT 2, @NroFactura, r1.Cantidad_Dias - E.Cantidad_Dias, 'Estadia - Dias sin Alojamiento', h2.PorcentajeRecarga + r2.Precio * TH.Porcentaje
 				FROM	ENER_LAND.Reserva r1, 
 						ENER_LAND.Regimen r2, 
 						ENER_LAND.Estadias E,
@@ -1026,14 +1026,14 @@ AS
 						ENER_LAND.Habitacion H1,
 						ENER_LAND.Tipo_Habitacion TH,
 						ENER_LAND.Hotel h2
-			WHERE r1.idRegimen = r2.idRegimen
-			AND r1.idReserva = E.idReserva
-			AND r1.idReserva = RH.idReserva
-			AND H1.idHotel = RH.IdHotel
-			AND H1.Numero = RH.Habitacion_Numero
-			AND H1.idTipo_Habitacion = TH.idTipo_Habitacion
-			AND H1.idHotel = h2.idHotel
-			AND E.idEstadia = @EstadiaId
+				WHERE r1.idRegimen = r2.idRegimen
+				AND r1.idReserva = E.idReserva
+				AND r1.idReserva = RH.idReserva
+				AND H1.idHotel = RH.IdHotel
+				AND H1.Numero = RH.Habitacion_Numero
+				AND H1.idTipo_Habitacion = TH.idTipo_Habitacion
+				AND H1.idHotel = h2.idHotel
+				AND E.idEstadia = @EstadiaId
 		END
 	
 	DECLARE @ItemFacturaNro INT
@@ -1130,5 +1130,68 @@ AS
 			  )
 		RETURN -6 /* Esta Estadia ya ha sido Facturada. */		
 
+	RETURN 0
+GO
+
+CREATE PROCEDURE ENER_LAND.Process_CheckOut
+(
+	@ReservaId INT,
+	@HotelId INT,
+	@Fecha DATETIME
+)
+AS
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva 
+					WHERE idReserva = @ReservaId 
+				  )
+		RETURN -1 /* No existe reserva*/
+	
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva R, ENER_LAND.Reserva_Habitacion RH
+					WHERE R.idReserva = RH.idReserva
+					AND R.idReserva = @ReservaId
+					AND RH.IdHotel = @HotelId
+				  )
+		RETURN -2 /* La reserva es de un hotel distinto */
+
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva R
+					WHERE R.idReserva = @ReservaId 
+					AND R.idEstado_Reserva = 6
+				  )
+		RETURN -3 /* La reserva no ha sido concretada */
+	
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Estadias E
+					WHERE E.idReserva = @ReservaId 
+				  )
+		RETURN -4 /* La estadia no ha sido concretada */
+	
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Estadias E
+					WHERE E.idReserva = @ReservaId 
+					AND E.idEstado_Estadia = 1
+				  )
+		RETURN -5 /* La estadia ya no se encuentra activa */
+		
+	IF NOT EXISTS ( SELECT 1
+					FROM ENER_LAND.Reserva
+					WHERE idReserva = @ReservaId
+					AND FechaDesde < @Fecha
+				  ) 	
+		RETURN -6 /* La fecha actual es menor a la fecha de reserva */	
+	
+	IF NOT EXISTS ( SELECT 1
+					FROM ENER_LAND.Reserva
+					WHERE idReserva = @ReservaId
+					AND DATEADD(d, Cantidad_Dias, FechaDesde) >= @Fecha
+				  )
+		RETURN -7 /* La fecha no coincide con la reserva */	
+	
+	UPDATE ENER_LAND.Estadias
+	SET idEstado_Estadia = 2,
+		Cantidad_Dias = DATEDIFF (d, Fecha_Ingreso, @Fecha )
+	WHERE idReserva = @ReservaId; 
+		
 	RETURN 0
 GO

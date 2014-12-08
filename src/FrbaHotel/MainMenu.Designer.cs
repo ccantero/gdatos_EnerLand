@@ -121,6 +121,7 @@ namespace FrbaHotel
             this.registrarCheckoutToolStripMenuItem.Name = "registrarCheckoutToolStripMenuItem";
             this.registrarCheckoutToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.registrarCheckoutToolStripMenuItem.Text = "Registrar check-out";
+            this.registrarCheckoutToolStripMenuItem.Click += new System.EventHandler(this.registrarCheckoutToolStripMenuItem_Click);
             // 
             // registrarConsumiblesToolStripMenuItem
             // 
