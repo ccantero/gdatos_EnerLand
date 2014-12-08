@@ -190,7 +190,7 @@ namespace FrbaHotel.Facturar
             if (!DbManager.Check_Reserva(Convert.ToInt32(textBox_idReserva.Text), currentHotel))
                 return false;
 
-            string myQuery = "SELECT idEstadia, H.Apellido, H.Nombre, E.Fecha_Ingreso, E.Cantidad_Dias " +
+            string myQuery =    "SELECT idEstadia, H.Apellido, H.Nombre, E.Fecha_Ingreso, E.Cantidad_Dias " +
                                 "FROM ENER_LAND.Reserva R, ENER_LAND.Estadias E, ENER_LAND.Huesped H " +
                                 "WHERE R.idReserva = E.idReserva " +
                                 "AND R.idHuesped = H.idHuesped " +

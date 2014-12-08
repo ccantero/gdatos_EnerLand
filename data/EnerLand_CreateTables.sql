@@ -1063,8 +1063,72 @@ AS
 	CLOSE ItemFactura_Cursor;
 	DEALLOCATE ItemFactura_Cursor;
 	
+	IF EXISTS ( SELECT 1 
+				FROM ENER_LAND.Estadias E, ENER_LAND.Reserva R
+				WHERE E.idReserva = R.idReserva
+				AND R.idRegimen = 4 
+				AND E.idEstadia = @EstadiaId
+			  )
+		BEGIN			  
+			INSERT INTO ENER_LAND.Item_Factura 
+				SELECT @ItemFacturaNro, @NroFactura, 1, 'Descuento por ALL Inclusive', SUM(Precio) * -1
+				FROM ENER_LAND.Consumible_Estadia CE, ENER_LAND.Consumible C
+				WHERE CE.idConsumible = C.idConsumible
+				AND idEstadia = @EstadiaId
+		END
+	
 	UPDATE ENER_LAND.Factura
 		SET Total = ( SELECT SUM(Cantidad * PrecioUnitario) FROM ENER_LAND.Item_Factura it WHERE it.idFactura = F.idFactura GROUP BY it.idFactura)
 	FROM ENER_LAND.Factura f
 	WHERE f.idFactura = @NroFactura
+GO
+
+CREATE PROCEDURE ENER_LAND.CheckEstadia
+(
+	@ReservaId INT,
+	@HotelId INT
+)
+AS
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva 
+					WHERE idReserva = @ReservaId 
+				  )
+		RETURN -1 /* No existe reserva*/
+	
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva R, ENER_LAND.Reserva_Habitacion RH
+					WHERE R.idReserva = RH.idReserva
+					AND R.idReserva = @ReservaId
+					AND RH.IdHotel = @HotelId
+				  )
+		RETURN -2 /* La reserva es de un hotel distinto */
+
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva R
+					WHERE R.idReserva = @ReservaId 
+					AND R.idEstado_Reserva = 6
+				  )
+		RETURN -3 /* La reserva no ha sido concretada */
+	
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Estadias E
+					WHERE E.idReserva = @ReservaId 
+				  )
+		RETURN -4 /* No se ha realizado el Check-In */	
+	
+	IF EXISTS ( SELECT 1 
+					FROM ENER_LAND.Estadias E
+					WHERE E.idReserva = @ReservaId 
+					AND E.idEstado_Estadia = 2
+				  )
+		RETURN -5 /* Check-Out realizado. No se pueden agregar Consumibles */	
+		
+	IF EXISTS ( SELECT 1 
+				FROM ENER_LAND.Estadias E, ENER_LAND.Factura F
+				WHERE E.idEstadia = F.idEstadia
+				AND E.idReserva = @ReservaId
+			  )
+		RETURN -6 /* Esta Estadia ya ha sido Facturada. */		
+
+	RETURN 0
 GO

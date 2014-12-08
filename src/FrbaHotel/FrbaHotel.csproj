@@ -248,6 +248,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Registrar Consumible\RegistroConsumible_Form.resx">
+      <DependentUpon>RegistroConsumible_Form.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Test_Forms\DialogForm.resx">
       <DependentUpon>DialogForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -266,11 +269,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Registrar Consumible\Form1.cs">
+    <Compile Include="Registrar Consumible\RegistroConsumible_Form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Registrar Consumible\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Registrar Consumible\RegistroConsumible_Form.Designer.cs">
+      <DependentUpon>RegistroConsumible_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Registrar Estadia\Form1.cs">
       <SubType>Form</SubType>
