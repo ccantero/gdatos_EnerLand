@@ -1200,3 +1200,69 @@ AS
 		
 	RETURN 0
 GO
+
+CREATE PROCEDURE ENER_LAND.Process_CheckIn
+(
+	@ReservaId INT,
+	@HotelId INT,
+	@Fecha DATETIME
+)
+AS
+	/*
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva 
+					WHERE idReserva = @ReservaId 
+				  )
+		RETURN -1 /* No existe reserva*/
+	
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva R, ENER_LAND.Reserva_Habitacion RH
+					WHERE R.idReserva = RH.idReserva
+					AND R.idReserva = @ReservaId
+					AND RH.IdHotel = @HotelId
+				  )
+		RETURN -2 /* La reserva es de un hotel distinto */
+
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva R
+					WHERE R.idReserva = @ReservaId 
+					AND R.idEstado_Reserva = 6
+				  )
+		RETURN -3 /* La reserva no ha sido concretada */
+	
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Estadias E
+					WHERE E.idReserva = @ReservaId 
+				  )
+		RETURN -4 /* La estadia no ha sido concretada */
+	
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Estadias E
+					WHERE E.idReserva = @ReservaId 
+					AND E.idEstado_Estadia = 1
+				  )
+		RETURN -5 /* La estadia ya no se encuentra activa */
+		
+	IF NOT EXISTS ( SELECT 1
+					FROM ENER_LAND.Reserva
+					WHERE idReserva = @ReservaId
+					AND FechaDesde < @Fecha
+				  ) 	
+		RETURN -6 /* La fecha actual es menor a la fecha de reserva */	
+	
+	IF NOT EXISTS ( SELECT 1
+					FROM ENER_LAND.Reserva
+					WHERE idReserva = @ReservaId
+					AND DATEADD(d, Cantidad_Dias, FechaDesde) >= @Fecha
+				  )
+		RETURN -7 /* La fecha no coincide con la reserva */	
+	
+	UPDATE ENER_LAND.Estadias
+	SET idEstado_Estadia = 2,
+		Cantidad_Dias = DATEDIFF (d, Fecha_Ingreso, @Fecha )
+	WHERE idReserva = @ReservaId; 
+	
+	*/	
+	RETURN 0
+	
+GO

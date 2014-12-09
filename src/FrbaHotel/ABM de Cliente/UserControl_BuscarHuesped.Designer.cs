@@ -42,6 +42,7 @@
             this.label_Nrodocumento = new System.Windows.Forms.Label();
             this.textBox_nombre = new System.Windows.Forms.TextBox();
             this.label_nombre = new System.Windows.Forms.Label();
+            this.button_AddHuesped = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_Huespedes)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -179,10 +180,22 @@
             this.label_nombre.TabIndex = 0;
             this.label_nombre.Text = "Nombre";
             // 
+            // button_AddHuesped
+            // 
+            this.button_AddHuesped.Location = new System.Drawing.Point(342, 160);
+            this.button_AddHuesped.Name = "button_AddHuesped";
+            this.button_AddHuesped.Size = new System.Drawing.Size(106, 23);
+            this.button_AddHuesped.TabIndex = 16;
+            this.button_AddHuesped.Text = "Agregar Huesped";
+            this.button_AddHuesped.UseVisualStyleBackColor = true;
+            this.button_AddHuesped.Visible = false;
+            this.button_AddHuesped.Click += new System.EventHandler(this.button_AddHuesped_Click);
+            // 
             // UserControl_BuscarHuesped
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_AddHuesped);
             this.Controls.Add(this.button_search);
             this.Controls.Add(this.button_clean);
             this.Controls.Add(this.dataGrid_Huespedes);
@@ -213,5 +226,6 @@
         private System.Windows.Forms.Label label_Nrodocumento;
         private System.Windows.Forms.TextBox textBox_nombre;
         private System.Windows.Forms.Label label_nombre;
+        private System.Windows.Forms.Button button_AddHuesped;
     }
 }

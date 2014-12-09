@@ -41,9 +41,9 @@
             this.button_Clean = new System.Windows.Forms.Button();
             this.button_Save = new System.Windows.Forms.Button();
             this.label_FechaIngreso = new System.Windows.Forms.Label();
-            this.dataGrid_ItemFactura = new System.Windows.Forms.DataGridView();
+            this.dataGrid_Huespedes = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_ItemFactura)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_Huespedes)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -171,30 +171,31 @@
             this.label_FechaIngreso.TabIndex = 9;
             this.label_FechaIngreso.Text = "Fecha Ingreso";
             // 
-            // dataGrid_ItemFactura
+            // dataGrid_Huespedes
             // 
-            this.dataGrid_ItemFactura.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dataGrid_ItemFactura.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGrid_ItemFactura.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGrid_ItemFactura.Location = new System.Drawing.Point(12, 258);
-            this.dataGrid_ItemFactura.Name = "dataGrid_ItemFactura";
-            this.dataGrid_ItemFactura.RowHeadersVisible = false;
-            this.dataGrid_ItemFactura.Size = new System.Drawing.Size(259, 100);
-            this.dataGrid_ItemFactura.TabIndex = 21;
+            this.dataGrid_Huespedes.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGrid_Huespedes.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGrid_Huespedes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGrid_Huespedes.Location = new System.Drawing.Point(12, 258);
+            this.dataGrid_Huespedes.Name = "dataGrid_Huespedes";
+            this.dataGrid_Huespedes.RowHeadersVisible = false;
+            this.dataGrid_Huespedes.Size = new System.Drawing.Size(259, 100);
+            this.dataGrid_Huespedes.TabIndex = 21;
             // 
             // RegistrarEntrada_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(288, 380);
-            this.Controls.Add(this.dataGrid_ItemFactura);
+            this.Controls.Add(this.dataGrid_Huespedes);
             this.Controls.Add(this.groupBox1);
             this.Name = "RegistrarEntrada_Form";
             this.Text = "Registrar Estadia";
             this.Load += new System.EventHandler(this.RegistrarEntrada_Form_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RegistrarEntrada_Form_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_ItemFactura)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_Huespedes)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -210,7 +211,7 @@
         private System.Windows.Forms.Label label_FechaIngreso;
         private System.Windows.Forms.TextBox textBox_Regimen;
         private System.Windows.Forms.Label label_Regimen;
-        private System.Windows.Forms.DataGridView dataGrid_ItemFactura;
+        private System.Windows.Forms.DataGridView dataGrid_Huespedes;
         private System.Windows.Forms.TextBox textBox_CantHuespedes;
         private System.Windows.Forms.Label label_CantidadHuespedes;
         private System.Windows.Forms.Label label_CantidadDias;

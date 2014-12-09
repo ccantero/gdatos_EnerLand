@@ -76,10 +76,7 @@ namespace FrbaHotel.ABM_de_Cliente
             this.Controls.Clear();
             this.Controls.Add(this.menuStrip1);
 
-            UserControlHuesped = new UserControl_Huesped(this);
-            this.Controls.Add(UserControlHuesped);
-            UserControlHuesped.Location = new Point(0, 10);
-            UserControlHuesped.Name = "UserControlHuesped";
+            AgregarHuesped();
         }
 
         private void modificarHuéspedToolStripMenuItem_Click(object sender, EventArgs e)
@@ -96,7 +93,15 @@ namespace FrbaHotel.ABM_de_Cliente
         public void Cargar_Busqueda()
         {
             this.menuStrip1.Visible = false;
-            UserControlBuscarHuesped.flag_busqueda = true;
+            UserControlBuscarHuesped.BuscarHuesped();
+        }
+
+        public void AgregarHuesped()
+        {
+            UserControlHuesped = new UserControl_Huesped(this);
+            this.Controls.Add(UserControlHuesped);
+            UserControlHuesped.Location = new Point(0, 10);
+            UserControlHuesped.Name = "UserControlHuesped";
         }
     }
 }

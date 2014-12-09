@@ -37,7 +37,7 @@ namespace FrbaHotel.Registrar_Estadia
 
         private void button_Clean_Click(object sender, EventArgs e)
         {
-             foreach (Control X in this.groupBox1.Controls)
+            foreach (Control X in this.groupBox1.Controls)
             {
                 if (X is TextBox)
                 {

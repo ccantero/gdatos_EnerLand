@@ -126,6 +126,9 @@ namespace FrbaHotel.ABM_de_Cliente
                 btn.Text = "Delete";
             else
                 btn.Text = "Select";
+
+            
+
         }
 
         private void dataGrid_Huespedes_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -153,9 +156,9 @@ namespace FrbaHotel.ABM_de_Cliente
 
                 if (flag_busqueda)
                 {
-                    //((Facturar.Factura_Form)((GestionHuesped)FormPadre).MenuPrincipal).CargarCliente(unHuesped);
-                    //((Facturar.Factura_Form)((GestionHuesped)FormPadre).MenuPrincipal).Visible = true;
-                    //((GestionHuesped)FormPadre).Dispose();
+                    ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Huespedes.Add(unHuesped.idHuesped);
+                    ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Visible = true;
+                    ((GestionHuesped)FormPadre).Dispose();
                     return;
                 }
                 ((GestionHuesped)FormPadre).Load_Menu();
@@ -244,6 +247,17 @@ namespace FrbaHotel.ABM_de_Cliente
 
         }
 
+        private void button_AddHuesped_Click(object sender, EventArgs e)
+        {
+            ((GestionHuesped)FormPadre).Load_Menu();
+            ((GestionHuesped)FormPadre).AgregarHuesped();
+        }
+
+        public void BuscarHuesped()
+        {
+            button_AddHuesped.Visible = true;
+            flag_busqueda = true;
+        }
         
     }
 }
