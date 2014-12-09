@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BAFE3016-AC06-4C43-ABEF-87F21AB5699B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -183,12 +183,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ABM de Cliente\UserControl_BuscarHuesped.resx">
       <DependentUpon>UserControl_BuscarHuesped.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Cliente\GestionHuesped.resx">
       <DependentUpon>GestionHuesped.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Cliente\UserControl_Huesped.resx">
       <DependentUpon>UserControl_Huesped.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Hotel\GestionHabitacion.resx">
       <DependentUpon>GestionHabitacion.cs</DependentUpon>
@@ -200,27 +203,35 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Rol\UserControl_Rol.resx">
       <DependentUpon>UserControl_Rol.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Rol\GestionRoles.resx">
       <DependentUpon>GestionRoles.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Rol\UserControl_BuscarRol.resx">
       <DependentUpon>UserControl_BuscarRol.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Usuario\GestionUsuarios.resx">
       <DependentUpon>GestionUsuarios.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Usuario\UserControl_BuscarUsuario.resx">
       <DependentUpon>UserControl_BuscarUsuario.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Usuario\UserControl_Usuario.resx">
       <DependentUpon>UserControl_Usuario.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Facturar\Factura_Form.resx">
       <DependentUpon>Factura_Form.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Facturar\TarjetaCredito_Form.resx">
       <DependentUpon>TarjetaCredito_Form.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Modificar Reserva\Reserva.resx">
       <DependentUpon>Reserva.cs</DependentUpon>
@@ -228,12 +239,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Listado Estadistico\Listado_Form.resx">
       <DependentUpon>Listado_Form.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\RolSelectionForm.resx">
       <DependentUpon>RolSelectionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -250,15 +264,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Registrar Consumible\RegistroConsumible_Form.resx">
       <DependentUpon>RegistroConsumible_Form.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Registrar Estadia\RegistrarEntrada_Form.resx">
       <DependentUpon>RegistrarEntrada_Form.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Registrar Estadia\RegistrarSalida_Form.resx">
       <DependentUpon>RegistrarSalida_Form.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Test_Forms\DialogForm.resx">
       <DependentUpon>DialogForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -136,16 +136,20 @@ namespace FrbaHotel
 
         private void generarReservaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        }
-
-        private void modificarReservaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
+            Generar_Modificar_Reserva.Reserva formReserva = new FrbaHotel.Generar_Modificar_Reserva.Reserva(parentForm, 1);
+            formReserva.Show();
         }
 
         private void cancelarReservaToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Generar_Modificar_Reserva.Reserva formReserva = new FrbaHotel.Generar_Modificar_Reserva.Reserva(parentForm, 0);
+            formReserva.Show();
+        }
 
+        private void modificarReservaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Generar_Modificar_Reserva.Reserva formReserva = new FrbaHotel.Generar_Modificar_Reserva.Reserva(parentForm, 2);
+            formReserva.Show();
         }
 
         private void gestionarHuespedesToolStripMenuItem_Click(object sender, EventArgs e)

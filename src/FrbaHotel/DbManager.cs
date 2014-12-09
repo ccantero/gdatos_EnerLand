@@ -134,6 +134,33 @@ namespace FrbaHotel
             }
         }
 
+        //Obtiene un int de db
+        static public DbResultSet dbGetDouble(string selectCommand)
+        {
+            try
+            {
+                SqlConnection dbsession = DbManager.dbConnect();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = selectCommand;
+                cmd.Connection = dbsession;
+                SqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                DbResultSet rs = new DbResultSet();
+                rs.doubleValue = dr.GetDouble(0);
+                dbsession.Close();
+                return rs;
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                DbResultSet rs = new DbResultSet();
+                rs.operationState = 1;
+                return rs;
+            }
+        }
+
         //Obtiene un string desde db.
         static public DbResultSet dbGetString(string selectCommand)
         {

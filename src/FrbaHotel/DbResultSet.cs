@@ -14,6 +14,7 @@ namespace FrbaHotel
     {
         public DataTable dataTable;
         public int intValue;
+        public double doubleValue;
         public String strValue;
         public int[] intArrayValue ;
         public int operationState;
