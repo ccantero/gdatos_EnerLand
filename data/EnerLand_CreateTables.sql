@@ -98,7 +98,7 @@ CREATE TABLE ENER_LAND.Tipo_Habitacion (
   idTipo_Habitacion INTEGER NOT NULL,
   Descripcion VARCHAR(20) NULL,
   Porcentaje NUMERIC(18,2) NULL,
-  CantidadMaximaHuepedes INTEGER DEFAULT 1,
+  CantidadMaximaHuespedes INTEGER DEFAULT 1,
   PRIMARY KEY(idTipo_Habitacion)
 );
 
@@ -344,6 +344,8 @@ CREATE TABLE ENER_LAND.Reserva_Habitacion (
 );
 
 CREATE INDEX IDX_Auditoria_Reserva ON ENER_LAND.Auditoria_Reserva (idReserva);
+CREATE INDEX IDX_Reserva_Habitacion ON ENER_LAND.Reserva_Habitacion (idReserva);
+CREATE INDEX IDX_Reserva_Habitacion_R ON ENER_LAND.Reserva_Habitacion (idReserva);
 
 /* INSERT */
 
@@ -428,7 +430,7 @@ WHERE EXISTS (	SELECT 1 FROM ENER_LAND.Huesped x2
 				HAVING COUNT(1) = 1 )
 
 INSERT ENER_LAND.Tipo_Habitacion 
-	SELECT DISTINCT Habitacion_Tipo_Codigo, Habitacion_Tipo_Descripcion,Habitacion_Tipo_Porcentual, 1
+	SELECT DISTINCT Habitacion_Tipo_Codigo, Habitacion_Tipo_Descripcion,Habitacion_Tipo_Porcentual, Habitacion_Tipo_Codigo % 1000
 	FROM gd_esquema.Maestra
 	ORDER BY 1;
 	

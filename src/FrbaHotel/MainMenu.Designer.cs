@@ -115,6 +115,7 @@ namespace FrbaHotel
             this.registrarIngresoToolStripMenuItem.Name = "registrarIngresoToolStripMenuItem";
             this.registrarIngresoToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.registrarIngresoToolStripMenuItem.Text = "Registrar check-in";
+            this.registrarIngresoToolStripMenuItem.Click += new System.EventHandler(this.registrarIngresoToolStripMenuItem_Click);
             // 
             // registrarCheckoutToolStripMenuItem
             // 
