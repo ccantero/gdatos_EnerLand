@@ -908,6 +908,119 @@ namespace FrbaHotel
                 return status;
             }
         }
-    
+
+        // Verifica si una reserva es correcta para proceder con el Check-In
+        static public int Process_CheckIn(int idReserva, int idHotel, int idUsuario)
+        {
+            DateTime FechaActual = @FrbaHotel.Properties.Settings.Default.Fecha;
+            int idEstadia = -1;
+
+            try
+            {
+                SqlConnection dbsession = DbManager.dbConnect();
+                SqlCommand cmd = new SqlCommand("ENER_LAND.Process_CheckIn", dbsession);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@ReservaId", idReserva));
+                cmd.Parameters.Add(new SqlParameter("@HotelId", idHotel));
+                cmd.Parameters.Add(new SqlParameter("@Fecha", FechaActual));
+                cmd.Parameters.Add(new SqlParameter("@UsuarioID", idUsuario));
+                SqlParameter ValorDeRetorno = cmd.Parameters.Add("returnParameter", SqlDbType.Int);
+                ValorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    int resultado = Convert.ToInt32(ValorDeRetorno.SqlValue.ToString());
+
+                    switch (resultado)
+                    {
+                        case -1:
+                            {
+                                MessageBox.Show("El Numero de Reserva es Incorrecto",
+                                                "Reserva Inexistente",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -2:
+                            {
+                                MessageBox.Show("La reserva seleccionada corresponde a otro hotel",
+                                                "Hotel Incorrecto",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -3:
+                            {
+                                MessageBox.Show("La reserva indicada ya se encuentra efectiva.",
+                                                "Reserva incorrecta",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -4:
+                            {
+                                MessageBox.Show("Reserva cancelada.",
+                                                "Reserva incorrecta",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -5:
+                            {
+                                MessageBox.Show("La reserva indicada tiene otro dia de Ingreso",
+                                                 "Fecha Incorrecta",
+                                                 MessageBoxButtons.OK,
+                                                 MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -6:
+                            {
+                                MessageBox.Show("Existe un Check-In para la reserva seleccionada",
+                                                "Estadia Existente",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -7:
+                            {
+                                MessageBox.Show("El usuario no existe",
+                                                "Usuario Inexistente",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        case -8:
+                            {
+                                MessageBox.Show("El usuario no se encuentra habilitado",
+                                                "Usuario Inhabilitado",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                                break;
+                            }
+                        default:
+                            {
+                                idEstadia = resultado;
+                                break;
+                            }
+                    }
+
+                    return idEstadia;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("[ERROR] - " + e.ToString());
+                    MessageBox.Show("[ERROR] - " + e.Message);
+                    return idEstadia;
+                    throw;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return idEstadia;
+            }
+        }
     }
 }

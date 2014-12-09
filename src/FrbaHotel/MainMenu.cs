@@ -210,6 +210,7 @@ namespace FrbaHotel
         {
             Registrar_Estadia.RegistrarEntrada_Form registrarEntradaForm = new FrbaHotel.Registrar_Estadia.RegistrarEntrada_Form(parentForm);
             registrarEntradaForm.currentHotel = actualHotel;
+            registrarEntradaForm.currentUser = actualUser;
             registrarEntradaForm.Show();
         }
    }

@@ -13,6 +13,7 @@ namespace FrbaHotel.Registrar_Estadia
     {
         private Form FormPadre;
         public int currentHotel;
+        public int currentUser;
         public List<int> Huespedes = new List<int>();
         
         public RegistrarEntrada_Form(Form parentForm)
@@ -43,7 +44,16 @@ namespace FrbaHotel.Registrar_Estadia
             if (this.button_Save.Text.Equals("Submit"))
             {
                 idReserva = Convert.ToInt32(textBox_idReserva.Text);
-                int idEstadia = DbManager.Process_CheckIn(idReserva);
+                int idEstadia = DbManager.Process_CheckIn(idReserva, currentHotel, currentUser);
+
+                if (idEstadia < 0)
+                {
+                    MessageBox.Show("No se pudo procesar el Check-In",
+                                    "Reserva cancelada",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Hand);
+                        return;
+                }
 
                 foreach (int Huesped in Huespedes)
                 {

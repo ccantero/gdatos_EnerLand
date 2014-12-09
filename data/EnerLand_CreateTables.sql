@@ -1205,10 +1205,12 @@ CREATE PROCEDURE ENER_LAND.Process_CheckIn
 (
 	@ReservaId INT,
 	@HotelId INT,
-	@Fecha DATETIME
+	@Fecha DATETIME,
+	@UsuarioID INT
 )
 AS
-	/*
+	DECLARE @EstadiaID INT
+	
 	IF NOT EXISTS ( SELECT 1 
 					FROM ENER_LAND.Reserva 
 					WHERE idReserva = @ReservaId 
@@ -1223,46 +1225,59 @@ AS
 				  )
 		RETURN -2 /* La reserva es de un hotel distinto */
 
-	IF NOT EXISTS ( SELECT 1 
+	IF EXISTS ( SELECT 1 
 					FROM ENER_LAND.Reserva R
 					WHERE R.idReserva = @ReservaId 
 					AND R.idEstado_Reserva = 6
 				  )
-		RETURN -3 /* La reserva no ha sido concretada */
-	
-	IF NOT EXISTS ( SELECT 1 
-					FROM ENER_LAND.Estadias E
-					WHERE E.idReserva = @ReservaId 
-				  )
-		RETURN -4 /* La estadia no ha sido concretada */
-	
-	IF NOT EXISTS ( SELECT 1 
-					FROM ENER_LAND.Estadias E
-					WHERE E.idReserva = @ReservaId 
-					AND E.idEstado_Estadia = 1
-				  )
-		RETURN -5 /* La estadia ya no se encuentra activa */
+		RETURN -3 /* La reserva ya ha sido concretada */
 		
-	IF NOT EXISTS ( SELECT 1
-					FROM ENER_LAND.Reserva
-					WHERE idReserva = @ReservaId
-					AND FechaDesde < @Fecha
-				  ) 	
-		RETURN -6 /* La fecha actual es menor a la fecha de reserva */	
-	
-	IF NOT EXISTS ( SELECT 1
-					FROM ENER_LAND.Reserva
-					WHERE idReserva = @ReservaId
-					AND DATEADD(d, Cantidad_Dias, FechaDesde) >= @Fecha
+	IF EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva R
+					WHERE R.idReserva = @ReservaId 
+					AND R.idEstado_Reserva IN ( 3, 4, 5)
 				  )
-		RETURN -7 /* La fecha no coincide con la reserva */	
+		RETURN -4 /* La reserva ha sido cancelada */	
 	
-	UPDATE ENER_LAND.Estadias
-	SET idEstado_Estadia = 2,
-		Cantidad_Dias = DATEDIFF (d, Fecha_Ingreso, @Fecha )
-	WHERE idReserva = @ReservaId; 
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Reserva
+					WHERE idReserva = @ReservaId 
+					AND FechaDesde = @Fecha
+				   )
+		RETURN -5 /* La fecha es incorrecta */
 	
-	*/	
-	RETURN 0
+	IF EXISTS ( SELECT 1 
+				FROM ENER_LAND.Estadias E
+				WHERE E.idReserva = @ReservaId
+			  )
+		RETURN -6 /* La estadia ya ha sido concretada */
+		
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Usuario
+					WHERE idUsuario = @UsuarioID
+					)
+		RETURN -7 /* El Usuario no existe */	
+	
+	IF NOT EXISTS ( SELECT 1 
+					FROM ENER_LAND.Usuario
+					WHERE idUsuario = @UsuarioID
+					AND Habilitado = 1
+					)
+		RETURN -8 /* El Usuario no esta habilitado */	
+	
+	
+	UPDATE ENER_LAND.Reserva
+		SET idEstado_Reserva = 6
+	WHERE idReserva = @ReservaId
+	
+	INSERT INTO ENER_LAND.Auditoria_Reserva (idReserva, Fecha, idEstado_Reserva, idUsuario)
+	VALUES (@ReservaId, @Fecha, 6, @UsuarioID)
+	
+	INSERT INTO ENER_LAND.Estadias (idReserva, idEstado_Estadia, Fecha_Ingreso, Cantidad_Dias)
+	VALUES (@ReservaId, 1, @Fecha, 1);
+	
+	SET @EstadiaID = @@IDENTITY
+	
+	RETURN @EstadiaID
 	
 GO
