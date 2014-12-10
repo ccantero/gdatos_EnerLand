@@ -703,7 +703,9 @@ AS
 				UPDATE [ENER_LAND].[Huesped] 
 					SET idPais = @idPais
 				WHERE idHuesped = @idHuesped
-			END			
+			END
+			
+		RETURN @idHuesped			
 	END
 ELSE
 	RAISERROR('Mail existente',16,1)
@@ -858,6 +860,19 @@ CREATE PROCEDURE ENER_LAND.ActualizarReservas
 )
 AS
 	UPDATE ENER_LAND.Reserva
+		SET idEstado_Reserva = 1
+	FROM ENER_LAND.Reserva x1, ENER_LAND.Auditoria_Reserva x2
+	WHERE x1.idReserva = x2.idReserva
+	AND x2.idEstado_Reserva = 5
+	AND x2.idUsuario = 1
+	AND x2.Motivo_Cancelacion = 'Proceso Automático'
+	
+	DELETE FROM ENER_LAND.Auditoria_Reserva
+	WHERE idEstado_Reserva = 5
+	AND idUsuario = 1
+	AND Motivo_Cancelacion = 'Proceso Automático'
+	
+	UPDATE ENER_LAND.Reserva
 		SET idEstado_Reserva = 5
 	WHERE idEstado_Reserva IN ( 1, 2 )
 	AND FechaDesde < @FechaActual
@@ -871,7 +886,6 @@ AS
 							FROM ENER_LAND.Auditoria_Reserva y1 
 							WHERE y1.idReserva = x1.idReserva 
 							AND y1.idEstado_Reserva = 5
-							AND FechaDesde < @FechaActual
 						)
 	
 GO
@@ -1145,6 +1159,8 @@ CREATE PROCEDURE ENER_LAND.Process_CheckOut
 	@Fecha DATETIME
 )
 AS
+	DECLARE @CantidadDias INT
+	
 	IF NOT EXISTS ( SELECT 1 
 					FROM ENER_LAND.Reserva 
 					WHERE idReserva = @ReservaId 
@@ -1182,7 +1198,7 @@ AS
 	IF NOT EXISTS ( SELECT 1
 					FROM ENER_LAND.Reserva
 					WHERE idReserva = @ReservaId
-					AND FechaDesde < @Fecha
+					AND FechaDesde <= @Fecha
 				  ) 	
 		RETURN -6 /* La fecha actual es menor a la fecha de reserva */	
 	
@@ -1193,9 +1209,15 @@ AS
 				  )
 		RETURN -7 /* La fecha no coincide con la reserva */	
 	
+	SET @CantidadDias = 1
+	
 	UPDATE ENER_LAND.Estadias
 	SET idEstado_Estadia = 2,
-		Cantidad_Dias = DATEDIFF (d, Fecha_Ingreso, @Fecha )
+		Cantidad_Dias = ( SELECT CASE 
+									WHEN DATEDIFF (d, Fecha_Ingreso, @Fecha) = 0 THEN 1 
+									ELSE DATEDIFF (d, Fecha_Ingreso, @Fecha) 
+								END
+						)
 	WHERE idReserva = @ReservaId; 
 		
 	RETURN 0

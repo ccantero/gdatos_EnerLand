@@ -39,5 +39,8 @@ Notas, Decisiones de Diseño e Implementación:
 
 * Para facturar una determinada Estadia, se debera ingresar al sistema el idReserva que conoce el Huesped.
 
+* Tabla Auditoria_Reserva:
+	- Durante la migracion, snte la falta de datos, se migra como fecha de creacion de la reserva, la fecha de ingreso al hotel. 
+
 * 	Durante la migracion se toma el valor de la Habitacion como = Hotel.PorcentajeRecarga + Regimen.Precio * Tipo_Habitacion.Porcentaje
 	A partir de la implementacion del nuevo sistema, el valor de la habitacion se calculara = Hotel.Cant_Estrellas * Hotel.PorcentajeRecarga + Regimen.Precio * Tipo_Habitacion.Porcentaje

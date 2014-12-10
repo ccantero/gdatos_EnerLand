@@ -66,23 +66,21 @@ namespace FrbaHotel.Registrar_Estadia
                         MessageBox.Show("No se pudo Agregar el Huesped. Posible fallo en la Base de Datos");
                         return;
                     }
-
                 }
+
+                MessageBox.Show("Check-In Correcto");
+                FormPadre.Show();
+                this.Dispose();
+                return;
             }
 
 
             if (this.button_Save.Text.Equals("Add Huesped"))
             {
                 ABM_de_Cliente.GestionHuesped formBusqueda = new FrbaHotel.ABM_de_Cliente.GestionHuesped(this);
-                formBusqueda.Cargar_Busqueda();
                 formBusqueda.Show();
-
-                if (Huespedes.Count == Convert.ToInt32(textBox_CantHuespedes.Text))
-                {
-                    button_Save.Text = "Submit";
-                }
+                formBusqueda.Cargar_Busqueda();
             }
-
 
             if (this.button_Save.Text.Equals("Check"))
             {
@@ -95,7 +93,7 @@ namespace FrbaHotel.Registrar_Estadia
                                    "R2.Descripcion " +
                           "FROM ENER_LAND.Reserva R1, ENER_LAND.Regimen R2 " +
                           "WHERE R1.idRegimen = R2.idRegimen " +
-                          "AND R.idReserva = " + textBox_idReserva.Text;
+                          "AND R1.idReserva = " + textBox_idReserva.Text;
 
                 rs = DbManager.GetDataTable(myQuery);
 
@@ -152,6 +150,8 @@ namespace FrbaHotel.Registrar_Estadia
                     Huespedes.Add(idHuesped);
                 }
             }
+
+            Cargar_Huespedes();
         }
 
         private void button_Clean_Click(object sender, EventArgs e)
@@ -173,13 +173,26 @@ namespace FrbaHotel.Registrar_Estadia
                 button_Save.Text = "Check";
         }
 
-        private void Cargar_Huespedes()
+        public void Cargar_Huespedes()
         {
-            /* 
-            myQuery =   "SELECT x1.*, x2.Total " +
-                        "FROM ENER_LAND.Item_Factura x1, ENER_LAND.Factura x2 " +
-                        "WHERE x1.idFactura = x2.idFactura " +
-                        "AND x2.idEstadia = " + idEstadia.ToString();
+            string myQuery;
+            DbResultSet rs;
+            Boolean flag = true;
+
+            myQuery =   "SELECT idHuesped, Apellido, Nombre " +
+                        "FROM ENER_LAND.Huesped ";
+            
+            foreach (int idHuesped in Huespedes)
+	        {
+		        if(flag)
+                {
+                    myQuery = myQuery + "WHERE idHuesped = " + idHuesped.ToString() + " ";
+                    flag = false;
+                }
+                else
+                    myQuery = myQuery + "OR idHuesped = " + idHuesped.ToString() + " ";
+	        }
+
 
             rs = DbManager.GetDataTable(myQuery);
             if (rs.operationState == 1)
@@ -187,26 +200,21 @@ namespace FrbaHotel.Registrar_Estadia
                 MessageBox.Show("Falló la busqueda");
                 return;
             }
+
             if (rs.dataTable.Rows.Count == 0)
             {
                 MessageBox.Show("No se han encontrado datos");
                 return;
             }
 
-            textBox_FacturaNro.Text = rs.dataTable.Rows[0]["idFactura"].ToString();
-            textBox_Total.Text = rs.dataTable.Rows[0]["Total"].ToString();
+            this.dataGrid_Huespedes.Columns.Clear();
+            this.dataGrid_Huespedes.AllowUserToAddRows = false;
+            this.dataGrid_Huespedes.AllowUserToOrderColumns = false;
 
-            this.dataGrid_ItemFactura.Columns.Clear();
-            this.dataGrid_ItemFactura.AllowUserToAddRows = false;
-            this.dataGrid_ItemFactura.AllowUserToOrderColumns = false;
+            this.dataGrid_Huespedes.DataSource = rs.dataTable;
+            this.dataGrid_Huespedes.Visible = true;
 
-            this.dataGrid_ItemFactura.DataSource = rs.dataTable;
-            this.dataGrid_ItemFactura.Visible = true;
-
-            this.dataGrid_ItemFactura.Columns["idFactura"].Visible = false;
-            this.dataGrid_ItemFactura.Columns["Total"].Visible = false;
-
-            foreach (DataGridViewColumn column in dataGrid_ItemFactura.Columns)
+            foreach (DataGridViewColumn column in dataGrid_Huespedes.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
                 if (column.HeaderText.Equals("Descripcion"))
@@ -214,7 +222,11 @@ namespace FrbaHotel.Registrar_Estadia
                 else
                     column.Width = 75;
             }
-            */
+
+            if (Huespedes.Count == Convert.ToInt32(textBox_CantHuespedes.Text))
+            {
+                button_Save.Text = "Submit";
+            }
         
         }
 

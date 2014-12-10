@@ -69,6 +69,7 @@
             // 
             // textBox_CantHuespedes
             // 
+            this.textBox_CantHuespedes.Enabled = false;
             this.textBox_CantHuespedes.Location = new System.Drawing.Point(149, 100);
             this.textBox_CantHuespedes.Name = "textBox_CantHuespedes";
             this.textBox_CantHuespedes.Size = new System.Drawing.Size(103, 20);
@@ -88,12 +89,13 @@
             this.label_CantidadDias.AutoSize = true;
             this.label_CantidadDias.Location = new System.Drawing.Point(12, 84);
             this.label_CantidadDias.Name = "label_CantidadDias";
-            this.label_CantidadDias.Size = new System.Drawing.Size(106, 13);
+            this.label_CantidadDias.Size = new System.Drawing.Size(73, 13);
             this.label_CantidadDias.TabIndex = 23;
-            this.label_CantidadDias.Text = "Cantidad Huespedes";
+            this.label_CantidadDias.Text = "Cantidad Dias";
             // 
             // textBox_CantidadDias
             // 
+            this.textBox_CantidadDias.Enabled = false;
             this.textBox_CantidadDias.Location = new System.Drawing.Point(15, 100);
             this.textBox_CantidadDias.Name = "textBox_CantidadDias";
             this.textBox_CantidadDias.Size = new System.Drawing.Size(103, 20);
@@ -144,9 +146,9 @@
             // 
             // button_Clean
             // 
-            this.button_Clean.Location = new System.Drawing.Point(163, 205);
+            this.button_Clean.Location = new System.Drawing.Point(153, 205);
             this.button_Clean.Name = "button_Clean";
-            this.button_Clean.Size = new System.Drawing.Size(75, 23);
+            this.button_Clean.Size = new System.Drawing.Size(85, 23);
             this.button_Clean.TabIndex = 13;
             this.button_Clean.Text = "Limpiar";
             this.button_Clean.UseVisualStyleBackColor = true;
@@ -154,9 +156,9 @@
             // 
             // button_Save
             // 
-            this.button_Save.Location = new System.Drawing.Point(34, 205);
+            this.button_Save.Location = new System.Drawing.Point(15, 205);
             this.button_Save.Name = "button_Save";
-            this.button_Save.Size = new System.Drawing.Size(75, 23);
+            this.button_Save.Size = new System.Drawing.Size(85, 23);
             this.button_Save.TabIndex = 12;
             this.button_Save.Text = "Submit";
             this.button_Save.UseVisualStyleBackColor = true;
