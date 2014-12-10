@@ -181,11 +181,6 @@ namespace FrbaHotel.Registrar_Consumible
                 MessageBox.Show("Falló la busqueda");
                 return;
             }
-            if (rs.dataTable.Rows.Count == 0)
-            {
-                MessageBox.Show("No se han encontrado datos");
-                return;
-            }
 
             this.dataGrid_Consumibles.Columns.Clear();
             this.dataGrid_Consumibles.AllowUserToAddRows = false;

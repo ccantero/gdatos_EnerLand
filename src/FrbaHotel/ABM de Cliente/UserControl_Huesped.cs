@@ -12,6 +12,7 @@ namespace FrbaHotel.ABM_de_Cliente
     public partial class UserControl_Huesped : UserControl
     {
         public Boolean flag_Modificacion;
+        public Boolean flag_NOTABM = false;
         public Huesped huesped_A_Modificar;
         public static DataTable TablaLocalidades;
         public static DataTable TablaPaises;
@@ -184,14 +185,32 @@ namespace FrbaHotel.ABM_de_Cliente
             }
 
             if (!flag_Modificacion)
-                DbManager.Agregar_Huesped(nuevoHuesped);
+            {
+                int idHuesped = DbManager.Agregar_Huesped(nuevoHuesped);
+                if (idHuesped == -1)
+                {
+                    MessageBox.Show(    "No se pudo agregar el Huesped",
+                                        "Posible fallo en Base de Datos",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Hand);
+                    return;
+                }
+
+                if (flag_NOTABM )
+                {                    
+                    ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Huespedes.Add(idHuesped);
+                    ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Cargar_Huespedes();
+                    ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Visible = true;
+                    ((GestionHuesped)FormPadre).Dispose();
+                    return;
+                }
+            }
             else
             {
                 nuevoHuesped.idHuesped = huesped_A_Modificar.idHuesped;
                 DbManager.Modificar_Huesped(nuevoHuesped);
             }
                 
-
             ((GestionHuesped)FormPadre).Load_Menu();
         }
 

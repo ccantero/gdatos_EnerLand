@@ -157,6 +157,7 @@ namespace FrbaHotel.ABM_de_Cliente
                 if (flag_busqueda)
                 {
                     ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Huespedes.Add(unHuesped.idHuesped);
+                    ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Cargar_Huespedes();
                     ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Visible = true;
                     ((GestionHuesped)FormPadre).Dispose();
                     return;

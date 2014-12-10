@@ -288,7 +288,7 @@ namespace FrbaHotel
         }
 
         //Inserta un Huesped en DB
-        static public bool Agregar_Huesped(Huesped unHuesped)
+        static public int Agregar_Huesped(Huesped unHuesped)
         {
             try
             {
@@ -329,22 +329,22 @@ namespace FrbaHotel
                 {
                     cmd.ExecuteNonQuery();
                     int resultado = Convert.ToInt32(ValorDeRetorno.SqlValue.ToString());
-                    if (resultado != 0)
-                        return false;
+                    if (resultado < 0)
+                        return -1;
 
-                    return true;
+                    return resultado;
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show("[ERROR] - " + e.ToString());
-                    return false;
+                    return -1;
                     throw;
                 }
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
-                return false;
+                return -1;
             }
         
         }

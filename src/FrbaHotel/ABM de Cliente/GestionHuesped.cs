@@ -98,10 +98,14 @@ namespace FrbaHotel.ABM_de_Cliente
 
         public void AgregarHuesped()
         {
+            this.Controls.Clear();
+
             UserControlHuesped = new UserControl_Huesped(this);
             this.Controls.Add(UserControlHuesped);
             UserControlHuesped.Location = new Point(0, 10);
             UserControlHuesped.Name = "UserControlHuesped";
+
+            UserControlHuesped.flag_NOTABM = true;
         }
     }
 }
