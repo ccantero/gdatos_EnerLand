@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtpFechaDesde = new System.Windows.Forms.DateTimePicker();
             this.dtpFechaHasta = new System.Windows.Forms.DateTimePicker();
             this.cmbRegimenHotelRes = new System.Windows.Forms.ComboBox();
@@ -159,9 +159,9 @@
             this.lbTotalReserva.ForeColor = System.Drawing.Color.MediumBlue;
             this.lbTotalReserva.Location = new System.Drawing.Point(72, 409);
             this.lbTotalReserva.Name = "lbTotalReserva";
-            this.lbTotalReserva.Size = new System.Drawing.Size(49, 20);
+            this.lbTotalReserva.Size = new System.Drawing.Size(74, 20);
             this.lbTotalReserva.TabIndex = 56;
-            this.lbTotalReserva.Text = "Total";
+            this.lbTotalReserva.Text = "Total $0";
             this.lbTotalReserva.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lbTotalReserva.Visible = false;
             // 
@@ -179,24 +179,24 @@
             this.lblCodReserva.AutoSize = true;
             this.lblCodReserva.Location = new System.Drawing.Point(73, 13);
             this.lblCodReserva.Name = "lblCodReserva";
-            this.lblCodReserva.Size = new System.Drawing.Size(78, 13);
+            this.lblCodReserva.Size = new System.Drawing.Size(62, 13);
             this.lblCodReserva.TabIndex = 58;
-            this.lblCodReserva.Text = "Código reserva";
+            this.lblCodReserva.Text = "Nro reserva";
             // 
             // tbCodReserva
             // 
-            this.tbCodReserva.Location = new System.Drawing.Point(157, 10);
+            this.tbCodReserva.Location = new System.Drawing.Point(139, 9);
             this.tbCodReserva.Name = "tbCodReserva";
-            this.tbCodReserva.Size = new System.Drawing.Size(160, 20);
+            this.tbCodReserva.Size = new System.Drawing.Size(153, 20);
             this.tbCodReserva.TabIndex = 59;
             // 
             // btnReserva
             // 
-            this.btnReserva.Location = new System.Drawing.Point(323, 9);
+            this.btnReserva.Location = new System.Drawing.Point(298, 8);
             this.btnReserva.Name = "btnReserva";
-            this.btnReserva.Size = new System.Drawing.Size(58, 20);
+            this.btnReserva.Size = new System.Drawing.Size(58, 21);
             this.btnReserva.TabIndex = 60;
-            this.btnReserva.Text = "button3";
+            this.btnReserva.Text = "btnBuscarReserva";
             this.btnReserva.UseVisualStyleBackColor = true;
             this.btnReserva.Click += new System.EventHandler(this.btnReserva_Click);
             // 
@@ -205,9 +205,9 @@
             this.lbHotelesDisponibles.AutoSize = true;
             this.lbHotelesDisponibles.Location = new System.Drawing.Point(72, 93);
             this.lbHotelesDisponibles.Name = "lbHotelesDisponibles";
-            this.lbHotelesDisponibles.Size = new System.Drawing.Size(98, 13);
+            this.lbHotelesDisponibles.Size = new System.Drawing.Size(32, 13);
             this.lbHotelesDisponibles.TabIndex = 64;
-            this.lbHotelesDisponibles.Text = "Hoteles disponibles";
+            this.lbHotelesDisponibles.Text = "Hotel";
             // 
             // cmbHotelesDisponibles
             // 
@@ -223,9 +223,9 @@
             this.lbHabDisponibles.AutoSize = true;
             this.lbHabDisponibles.Location = new System.Drawing.Point(73, 133);
             this.lbHabDisponibles.Name = "lbHabDisponibles";
-            this.lbHabDisponibles.Size = new System.Drawing.Size(124, 13);
+            this.lbHabDisponibles.Size = new System.Drawing.Size(112, 13);
             this.lbHabDisponibles.TabIndex = 67;
-            this.lbHabDisponibles.Text = "Habitaciones disponibles";
+            this.lbHabDisponibles.Text = "Habitaciones del hotel";
             // 
             // cmbRegHotel
             // 
@@ -240,18 +240,18 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(400, 93);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(158, 13);
+            this.label4.Size = new System.Drawing.Size(102, 13);
             this.label4.TabIndex = 70;
-            this.label4.Text = "Regimenes disponibles en Hotel";
+            this.label4.Text = "Regimen de reserva";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(73, 254);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(119, 13);
+            this.label7.Size = new System.Drawing.Size(133, 13);
             this.label7.TabIndex = 72;
-            this.label7.Text = "Habitaciones a reservar";
+            this.label7.Text = "Habitaciones de la reserva";
             // 
             // dgvHabitacionesReserva
             // 
@@ -260,14 +260,14 @@
             this.dgvHabitacionesReserva.AllowUserToResizeRows = false;
             this.dgvHabitacionesReserva.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvHabitacionesReserva.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvHabitacionesReserva.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvHabitacionesReserva.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvHabitacionesReserva.ColumnHeadersHeight = 20;
             this.dgvHabitacionesReserva.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvHabitacionesReserva.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -276,13 +276,12 @@
             this.dgvHabitacionesReserva.Location = new System.Drawing.Point(76, 273);
             this.dgvHabitacionesReserva.MultiSelect = false;
             this.dgvHabitacionesReserva.Name = "dgvHabitacionesReserva";
-            this.dgvHabitacionesReserva.ReadOnly = true;
             this.dgvHabitacionesReserva.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvHabitacionesReserva.RowHeadersVisible = false;
             this.dgvHabitacionesReserva.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvHabitacionesReserva.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvHabitacionesReserva.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvHabitacionesReserva.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black;
             this.dgvHabitacionesReserva.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
             this.dgvHabitacionesReserva.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -316,14 +315,14 @@
             this.dgvHabDisponibles.AllowUserToResizeRows = false;
             this.dgvHabDisponibles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvHabDisponibles.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvHabDisponibles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvHabDisponibles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvHabDisponibles.ColumnHeadersHeight = 20;
             this.dgvHabDisponibles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvHabDisponibles.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -332,13 +331,12 @@
             this.dgvHabDisponibles.Location = new System.Drawing.Point(76, 151);
             this.dgvHabDisponibles.MultiSelect = false;
             this.dgvHabDisponibles.Name = "dgvHabDisponibles";
-            this.dgvHabDisponibles.ReadOnly = true;
             this.dgvHabDisponibles.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvHabDisponibles.RowHeadersVisible = false;
             this.dgvHabDisponibles.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvHabDisponibles.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvHabDisponibles.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvHabDisponibles.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black;
             this.dgvHabDisponibles.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
             this.dgvHabDisponibles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;

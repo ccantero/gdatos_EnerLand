@@ -95,7 +95,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
             }
         }
 
-        private void obtenerHotelesDisponibles(int cantHuespuedes)
+        private void obtenerHotelesDisponibles(int cantHuespuedes, int ultimoHotelReserva)
         {
             using (SqlConnection connection = DbManager.dbConnect())
             {
@@ -106,7 +106,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     command.CommandText = " SELECT ht.idHotel,RTRIM(ht.Nombre) + ' | ' + ht.Calle + ' ' + CONVERT(VARCHAR(50),ht.Numero) + ' - ' + RTRIM(loc.Nombre) + ', ' + ps.Nombre + ' (' + CONVERT(VARCHAR(5),ht.Cantidad_Estrellas) + '*)' Hotel" +
                     " FROM ENER_LAND.Habitacion hab , ENER_LAND.Tipo_Habitacion thab, ENER_LAND.Hotel ht, ENER_LAND.Localidad loc, ENER_LAND.Pais ps" +
                     " WHERE hab.Habilitado = 1" +
-                    " AND EXISTS (" +
+                    " AND (ht.idHotel = @hotelAnterior OR EXISTS (" +
                     " SELECT 1" +
                     " FROM ENER_LAND.Reserva res, ENER_LAND.Reserva_Habitacion rhab" +
                     " WHERE res.idReserva=rhab.idReserva" +
@@ -115,7 +115,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     "       @fechaResHasta BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde))" +
                     "  AND rhab.idHotel=hab.idHotel" +
                     "  AND hab.numero=rhab.Habitacion_numero " + 
-                    " )" +
+                    " ))" +
                     " AND hab.idTipo_Habitacion=thab.idTipo_Habitacion" +
                     " AND hab.IdHotel=ht.idHotel" +
                     " AND ht.idLocalidad=loc.idLocalidad" +
@@ -124,6 +124,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     " HAVING SUM(CASE hab.idTipo_Habitacion WHEN 1 THEN 0  ELSE hab.idTipo_habitacion % 1000 END)>=" + cantHuespuedes +
                     " ORDER BY 1,2 ASC";
 
+                    command.Parameters.AddWithValue("@hotelAnterior", dtpFechaDesde.Value);
                     command.Parameters.AddWithValue("@fechaResDesde", dtpFechaDesde.Value);
                     command.Parameters.AddWithValue("@fechaResHasta", dtpFechaHasta.Value);
                     DataTable dt = new DataTable();
@@ -152,7 +153,8 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     " AND NOT EXISTS (" +
                     " SELECT 1" +
                     " FROM ENER_LAND.Reserva res, ENER_LAND.Reserva_Habitacion rhab" +
-                    " WHERE res.idReserva=rhab.idReserva" +
+                    " WHERE res.idEstado_reserva = 1 " +
+                    " AND res.idReserva=rhab.idReserva" +
                     " AND (@fechaResDesde BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde)" +
                     " OR @fechaResHasta BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde))" +
                     " AND rhab.idHotel=hab.idHotel" +
@@ -184,28 +186,29 @@ namespace FrbaHotel.Generar_Modificar_Reserva
 
             if (rs.intValue > 0)
             {
-                rs = DbManager.GetDataTable("SELECT  idRegimen,FechaDesde, DATEADD(DAY, Cantidad_Dias, FechaDesde) AS FechaHasta, x1.IdHotel , RTRIM(x3.Nombre) + ' - ' + x3.Calle + ' ' + CONVERT(VARCHAR,x3.Numero) AS Descripcion " + 
-                                               "FROM ENER_LAND.Reserva x0, ENER_LAND.Reserva_Habitacion x1, ENER_LAND.Habitacion x2, ENER_LAND.Hotel x3 "+ 
+                rs = DbManager.GetDataTable("SELECT DISTINCT  idRegimen,FechaDesde, DATEADD(DAY, Cantidad_Dias, FechaDesde) AS FechaHasta, x1.IdHotel ,x0.cantidad_huespedes " + 
+                                               "FROM ENER_LAND.Reserva x0, ENER_LAND.Reserva_Habitacion x1 "+ 
                                               "WHERE x0.idReserva = x1.idReserva " + 
-                                                "AND x1.Habitacion_Numero=x2.Numero " +
-                                                "AND x1.IdHotel=x2.IdHotel " + 
-                                                "AND x1.IdHotel=x3.IdHotel " + 
                                                 "AND x0.idReserva = " + tbCodReserva.Text);
-
-                 MessageBox.Show(rs.dataTable.Rows[0].Field<Int32>(0).ToString());
-                 dtpFechaDesde.Value = rs.dataTable.Rows[0].Field<DateTime>(1);
+                dtpFechaDesde.Value = rs.dataTable.Rows[0].Field<DateTime>(1);
                  dtpFechaHasta.Value = rs.dataTable.Rows[0].Field<DateTime>(2);
+                 udCantHuespedes.Value =rs.dataTable.Rows[0].Field<Int32>(4);
+                 obtenerRegimenesBusqueda();
+                 cmbRegimenHotelRes.SelectedValue =  rs.dataTable.Rows[0].Field<Int32>(0);
 
-                 MessageBox.Show(rs.dataTable.Rows[0].Field<Int32>(3).ToString());
-
-
-
+                 obtenerHotelesDisponibles((int)udCantHuespedes.Value, rs.dataTable.Rows[0].Field<Int32>(3));
+                 cmbHotelesDisponibles.SelectedValue = rs.dataTable.Rows[0].Field<Int32>(3);
+                 obtenerRegimenesEnHotel();
+                 cmbRegHotel.SelectedValue = cmbRegimenHotelRes.SelectedValue;
+                 obtenerHabitacionesDisponibles();
+                 obtenerHabitacionesReservaDB();
+                 updateTotalReserva();
             }
         }
 
         private void btnBuscarHotel_Click(object sender, EventArgs e)
         {
-            obtenerHotelesDisponibles((int)udCantHuespedes.Value);
+            obtenerHotelesDisponibles((int)udCantHuespedes.Value,0);
         }
 
         private void obtenerRegimenesEnHotel()
@@ -272,7 +275,6 @@ namespace FrbaHotel.Generar_Modificar_Reserva
             }
             if (found == 0)
             {
-                MessageBox.Show(dgvHabDisponibles.SelectedRows[0].Cells[0].Value.ToString());
                 DataRow drow = dtHabReserva.NewRow();
                 drow[0] = dgvHabDisponibles.SelectedRows[0].Cells[0].Value;
                 drow[1] = dgvHabDisponibles.SelectedRows[0].Cells[1].Value;
@@ -373,7 +375,8 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                              " AND NOT EXISTS (" +
                              " SELECT 1" +
                              " FROM ENER_LAND.Reserva res, ENER_LAND.Reserva_Habitacion rhab " +
-                             " WHERE res.idReserva=rhab.idReserva " +
+                             " WHERE res.idEstadoReserva = 1 " +
+                             " AND res.idReserva=rhab.idReserva " +
                              " AND (@fechaResDesde BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde)" +
                              " OR @fechaResHasta BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde))" +
                              " AND rhab.idHotel=hab.idHotel" +
@@ -391,22 +394,55 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                             command.Parameters.AddWithValue("@idHotel", cmbHotelesDisponibles.SelectedValue);
                             command.Parameters.AddWithValue("@idTipoHabitacion", dgvHabitacionesReserva.Rows[i].Cells[0].Value);
 
-                            MessageBox.Show(dgvHabitacionesReserva.Rows[i].Cells[2].Value.ToString());
-                            MessageBox.Show(cmbHotelesDisponibles.SelectedValue.ToString());
-                            MessageBox.Show(dgvHabitacionesReserva.Rows[i].Cells[0].Value.ToString());
                             command.ExecuteNonQuery();
                      }
                 }
                 
             }
-            MessageBox.Show(codReserva.ToString());
             
+        }
+        private void obtenerHabitacionesReservaDB()
+        {
+            using (SqlConnection connection = DbManager.dbConnect())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = " SELECT thab.idTipo_habitacion tipoHab ,thab.Descripcion + ' - Capacidad: ' + CONVERT(VARCHAR(5),CASE hab.idTipo_Habitacion WHEN 1 THEN 0  ELSE hab.idTipo_habitacion % 1000 END) + ' p.' Descripcion, COUNT(1) Cantidad, 0 AS Disponibles " +
+                    " FROM ENER_LAND.Reserva res, ENER_LAND.Reserva_Habitacion rhab, ENER_LAND.Habitacion hab, ENER_LAND.Tipo_Habitacion thab " +
+                    " WHERE res.idReserva=" + tbCodReserva.Text +
+                    " AND res.idReserva=rhab.idReserva" +
+                    " AND rhab.IdHotel=hab.IdHotel" +
+                    " AND rhab.Habitacion_Numero=hab.Numero" +
+                    " AND hab.idTipo_Habitacion = thab.idTipo_Habitacion" +
+                    " GROUP BY  thab.idTipo_habitacion,thab.Descripcion,hab.idTipo_Habitacion";
 
-            /*DbManager.dbSqlStatementExec
-            INSERT INTO ENER_LAND.Reserva	SELECT NULL,1,1,1,GETDATE(),3,5 FROM ENER_LAND.Reserva
-            
-                INSERT INTO ENER_LAND.Reserva	SELECT MAX(idReserva) +1 ,1,1,1,GETDATE(),3,5 FROM ENER_LAND.Reserva
-            */
+                 
+
+
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("tipoHab", typeof(int));
+                    dt.Columns.Add("Descripcion", typeof(String));
+                    dt.Columns.Add("Cantidad", typeof(int));
+                    dt.Columns.Add("Disponibles", typeof(int));
+                    dt.Load(command.ExecuteReader());
+                    dgvHabitacionesReserva.DataSource = dt;
+                   // dgvHabitacionesReserva.Columns[0].Visible = false;
+
+
+                    for (int i = 0; i < dgvHabDisponibles.Rows.Count; i++)
+                        for (int j = 0; j < dgvHabitacionesReserva.Rows.Count; j++)
+                        {
+                           if (dgvHabDisponibles.Rows[i].Cells[0].Value.ToString() == dgvHabitacionesReserva.Rows[j].Cells[0].Value.ToString())
+                            {
+                                dgvHabitacionesReserva.Rows[j].Cells[3].Value = dgvHabDisponibles.Rows[i].Cells[2].Value;
+                            }
+                        }
+
+                }
+            }
+        
         }
     }
 }

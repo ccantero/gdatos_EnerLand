@@ -70,7 +70,7 @@ namespace FrbaHotel
             }
         }
 
-        //Obtiene un int de db
+        //Obtiene un array int de db
         static public DbResultSet dbGetIntArray(string selectCommand)
         {
             try
@@ -134,7 +134,7 @@ namespace FrbaHotel
             }
         }
 
-        //Obtiene un int de db
+        //Obtiene un double de db
         static public DbResultSet dbGetDouble(string selectCommand)
         {
             try
@@ -192,6 +192,39 @@ namespace FrbaHotel
                 return rs;
             }
         }
+
+        //Obtiene un string desde db.
+        static public DbResultSet dbGetDateTime(string selectCommand)
+        {
+            try
+            {
+
+                SqlConnection dbsession = DbManager.dbConnect();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = selectCommand;
+                cmd.Connection = dbsession;
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                dr.Read();
+                DbResultSet rs = new DbResultSet();
+                if (!dr.IsDBNull(0))
+                {
+                    rs.dateValue = dr.GetDateTime(0);
+                }
+                dbsession.Close();
+                return rs;
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                DbResultSet rs = new DbResultSet();
+                rs.operationState = 1;
+                return rs;
+            }
+        }
+
 
         //Inserta datos en DB desde una sentencia predefinida.
         static public DbResultSet dbSqlStatementExec(string insertCommand)
