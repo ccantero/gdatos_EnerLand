@@ -260,6 +260,7 @@
             this.textBox_Usuario.Name = "textBox_Usuario";
             this.textBox_Usuario.Size = new System.Drawing.Size(276, 20);
             this.textBox_Usuario.TabIndex = 6;
+            this.textBox_Usuario.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Usuario_KeyPress);
             // 
             // label_FechaNacimiento
             // 

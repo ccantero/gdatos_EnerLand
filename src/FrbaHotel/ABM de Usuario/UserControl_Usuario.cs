@@ -124,7 +124,10 @@ namespace FrbaHotel.ABM_de_Usuario
                 this.textBox_Numero.Text = unUsuario.Numero.ToString();
 
             if (unUsuario.Piso != -1)
-                this.textBox_Piso.Text = unUsuario.Piso.ToString();
+                if(unUsuario.Piso == 0)
+                    this.textBox_Piso.Text = "PB";
+                else
+                    this.textBox_Piso.Text = unUsuario.Piso.ToString();
 
             if (unUsuario.Telefono != -1)
                 this.textBox_Telefono.Text = unUsuario.Telefono.ToString();
@@ -264,7 +267,10 @@ namespace FrbaHotel.ABM_de_Usuario
                 unUsuario.password = Usuario_A_Modificar.password;
             
             if (!this.textBox_Piso.Text.Trim().Equals(""))
-                unUsuario.Piso = Convert.ToInt32(this.textBox_Piso.Text.Trim());
+                if (this.textBox_Piso.Text.Trim().Equals("PB"))
+                    unUsuario.Piso = 0;
+                else
+                    unUsuario.Piso = Convert.ToInt32(this.textBox_Piso.Text.Trim());
 
             unUsuario.Telefono = Convert.ToInt32(this.textBox_Telefono.Text.Trim());
             unUsuario.Tipo_Documento = this.ComboBox_TipoDoc.Text.Trim();
@@ -326,15 +332,6 @@ namespace FrbaHotel.ABM_de_Usuario
                     if (rs.operationState == 1)
                     {
                         MessageBox.Show("No se pudo ingresar el Rol para este Usuario. Posible fallo en la Base de Datos");
-                        // TODO: Manejo de Errores
-                        /*
-                        query_str = "DELETE FROM ENER_LAND.Usuario WHERE idUsuario = " + unUsuario.idUsuario.ToString();
-                        rs = DbManager.dbSqlStatementExec(query_str);
-                        if (rs.operationState == 1)
-                        {
-                            MessageBox.Show("Falló en la Base de Datos");
-                        }
-                         */
                         return;
                     }
                 }
@@ -358,15 +355,6 @@ namespace FrbaHotel.ABM_de_Usuario
                     if (rs.operationState == 1)
                     {
                         MessageBox.Show("No se pudo ingresar el Hotel para este Usuario. Posible fallo en la Base de Datos");
-                        // TODO: Manejo de Errores
-                        /*
-                        query_str = "DELETE FROM ENER_LAND.Usuario WHERE idUsuario = " + unUsuario.idUsuario.ToString();
-                        rs = DbManager.dbSqlStatementExec(query_str);
-                        if (rs.operationState == 1)
-                        {
-                            MessageBox.Show("Falló en la Base de Datos");
-                        }
-                        */
                         return;
                     }
                 }
@@ -383,6 +371,18 @@ namespace FrbaHotel.ABM_de_Usuario
 
         private bool CheckFields()
         {
+            if (!System.Text.RegularExpressions.Regex.Match(this.textBox_mail.Text,
+                                                            @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$").Success)
+            {
+                MessageBox.Show(    "Formato de mail incorrecto",
+                                    "Mail Incorrecto",
+                                     MessageBoxButtons.OK,
+                                     MessageBoxIcon.Hand
+                                   );
+                return false;
+            }
+            
+            
             if (!System.Text.RegularExpressions.Regex.Match(textBox_DNI.Text, "^[1-9][0-9]+").Success)
             {
                 MessageBox.Show(    "Numero de Documento debe contener unicamente numeros",
@@ -392,10 +392,102 @@ namespace FrbaHotel.ABM_de_Usuario
                                    );
                 return false;
             }
-            
+
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_Numero.Text, "^[1-9][0-9]+").Success)
+            {
+                MessageBox.Show("Numero de Calle debe contener unicamente numeros",
+                                "Numero de Calle Incorrecto",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Hand
+                                );
+                return false;
+            }
+
+            if (this.textBox_Departamento.Text.Trim().Length != 1)
+            {
+                MessageBox.Show("Departamento no debe poseer mas de un caracter",
+                                "Departamento Incorrecto",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Hand
+                                );
+                return false;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_Piso.Text, "^[1-9][0-9]*").Success)
+            {
+                if (!textBox_Piso.Text.Equals("PB"))
+                {
+                    MessageBox.Show("Numero de Piso debe contener unicamente numeros o ser PB",
+                                    "Numero de Piso Incorrecto",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Hand
+                                    );
+                    return false;
+                }
+            }
+
+            if (ComboBox_TipoDoc.Text.Equals(String.Empty))
+            {
+                MessageBox.Show("Tipo de Documento no puede ser vacio",
+                                    "Falta ingresar Tipo de Documento",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Hand
+                                    );
+                    return false;
+            }
+
+
+            Boolean flag = true;
+
+            foreach (var item in this.ComboBox_TipoDoc.Items)
+            {
+                if (ComboBox_TipoDoc.Text.Equals(item.ToString()))
+                {
+                    flag = false;
+                }
+            }
+
+            if (flag)
+            {
+                MessageBox.Show("Tipo de Documento desconocido.");
+                return false;
+            }
+
+            foreach (var item in this.ComboBox_Localidad.Items)
+            {
+                if (ComboBox_Localidad.Text.Equals(item.ToString()))
+                {
+                    flag = false;
+                }
+            }
+
+            if (flag)
+            {
+                MessageBox.Show("Localidad desconocida.");
+                return false;
+            }
+
+            foreach (var item in this.ComboBox_PaisOrigen.Items)
+            {
+                if (ComboBox_PaisOrigen.Text.Equals(item.ToString()))
+                {
+                    flag = false;
+                }
+            }
+
+            if (flag)
+            {
+                MessageBox.Show("Pais desconocido.");
+                return false;
+            }
 
             return true;
 
+        }
+
+        private void textBox_Usuario_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.KeyChar = char.ToLower(e.KeyChar);
         }
     }
 }

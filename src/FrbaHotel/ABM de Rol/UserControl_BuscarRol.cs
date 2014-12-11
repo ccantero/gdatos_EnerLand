@@ -23,50 +23,7 @@ namespace FrbaHotel.ABM_de_Rol
 
         private void button_search_Click(object sender, EventArgs e)
         {
-            string query_str;
-            DbResultSet rs;
-
-            if(flag_deletion)
-                query_str = "SELECT * FROM ENER_LAND.Rol " +
-                            "WHERE Descripcion LIKE '%" + textBox_RolName.Text.Trim() + "%' " +
-                            "AND Habilitado = 1";
-            else
-                query_str = "SELECT * FROM ENER_LAND.Rol WHERE Descripcion LIKE '%" + textBox_RolName.Text.Trim() + "%'";
-                
-
-            rs = DbManager.GetDataTable(query_str);
-            if (rs.operationState == 1)
-                MessageBox.Show("Falló la busqueda");
-
-            TablaRoles = rs.dataTable;
-
-            if (TablaRoles.Rows.Count == 0)
-            {
-                MessageBox.Show("No se han encontrado roles");
-                return;
-            }
-            
-            this.dataGrid_Roles.Columns.Clear();
-            this.dataGrid_Roles.DataSource = TablaRoles;
-            this.dataGrid_Roles.Visible = true;
-            this.dataGrid_Roles.Columns["idRol"].Visible = false;
-            this.dataGrid_Roles.Columns["Habilitado"].Visible = false;
-            DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
-            this.dataGrid_Roles.Columns.Add(btn);
-            btn.HeaderText = "Action";
-
-            if (flag_deletion)
-            {
-                btn.Text = "Delete";
-            }
-            else
-            {
-                btn.Text = "Select";
-            }
-
-            btn.Name = "row_button";
-            btn.UseColumnTextForButtonValue = true;
-
+            BuscarRol();
         }
 
         private void dataGrid_Roles_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -110,5 +67,59 @@ namespace FrbaHotel.ABM_de_Rol
             }
         }
 
+        private void BuscarRol()
+        {
+            string query_str;
+            DbResultSet rs;
+
+            if (flag_deletion)
+                query_str = "SELECT * FROM ENER_LAND.Rol " +
+                            "WHERE Descripcion LIKE '%" + textBox_RolName.Text.Trim() + "%' " +
+                            "AND Habilitado = 1";
+            else
+                query_str = "SELECT * FROM ENER_LAND.Rol WHERE Descripcion LIKE '%" + textBox_RolName.Text.Trim() + "%'";
+
+
+            rs = DbManager.GetDataTable(query_str);
+            if (rs.operationState == 1)
+                MessageBox.Show("Falló la busqueda");
+
+            TablaRoles = rs.dataTable;
+
+            if (TablaRoles.Rows.Count == 0)
+            {
+                MessageBox.Show("No se han encontrado roles");
+                return;
+            }
+
+            this.dataGrid_Roles.Columns.Clear();
+            this.dataGrid_Roles.DataSource = TablaRoles;
+            this.dataGrid_Roles.Visible = true;
+            this.dataGrid_Roles.Columns["idRol"].Visible = false;
+            this.dataGrid_Roles.Columns["Habilitado"].Visible = false;
+            DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
+            this.dataGrid_Roles.Columns.Add(btn);
+            btn.HeaderText = "Action";
+
+            if (flag_deletion)
+            {
+                btn.Text = "Delete";
+            }
+            else
+            {
+                btn.Text = "Select";
+            }
+
+            btn.Name = "row_button";
+            btn.UseColumnTextForButtonValue = true;
+        }
+
+        private void textBox_RolName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                BuscarRol();
+            }
+        }
     }
 }

@@ -62,17 +62,11 @@ namespace FrbaHotel.ABM_de_Usuario
         {
             DbResultSet rs;
 
-            if (this.textBox_nombre.Text.Trim().Equals("") &&
-               this.textBox_apellido.Text.Trim().Equals("") &&
-               this.comboBox_TipoDocumento.Text.Trim().Equals("") &&
-               this.textBox_username.Text.Trim().Equals("") &&
-               this.textbox_NroDocumento.Text.Trim().Equals("") &&
-               this.textBox_Mail.Text.Trim().Equals("")
-               )
+            if (!Check_Fields())
             {
-                MessageBox.Show("Debe introducir al menos un criterio de búsqueda");
+                this.textBox_apellido.Select();
                 return;
-            }
+            } 
 
             GestionUsuarios Form_GestionUsuarios = (GestionUsuarios)FormPadre;
             MainForm Form_MainForm = (MainForm)Form_GestionUsuarios.MenuPrincipal;
@@ -90,7 +84,7 @@ namespace FrbaHotel.ABM_de_Usuario
                                "AND ( " + "ISNULL(Tipo_Documento,'-') = '-' OR Tipo_Documento LIKE '%" + this.comboBox_TipoDocumento.Text.Trim() + "%' ) ";
 
             if (!this.textbox_NroDocumento.Text.Trim().Equals(""))
-                myQuery = myQuery + " AND Nro_Documento = " + this.textBox_Mail.Text.Trim();
+                myQuery = myQuery + " AND Nro_Documento = " + this.textbox_NroDocumento.Text.Trim();
 
             if (flag_deletion)
                 myQuery = myQuery + " AND Habilitado = 1";
@@ -143,6 +137,8 @@ namespace FrbaHotel.ABM_de_Usuario
                 btn.Text = "Delete";
             else
                 btn.Text = "Select";
+
+            this.textBox_nombre.Select();
         }
 
         private void button_clean_Click(object sender, EventArgs e)
@@ -156,6 +152,8 @@ namespace FrbaHotel.ABM_de_Usuario
             }
 
             this.dataGrid_Usuarios.Columns.Clear();
+            this.comboBox_TipoDocumento.Text = String.Empty;
+            this.textBox_nombre.Select();
         }
 
         private Usuario CargarDatosUsuario(int fila)
@@ -226,6 +224,62 @@ namespace FrbaHotel.ABM_de_Usuario
 
             unUsuario.password = TablaUsuarios.Rows[fila]["contraseña"].ToString();
             return unUsuario;
+        }
+
+        private Boolean Check_Fields()
+        {
+            if (this.textBox_nombre.Text.Trim().Equals("") &&
+               this.textBox_apellido.Text.Trim().Equals("") &&
+               this.comboBox_TipoDocumento.Text.Trim().Equals("") &&
+               this.textBox_username.Text.Trim().Equals("") &&
+               this.textbox_NroDocumento.Text.Trim().Equals("") &&
+               this.textBox_Mail.Text.Trim().Equals("")
+               )
+            {
+                MessageBox.Show("Debe introducir al menos un criterio de búsqueda");
+                return false;
+            }
+
+            Boolean flag = true;
+
+            
+            foreach (var item in this.comboBox_TipoDocumento.Items)
+            {
+                if (!comboBox_TipoDocumento.Text.Equals(String.Empty))
+                {
+                    if (comboBox_TipoDocumento.Text.Equals(item.ToString()))
+                    {
+                        flag = false;
+                    }
+                }
+                else
+                    flag = false;
+            }
+
+            if (flag)
+            {
+                MessageBox.Show("Tipo de Documento desconocido.");
+                return false;
+            }
+
+            if (!textbox_NroDocumento.Text.Equals(String.Empty))
+            {
+                if (!System.Text.RegularExpressions.Regex.Match(textbox_NroDocumento.Text, "^[1-9][0-9]+").Success)
+                {
+                    MessageBox.Show(    "Numero de Documento debe contener unicamente numeros",
+                                        "Numero de Documento Incorrecto",
+                                         MessageBoxButtons.OK,
+                                         MessageBoxIcon.Hand
+                                       );
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void textBox_username_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.KeyChar = char.ToLower(e.KeyChar);
         }
     }
 }

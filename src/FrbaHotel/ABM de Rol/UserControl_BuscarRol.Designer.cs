@@ -67,6 +67,7 @@
             this.textBox_RolName.Name = "textBox_RolName";
             this.textBox_RolName.Size = new System.Drawing.Size(276, 20);
             this.textBox_RolName.TabIndex = 2;
+            this.textBox_RolName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_RolName_KeyPress);
             // 
             // label_RolName
             // 
@@ -102,13 +103,13 @@
             this.dataGrid_Roles.TabIndex = 0;
             this.dataGrid_Roles.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_Roles_CellClick);
             // 
-            // SearchRol
+            // UserControl_BuscarRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox_FiltroBusqueda);
-            this.Name = "SearchRol";
+            this.Name = "UserControl_BuscarRol";
             this.Size = new System.Drawing.Size(375, 330);
             this.groupBox_FiltroBusqueda.ResumeLayout(false);
             this.groupBox_FiltroBusqueda.PerformLayout();

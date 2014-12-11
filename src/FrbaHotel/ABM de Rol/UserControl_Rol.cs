@@ -232,6 +232,12 @@ namespace FrbaHotel.ABM_de_Rol
                 return false;
             }
 
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_RolName.Text,"^[a-zA-Z]+$").Success)
+            {
+                MessageBox.Show("El campo Nombre de Rol debe contener solo letras");
+                return false;
+            }
+
             return true;
         }
         

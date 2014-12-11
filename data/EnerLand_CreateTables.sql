@@ -890,70 +890,6 @@ AS
 	
 GO
 
-/* Vistas */
-
-CREATE VIEW ENER_LAND.ReservasCanceladas 
-AS
-	SELECT x4.Nombre, x1.idReserva, x1.Fecha, x1.idEstado_Reserva
-	FROM ENER_LAND.Auditoria_Reserva x1, ENER_LAND.Reserva_Habitacion x2, ENER_LAND.Habitacion x3, ENER_LAND.Hotel x4
-	WHERE x1.idReserva = x2.idReserva
-	AND x2.Habitacion_Numero = x3.Numero
-	AND x2.IdHotel = x3.idHotel
-	AND x3.idHotel = x4.idHotel
-	AND x1.idEstado_Reserva IN ( 3, 4, 5)
-	
-GO
-
-CREATE VIEW ENER_LAND.ConsumiblesFacturados
-AS 
-	SELECT H.Nombre, F.idFactura, F.Fecha, E.idReserva, I.Cantidad, I.Descripcion
-	FROM	ENER_LAND.Factura F, 
-			ENER_LAND.Estadias E,
-			ENER_LAND.Reserva_Habitacion R_Hab, 
-			ENER_LAND.Hotel H, 
-			ENER_LAND.Item_Factura I
-	WHERE F.idEstadia = E.idEstadia
-	AND E.idReserva = R_Hab.idReserva
-	AND H.idHotel = R_Hab.IdHotel
-	AND I.idFactura = F.idFactura
-	AND I.Descripcion  <> 'Estadia'
-GO
-
-CREATE VIEW ENER_LAND.HabitacionesOcupadas
-AS 
-	SELECT H.Nombre,  R.Habitacion_Numero, E.Fecha_Ingreso, R.idReserva, E.Cantidad_Dias
-	FROM ENER_LAND.Estadias E, ENER_LAND.Reserva_Habitacion R, ENER_LAND.Hotel H
-	WHERE E.idReserva = R.idReserva
-	AND R.IdHotel = H.idHotel
-GO
-
-CREATE VIEW ENER_LAND.PuntajeHuespedes
-AS
-	SELECT H.idHuesped, H.Apellido, H.Nombre, R.idReserva, R.FechaDesde, CAST(I1.Cantidad * I1.PrecioUnitario / 10 AS INT) AS Puntos
-	FROM	ENER_LAND.Reserva R, 
-			ENER_LAND.Estadias E,
-			ENER_LAND.Huesped H, 
-			ENER_LAND.Factura F, 
-			ENER_LAND.Item_Factura I1
-	WHERE R.idReserva = E.idReserva
-	AND R.idHuesped = H.idHuesped
-	AND E.idEstadia = F.idEstadia
-	AND F.idFactura = I1.idFactura
-	AND I1.idItem = 1
-	UNION
-	SELECT H.idHuesped, H.Apellido, H.Nombre, R.idReserva, R.FechaDesde, CAST(I1.Cantidad * I1.PrecioUnitario / 5 AS INT) AS Puntos
-	FROM	ENER_LAND.Reserva R, 
-			ENER_LAND.Estadias E,
-			ENER_LAND.Huesped H, 
-			ENER_LAND.Factura F, 
-			ENER_LAND.Item_Factura I1
-	WHERE R.idReserva = E.idReserva
-	AND R.idHuesped = H.idHuesped
-	AND E.idEstadia = F.idEstadia
-	AND F.idFactura = I1.idFactura
-	AND I1.idItem <> 1
-GO
-
 CREATE PROCEDURE ENER_LAND.CheckReserva
 (
 	@ReservaId INT,
@@ -1303,3 +1239,68 @@ AS
 	RETURN @EstadiaID
 	
 GO
+
+/* Vistas */
+
+CREATE VIEW ENER_LAND.ReservasCanceladas 
+AS
+	SELECT x4.Nombre, x1.idReserva, x1.Fecha, x1.idEstado_Reserva
+	FROM ENER_LAND.Auditoria_Reserva x1, ENER_LAND.Reserva_Habitacion x2, ENER_LAND.Habitacion x3, ENER_LAND.Hotel x4
+	WHERE x1.idReserva = x2.idReserva
+	AND x2.Habitacion_Numero = x3.Numero
+	AND x2.IdHotel = x3.idHotel
+	AND x3.idHotel = x4.idHotel
+	AND x1.idEstado_Reserva IN ( 3, 4, 5)
+	
+GO
+
+CREATE VIEW ENER_LAND.ConsumiblesFacturados
+AS 
+	SELECT H.Nombre, F.idFactura, F.Fecha, E.idReserva, I.Cantidad, I.Descripcion
+	FROM	ENER_LAND.Factura F, 
+			ENER_LAND.Estadias E,
+			ENER_LAND.Reserva_Habitacion R_Hab, 
+			ENER_LAND.Hotel H, 
+			ENER_LAND.Item_Factura I
+	WHERE F.idEstadia = E.idEstadia
+	AND E.idReserva = R_Hab.idReserva
+	AND H.idHotel = R_Hab.IdHotel
+	AND I.idFactura = F.idFactura
+	AND I.Descripcion  <> 'Estadia'
+GO
+
+CREATE VIEW ENER_LAND.HabitacionesOcupadas
+AS 
+	SELECT H.Nombre,  R.Habitacion_Numero, E.Fecha_Ingreso, R.idReserva, E.Cantidad_Dias
+	FROM ENER_LAND.Estadias E, ENER_LAND.Reserva_Habitacion R, ENER_LAND.Hotel H
+	WHERE E.idReserva = R.idReserva
+	AND R.IdHotel = H.idHotel
+GO
+
+CREATE VIEW ENER_LAND.PuntajeHuespedes
+AS
+	SELECT H.idHuesped, H.Apellido, H.Nombre, R.idReserva, R.FechaDesde, CAST(I1.Cantidad * I1.PrecioUnitario / 10 AS INT) AS Puntos
+	FROM	ENER_LAND.Reserva R, 
+			ENER_LAND.Estadias E,
+			ENER_LAND.Huesped H, 
+			ENER_LAND.Factura F, 
+			ENER_LAND.Item_Factura I1
+	WHERE R.idReserva = E.idReserva
+	AND R.idHuesped = H.idHuesped
+	AND E.idEstadia = F.idEstadia
+	AND F.idFactura = I1.idFactura
+	AND I1.idItem = 1
+	UNION
+	SELECT H.idHuesped, H.Apellido, H.Nombre, R.idReserva, R.FechaDesde, CAST(I1.Cantidad * I1.PrecioUnitario / 5 AS INT) AS Puntos
+	FROM	ENER_LAND.Reserva R, 
+			ENER_LAND.Estadias E,
+			ENER_LAND.Huesped H, 
+			ENER_LAND.Factura F, 
+			ENER_LAND.Item_Factura I1
+	WHERE R.idReserva = E.idReserva
+	AND R.idHuesped = H.idHuesped
+	AND E.idEstadia = F.idEstadia
+	AND F.idFactura = I1.idFactura
+	AND I1.idItem <> 1
+GO
+
