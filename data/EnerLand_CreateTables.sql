@@ -787,7 +787,6 @@ AS
 		END			
 GO
 
-
 CREATE PROCEDURE ENER_LAND.Agregar_Usuario
 (
 	@username VARCHAR(20),

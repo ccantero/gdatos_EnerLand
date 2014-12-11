@@ -33,11 +33,16 @@ namespace FrbaHotel
             User testUser = new User(actualUser, actualRol);
             
             // Se ocultan todos los Menu.
-            foreach (ToolStripItem X in this.menuStrip1.Items)
+            foreach (ToolStripMenuItem item in this.menuStrip1.Items)
             {
-                X.Visible = false;
-                if (X.Name == "ingresarToolStripMenuItem")
-                    X.Visible = true;
+                item.Visible = false;
+                if (item.Name == "ingresarToolStripMenuItem")
+                    item.Visible = true;
+
+                foreach (ToolStripItem X in item.DropDownItems)
+                {
+                    X.Visible = false;
+                }
             }
             
             int[] permissions = testUser.getUserPermissions();
