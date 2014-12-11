@@ -57,6 +57,7 @@ namespace FrbaHotel
                             {
                                 usuariosToolStripMenuItem.Visible = true;
                                 gestionarUsuariosToolStripMenuItem.Visible = true;
+                                gestionarRolesToolStripMenuItem.Visible = true;
                             }
                             break;
                         }

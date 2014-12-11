@@ -422,6 +422,7 @@
             // 
             // checkedListBox_Roles
             // 
+            this.checkedListBox_Roles.CheckOnClick = true;
             this.checkedListBox_Roles.FormattingEnabled = true;
             this.checkedListBox_Roles.Location = new System.Drawing.Point(443, 244);
             this.checkedListBox_Roles.Name = "checkedListBox_Roles";

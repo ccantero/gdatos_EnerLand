@@ -18,6 +18,7 @@ namespace FrbaHotel.Login
         public int currentUser;  /* Usuario Guest */
         public int currentRol;  /* Rol Guest */
         public int currentHotel;  /* Hotel No Definido */
+        public Boolean Flag_Error = false;
 
         public LoginForm(Form parentForm)
         {
@@ -138,9 +139,18 @@ namespace FrbaHotel.Login
                     {
                         if (Password.Equals(encriptar(this.contraseña.Text.Trim()).Trim()))
                         {
+                            Flag_Error = false;
                             registrarLoginCorrecto(currentUser);
-                            usuario_ChooseRol(currentUser);
-                            usuario_ChooseHotel(currentUser);
+                            if (!Flag_Error)
+                            {
+                                usuario_ChooseRol(currentUser);    
+                            }
+
+                            if (!Flag_Error)
+                            {
+                                usuario_ChooseHotel(currentUser);
+                            }
+                            
                         }
                         else
                         {
@@ -219,10 +229,13 @@ namespace FrbaHotel.Login
             rs = DbManager.GetDataTable(query);
 
             if (rs.dataTable.Rows.Count == 0)
+            {
                 MessageBox.Show("El Usuario no dispone de Roles Habilitados para Ingresar al Sistema",
                                 "Rol Inhabilitado",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
+                Flag_Error = true;
+            }
             else
             {
                 if (rs.dataTable.Rows.Count == 1)

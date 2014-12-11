@@ -161,9 +161,13 @@ namespace FrbaHotel.ABM_de_Usuario
             {
                 int idRol = Convert.ToInt32(Row["idRol"]);
                 DataRow[] Rows = TablaRoles.Select("idRol = '" + idRol.ToString() + "'");
-                String Rol_Description = Rows[0]["Descripcion"].ToString().Trim();
-                int index = checkedListBox_Roles.Items.IndexOf(Rol_Description);
-                checkedListBox_Roles.SetItemChecked(index, true);
+                if (Rows.Length > 0)
+                {
+                    String Rol_Description = Rows[0]["Descripcion"].ToString().Trim();
+                    int index = checkedListBox_Roles.Items.IndexOf(Rol_Description);
+                    checkedListBox_Roles.SetItemChecked(index, true);
+                }
+                    
             }
 
             query_str = "SELECT * FROM ENER_LAND.Usuario_Hoteles WHERE idUsuario = " + unUsuario.idUsuario.ToString();
