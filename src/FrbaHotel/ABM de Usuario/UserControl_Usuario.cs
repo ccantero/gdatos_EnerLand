@@ -383,7 +383,7 @@ namespace FrbaHotel.ABM_de_Usuario
             }
             
             
-            if (!System.Text.RegularExpressions.Regex.Match(textBox_DNI.Text, "^[1-9][0-9]+").Success)
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_DNI.Text, "^[1-9][0-9]+$").Success)
             {
                 MessageBox.Show(    "Numero de Documento debe contener unicamente numeros",
                                     "Numero de Documento Incorrecto",
@@ -393,7 +393,7 @@ namespace FrbaHotel.ABM_de_Usuario
                 return false;
             }
 
-            if (!System.Text.RegularExpressions.Regex.Match(textBox_Numero.Text, "^[1-9][0-9]+").Success)
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_Numero.Text, "^[1-9][0-9]+$").Success)
             {
                 MessageBox.Show("Numero de Calle debe contener unicamente numeros",
                                 "Numero de Calle Incorrecto",
@@ -403,7 +403,7 @@ namespace FrbaHotel.ABM_de_Usuario
                 return false;
             }
 
-            if (this.textBox_Departamento.Text.Trim().Length != 1)
+            if (this.textBox_Departamento.Text.Trim().Length > 1)
             {
                 MessageBox.Show("Departamento no debe poseer mas de un caracter",
                                 "Departamento Incorrecto",
@@ -413,7 +413,17 @@ namespace FrbaHotel.ABM_de_Usuario
                 return false;
             }
 
-            if (!System.Text.RegularExpressions.Regex.Match(textBox_Piso.Text, "^[1-9][0-9]*").Success)
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_Telefono.Text, "^[1-9][0-9]+$").Success)
+            {
+                MessageBox.Show("Numero de Telefono debe contener unicamente numeros",
+                                    "Numero de Telefono Incorrecto",
+                                     MessageBoxButtons.OK,
+                                     MessageBoxIcon.Hand
+                                   );
+                return false;
+            }
+            
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_Piso.Text, "^[1-9][0-9]*$").Success)
             {
                 if (!textBox_Piso.Text.Equals("PB"))
                 {

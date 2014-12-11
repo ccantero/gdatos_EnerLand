@@ -661,7 +661,6 @@ VALUES (@idAdmin,@nombre,@mail, @telefono,@cantEstrellas,10,@calle,@numero,@idLo
 SELECT @@IDENTITY AS idHotel
 GO
 
-
 CREATE PROCEDURE ENER_LAND.Agregar_Huesped
 (
 	@Tipo_Documento VARCHAR(25),
@@ -686,10 +685,23 @@ AS
 	IF NOT EXISTS(SELECT 1 FROM ENER_LAND.Huesped WHERE Mail=@Mail)
 	BEGIN	
 		INSERT INTO [ENER_LAND].[Huesped] 
-		([Tipo_Documento],[Nro_Documento],[Apellido],[Nombre],[Mail],[Telefono],[Calle],[Numero],[Piso],[Departamento],[Fecha_Nacimiento],[Nacionalidad],[Habilitado]) 
-		VALUES (@Tipo_Documento,@Nro_Documento,@Apellido,@Nombre,@Mail,@Telefono,@Calle,@Numero,@Piso,@Departamento,@Fecha_Nacimiento,@Nacionalidad,@Habilitado);
+		([Tipo_Documento],[Nro_Documento],[Apellido],[Nombre],[Mail],[Calle],[Numero],[Piso],[Departamento],[Fecha_Nacimiento],[Nacionalidad],[Habilitado]) 
+		VALUES (@Tipo_Documento,@Nro_Documento,@Apellido,@Nombre,@Mail,@Calle,@Numero,@Piso,@Departamento,@Fecha_Nacimiento,@Nacionalidad,@Habilitado);
 
 		SET @idHuesped = @@IDENTITY
+		
+		IF @Telefono <> 0
+			BEGIN
+				UPDATE [ENER_LAND].[Huesped] 
+					SET Telefono = @Telefono
+				WHERE idHuesped = @idHuesped 
+			END
+		ELSE
+			BEGIN
+				UPDATE [ENER_LAND].[Huesped] 
+					SET Telefono = NULL
+				WHERE idHuesped = @idHuesped 
+			END
 
 		IF @idLocalidad <> -1
 			BEGIN
@@ -744,9 +756,21 @@ AS
 			Nro_Documento = @Nro_Documento,
 			Numero = @Numero,
 			Piso = @Piso,
-			Telefono = @Telefono,
 			Tipo_Documento = @Tipo_Documento
 	WHERE idHuesped = @idHuesped;
+	
+	IF @Telefono <> 0
+			BEGIN
+				UPDATE [ENER_LAND].[Huesped] 
+					SET Telefono = @Telefono
+				WHERE idHuesped = @idHuesped 
+			END
+		ELSE
+			BEGIN
+				UPDATE [ENER_LAND].[Huesped] 
+					SET Telefono = NULL
+				WHERE idHuesped = @idHuesped 
+			END
 	
 	IF @idLocalidad <> -1
 		BEGIN

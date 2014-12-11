@@ -64,7 +64,7 @@ namespace FrbaHotel.ABM_de_Usuario
 
             if (!Check_Fields())
             {
-                this.textBox_apellido.Select();
+                this.textBox_nombre.Select();
                 return;
             } 
 
@@ -264,7 +264,7 @@ namespace FrbaHotel.ABM_de_Usuario
 
             if (!textbox_NroDocumento.Text.Equals(String.Empty))
             {
-                if (!System.Text.RegularExpressions.Regex.Match(textbox_NroDocumento.Text, "^[1-9][0-9]+").Success)
+                if (!System.Text.RegularExpressions.Regex.Match(textbox_NroDocumento.Text, "^[1-9][0-9]+$").Success)
                 {
                     MessageBox.Show(    "Numero de Documento debe contener unicamente numeros",
                                         "Numero de Documento Incorrecto",

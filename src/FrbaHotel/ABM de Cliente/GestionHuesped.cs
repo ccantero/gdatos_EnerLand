@@ -105,7 +105,7 @@ namespace FrbaHotel.ABM_de_Cliente
             UserControlHuesped.Location = new Point(0, 10);
             UserControlHuesped.Name = "UserControlHuesped";
 
-            UserControlHuesped.flag_NOTABM = true;
+            //UserControlHuesped.flag_NOTABM = true;
         }
     }
 }

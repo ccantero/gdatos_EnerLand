@@ -41,6 +41,9 @@ namespace FrbaHotel.Registrar_Estadia
             DbResultSet rs;
             int idReserva;
 
+            if (!CheckFields())
+                return; 
+
             if (this.button_Save.Text.Equals("Submit"))
             {
                 idReserva = Convert.ToInt32(textBox_idReserva.Text);
@@ -84,6 +87,28 @@ namespace FrbaHotel.Registrar_Estadia
 
             if (this.button_Save.Text.Equals("Check"))
             {
+                myQuery = "SELECT DISTINCT idHotel " +
+                          "FROM ENER_LAND.Reserva_Habitacion R " +
+                          "WHERE R.idReserva = " + textBox_idReserva.Text + " " +
+                          "AND R.idHotel = " + currentHotel.ToString();
+
+                rs = DbManager.GetDataTable(myQuery);
+
+                if (rs.operationState == 1)
+                {
+                    MessageBox.Show("Fallo en BD");
+                    return;
+                }
+
+                if (rs.dataTable.Rows.Count == 0)
+                {
+                    MessageBox.Show("La reserva no corresponde al hotel en el que se encuentra logueado.",
+                                                "Hotel incorrecto",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                    return;
+                }
+                
                 myQuery = "SELECT   R1.idReserva, " +
                                    "R1.idEstado_Reserva, " +
                                    "R1.Cantidad_Dias, " +
@@ -235,5 +260,32 @@ namespace FrbaHotel.Registrar_Estadia
             FormPadre.Show();
             this.Dispose();
         }
+
+        private bool CheckFields()
+        {
+            if (textBox_idReserva.Text.Equals(String.Empty))
+            {
+                MessageBox.Show("Numero de Reserva no puede ser vacio",
+                                    "Numero de Reserva Incorrecto",
+                                     MessageBoxButtons.OK,
+                                     MessageBoxIcon.Hand
+                                   );
+                return false;
+            }
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_idReserva.Text, "^[1-9][0-9]+$").Success)
+            {
+                MessageBox.Show("Numero de Reserva debe contener unicamente numeros",
+                                    "Numero de Reserva Incorrecto",
+                                     MessageBoxButtons.OK,
+                                     MessageBoxIcon.Hand
+                                   );
+                return false;
+            }
+
+
+            return true;
+
+        }
+    
     }
 }

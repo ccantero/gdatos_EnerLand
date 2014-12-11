@@ -61,7 +61,10 @@ namespace FrbaHotel.ABM_de_Cliente
             this.textBox_Numero.Text = unHuesped.Numero.ToString();
 
             if(unHuesped.Piso != -1)
-                this.textBox_Piso.Text = unHuesped.Piso.ToString();
+                if(unHuesped.Piso == 0)
+                    this.textBox_Piso.Text = "PB";
+                else
+                    this.textBox_Piso.Text = unHuesped.Piso.ToString();
             
             if (unHuesped.Telefono != -1)
                 this.textBox_Telefono.Text = unHuesped.Telefono.ToString();
@@ -133,12 +136,10 @@ namespace FrbaHotel.ABM_de_Cliente
         private void button_Save_Click(object sender, EventArgs e)
         {
             Huesped nuevoHuesped = new Huesped();
-            // TODO: Check Mail Regular Expression
-            // TODO: Check Phone Number Regular Expression
-            // TODO: Check Street Number Regular Expression
-            // TODO: Check Floor Regular Expression
-            // TODO: Check Department Regular Expression
-            // TODO: Check Document Number Regular Expression
+            
+            if (!CheckFields())
+                return;
+
             nuevoHuesped.Apellido = this.textBox_Apellido.Text.Trim();
             nuevoHuesped.Calle = this.textBox_Calle.Text.Trim();
             
@@ -171,10 +172,17 @@ namespace FrbaHotel.ABM_de_Cliente
             nuevoHuesped.Nombre = this.textBox_Name.Text.Trim();
             nuevoHuesped.Nro_Documento = Convert.ToInt32(this.textBox_DNI.Text.Trim());
             nuevoHuesped.Numero = Convert.ToInt32(this.textBox_Numero.Text.Trim());
-            if(!this.textBox_Piso.Text.Trim().Equals(""))
-                nuevoHuesped.Piso = Convert.ToInt32(this.textBox_Piso.Text.Trim());
+            if (!this.textBox_Piso.Text.Trim().Equals(""))
+                if (this.textBox_Piso.Text.Trim().Equals("PB"))
+                    nuevoHuesped.Piso = 0;
+                else
+                    nuevoHuesped.Piso = Convert.ToInt32(this.textBox_Piso.Text.Trim());
 
-            nuevoHuesped.Telefono = Convert.ToInt32(this.textBox_Telefono.Text.Trim());
+            if (!this.textBox_Telefono.Text.Trim().Equals(""))
+            {
+                nuevoHuesped.Telefono = Convert.ToInt32(this.textBox_Telefono.Text.Trim());    
+            }
+            
 
             nuevoHuesped.Tipo_Documento = this.ComboBox_TipoDoc.Text.Trim();
 
@@ -255,7 +263,136 @@ namespace FrbaHotel.ABM_de_Cliente
 
 
             return false;
-        }   
-    
+        }
+
+        private bool CheckFields()
+        {
+            if (!System.Text.RegularExpressions.Regex.Match(this.textBox_mail.Text,
+                                                            @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$").Success)
+            {
+                MessageBox.Show("Formato de mail incorrecto",
+                                    "Mail Incorrecto",
+                                     MessageBoxButtons.OK,
+                                     MessageBoxIcon.Hand
+                                   );
+                return false;
+            }
+
+
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_DNI.Text, "^[1-9][0-9]+$").Success)
+            {
+                MessageBox.Show("Numero de Documento debe contener unicamente numeros",
+                                    "Numero de Documento Incorrecto",
+                                     MessageBoxButtons.OK,
+                                     MessageBoxIcon.Hand
+                                   );
+                return false;
+            }
+
+            
+            if (!textBox_Telefono.Text.Equals(String.Empty))
+            {
+                if (!System.Text.RegularExpressions.Regex.Match(textBox_Telefono.Text, "^[1-9][0-9]+$").Success)
+                {
+                    MessageBox.Show("Numero de Telefono debe contener unicamente numeros",
+                                        "Numero de Telefono Incorrecto",
+                                         MessageBoxButtons.OK,
+                                         MessageBoxIcon.Hand
+                                       );
+                    return false;
+                }
+            }
+
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_Numero.Text, "^[1-9][0-9]+$").Success)
+            {
+                MessageBox.Show("Numero de Calle debe contener unicamente numeros",
+                                "Numero de Calle Incorrecto",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Hand
+                                );
+                return false;
+            }
+
+            if (this.textBox_Departamento.Text.Trim().Length > 1)
+            {
+                MessageBox.Show("Departamento no debe poseer mas de un caracter",
+                                "Departamento Incorrecto",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Hand
+                                );
+                return false;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_Piso.Text, "^[1-9][0-9]*$").Success)
+            {
+                if (!textBox_Piso.Text.Equals("PB"))
+                {
+                    MessageBox.Show("Numero de Piso debe contener unicamente numeros o ser PB",
+                                    "Numero de Piso Incorrecto",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Hand
+                                    );
+                    return false;
+                }
+            }
+
+            if (ComboBox_TipoDoc.Text.Equals(String.Empty))
+            {
+                MessageBox.Show("Tipo de Documento no puede ser vacio",
+                                    "Falta ingresar Tipo de Documento",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Hand
+                                    );
+                return false;
+            }
+
+
+            Boolean flag = true;
+
+            foreach (var item in this.ComboBox_TipoDoc.Items)
+            {
+                if (ComboBox_TipoDoc.Text.Equals(item.ToString()))
+                {
+                    flag = false;
+                }
+            }
+
+            if (flag)
+            {
+                MessageBox.Show("Tipo de Documento desconocido.");
+                return false;
+            }
+
+            foreach (var item in this.ComboBox_Localidad.Items)
+            {
+                if (ComboBox_Localidad.Text.Equals(item.ToString()))
+                {
+                    flag = false;
+                }
+            }
+
+            if (flag)
+            {
+                MessageBox.Show("Localidad desconocida.");
+                return false;
+            }
+
+            foreach (var item in this.ComboBox_PaisOrigen.Items)
+            {
+                if (ComboBox_PaisOrigen.Text.Equals(item.ToString()))
+                {
+                    flag = false;
+                }
+            }
+
+            if (flag)
+            {
+                MessageBox.Show("Pais desconocido.");
+                return false;
+            }
+
+            return true;
+
+        }
     }
 }

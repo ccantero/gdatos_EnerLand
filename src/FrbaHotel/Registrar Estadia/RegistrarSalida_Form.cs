@@ -50,14 +50,43 @@ namespace FrbaHotel.Registrar_Estadia
 
         private void button_Save_Click(object sender, EventArgs e)
         {
+            string myQuery;
+            DbResultSet rs;
+
+            if (!CheckFields())
+                return; 
+            
             if (button_Save.Text == "Check")
             {
-                string myQuery = "SELECT H.Apellido, H.Nombre " +
-                                "FROM ENER_LAND.Reserva R, ENER_LAND.Huesped H " +
-                                "WHERE R.idHuesped = H.idHuesped " +
-                                "AND R.idReserva = " + textBox_idReserva.Text;
+                myQuery = "SELECT DISTINCT idHotel " +
+                          "FROM ENER_LAND.Reserva_Habitacion R " +
+                          "WHERE R.idReserva = " + textBox_idReserva.Text + " " +
+                          "AND R.idHotel = " + currentHotel.ToString();
 
-                DbResultSet rs = DbManager.GetDataTable(myQuery);
+                rs = DbManager.GetDataTable(myQuery);
+
+                if (rs.operationState == 1)
+                {
+                    MessageBox.Show("Fallo en BD");
+                    return;
+                }
+
+                if (rs.dataTable.Rows.Count == 0)
+                {
+                    MessageBox.Show("La reserva no corresponde al hotel en el que se encuentra logueado.",
+                                                "Hotel incorrecto",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Hand);
+                    return;
+                }
+                
+                
+                myQuery =   "SELECT H.Apellido, H.Nombre " +
+                            "FROM ENER_LAND.Reserva R, ENER_LAND.Huesped H " +
+                            "WHERE R.idHuesped = H.idHuesped " +
+                            "AND R.idReserva = " + textBox_idReserva.Text;
+
+                rs = DbManager.GetDataTable(myQuery);
 
                 if (rs.dataTable.Rows.Count == 1)
                 {
@@ -100,6 +129,31 @@ namespace FrbaHotel.Registrar_Estadia
             if (button_Save.Text == "Submit")
                 button_Save.Text = "Check";
         }
-        
+
+        private bool CheckFields()
+        {
+            if (textBox_idReserva.Text.Equals(String.Empty))
+            {
+                MessageBox.Show("Numero de Reserva no puede ser vacio",
+                                    "Numero de Reserva Incorrecto",
+                                     MessageBoxButtons.OK,
+                                     MessageBoxIcon.Hand
+                                   );
+                return false;    
+            }
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_idReserva.Text, "^[1-9][0-9]+$").Success)
+            {
+                MessageBox.Show("Numero de Reserva debe contener unicamente numeros",
+                                    "Numero de Reserva Incorrecto",
+                                     MessageBoxButtons.OK,
+                                     MessageBoxIcon.Hand
+                                   );
+                return false;
+            }
+
+
+            return true;
+
+        }
     }
 }

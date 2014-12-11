@@ -36,16 +36,11 @@ namespace FrbaHotel.ABM_de_Cliente
         {   
             DbResultSet rs;
 
-            if (this.textBox_nombre.Text.Trim().Equals("") &&
-               this.textBox_apellido.Text.Trim().Equals("") &&
-               this.comboBox_TipoDocumento.Text.Trim().Equals("") &&
-               this.textbox_NroDocumento.Text.Trim().Equals("")  &&
-               this.textBox_Mail.Text.Trim().Equals("")
-               )
+            if (!Check_Fields())
             {
-                MessageBox.Show("Debe introducir al menos un criterio de búsqueda");
+                this.textBox_nombre.Select();
                 return;
-            }
+            } 
 
             string myQuery =    "SELECT	x1.idHuesped, " +
                                 "x1.Apellido, " +
@@ -87,7 +82,6 @@ namespace FrbaHotel.ABM_de_Cliente
             if (TablaHuespedes.Rows.Count == 0)
             {
                 MessageBox.Show("No se han encontrado Huespedes");
-                // TODO: Habilitar Boton Crear Huesped.
                 return;
             }
 
@@ -115,7 +109,6 @@ namespace FrbaHotel.ABM_de_Cliente
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
-
             DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
             this.dataGrid_Huespedes.Columns.Add(btn);
             btn.HeaderText = "Action";
@@ -126,8 +119,6 @@ namespace FrbaHotel.ABM_de_Cliente
                 btn.Text = "Delete";
             else
                 btn.Text = "Select";
-
-            
 
         }
 
@@ -246,12 +237,16 @@ namespace FrbaHotel.ABM_de_Cliente
                 }
             }
 
+            this.dataGrid_Huespedes.Columns.Clear();
+            this.comboBox_TipoDocumento.Text = String.Empty;
+            this.textBox_nombre.Select();
         }
 
         private void button_AddHuesped_Click(object sender, EventArgs e)
         {
             ((GestionHuesped)FormPadre).Load_Menu();
             ((GestionHuesped)FormPadre).AgregarHuesped();
+            ((GestionHuesped)FormPadre).UserControlHuesped.flag_NOTABM = true; ;
         }
 
         public void BuscarHuesped()
@@ -259,6 +254,55 @@ namespace FrbaHotel.ABM_de_Cliente
             button_AddHuesped.Visible = true;
             flag_busqueda = true;
         }
-        
+
+        private Boolean Check_Fields()
+        {
+            if (this.textBox_nombre.Text.Trim().Equals("") &&
+               this.textBox_apellido.Text.Trim().Equals("") &&
+               this.comboBox_TipoDocumento.Text.Trim().Equals("") &&
+               this.textbox_NroDocumento.Text.Trim().Equals("") &&
+               this.textBox_Mail.Text.Trim().Equals("")
+               )
+            {
+                MessageBox.Show("Debe introducir al menos un criterio de búsqueda");
+                return false;
+            }
+
+            Boolean flag = true;
+
+
+            foreach (var item in this.comboBox_TipoDocumento.Items)
+            {
+                if (!comboBox_TipoDocumento.Text.Equals(String.Empty))
+                {
+                    if (comboBox_TipoDocumento.Text.Equals(item.ToString()))
+                    {
+                        flag = false;
+                    }
+                }
+                else
+                    flag = false;
+            }
+
+            if (flag)
+            {
+                MessageBox.Show("Tipo de Documento desconocido.");
+                return false;
+            }
+
+            if (!textbox_NroDocumento.Text.Equals(String.Empty))
+            {
+                if (!System.Text.RegularExpressions.Regex.Match(textbox_NroDocumento.Text, "^[1-9][0-9]+$").Success)
+                {
+                    MessageBox.Show("Numero de Documento debe contener unicamente numeros",
+                                        "Numero de Documento Incorrecto",
+                                         MessageBoxButtons.OK,
+                                         MessageBoxIcon.Hand
+                                       );
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
