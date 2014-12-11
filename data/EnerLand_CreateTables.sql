@@ -972,7 +972,7 @@ AS
 	VALUES ( @NroFactura, @EstadiaId, @Fecha, 0, @idPago);
 	
 	INSERT INTO ENER_LAND.Item_Factura
-		SELECT 1, @NroFactura, E.Cantidad_Dias, 'Estadia', h2.PorcentajeRecarga + r2.Precio * TH.Porcentaje
+		SELECT 1, @NroFactura, E.Cantidad_Dias, 'Estadia',h2.Cantidad_Estrellas * h2.PorcentajeRecarga + r2.Precio * TH.Porcentaje
 		FROM	ENER_LAND.Reserva r1, 
 				ENER_LAND.Regimen r2, 
 				ENER_LAND.Estadias E,
@@ -997,7 +997,7 @@ AS
 		BEGIN
 			/* El Huesped se retiro antes de tiempo. */
 			INSERT INTO ENER_LAND.Item_Factura
-				SELECT 2, @NroFactura, r1.Cantidad_Dias - E.Cantidad_Dias, 'Estadia - Dias sin Alojamiento', h2.PorcentajeRecarga + r2.Precio * TH.Porcentaje
+				SELECT 2, @NroFactura, r1.Cantidad_Dias - E.Cantidad_Dias, 'Estadia - Dias sin Alojamiento', h2.Cantidad_Estrellas * h2.PorcentajeRecarga + r2.Precio * TH.Porcentaje
 				FROM	ENER_LAND.Reserva r1, 
 						ENER_LAND.Regimen r2, 
 						ENER_LAND.Estadias E,
