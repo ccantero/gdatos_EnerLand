@@ -131,6 +131,8 @@ namespace FrbaHotel
         private void gestionarHotelesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ABM_de_Hotel.GestionHoteles formHoteles = new ABM_de_Hotel.GestionHoteles(parentForm);
+            formHoteles.currentHotel = actualHotel;
+            formHoteles.currentUser = actualUser; 
             formHoteles.Show();
         }
 
@@ -143,18 +145,24 @@ namespace FrbaHotel
         private void generarReservaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Generar_Modificar_Reserva.Reserva formReserva = new FrbaHotel.Generar_Modificar_Reserva.Reserva(parentForm, 1);
+            formReserva.currentHotel = actualHotel;
+            formReserva.currentUser = actualUser; 
             formReserva.Show();
         }
 
         private void cancelarReservaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Generar_Modificar_Reserva.Reserva formReserva = new FrbaHotel.Generar_Modificar_Reserva.Reserva(parentForm, 0);
+            formReserva.currentHotel = actualHotel;
+            formReserva.currentUser = actualUser; 
             formReserva.Show();
         }
 
         private void modificarReservaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Generar_Modificar_Reserva.Reserva formReserva = new FrbaHotel.Generar_Modificar_Reserva.Reserva(parentForm, 2);
+            formReserva.currentHotel = actualHotel;
+            formReserva.currentUser = actualUser;
             formReserva.Show();
         }
 

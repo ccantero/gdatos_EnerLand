@@ -12,6 +12,8 @@ namespace FrbaHotel.ABM_de_Hotel
 {
     public partial class GestionHoteles : Form
     {
+        public int currentHotel;
+        public int currentUser;
         private int mode;
         //0 consulta
         //1 Alta

@@ -102,6 +102,13 @@ namespace FrbaHotel.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap _24x24search {
+            get {
+                object obj = ResourceManager.GetObject("24x24search", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap _32x32accept {
             get {
                 object obj = ResourceManager.GetObject("_32x32accept", resourceCulture);

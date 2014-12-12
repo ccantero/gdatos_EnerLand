@@ -40,7 +40,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.btnBuscarHotel = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.lbTotalReserva = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -54,10 +53,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.dgvHabitacionesReserva = new System.Windows.Forms.DataGridView();
-            this.btnAgregarHabitacion = new System.Windows.Forms.Button();
-            this.btnQuitarHabitacion = new System.Windows.Forms.Button();
             this.dgvHabDisponibles = new System.Windows.Forms.DataGridView();
             this.btnAgregarHabTipo = new System.Windows.Forms.Button();
+            this.btnQuitarHabitacion = new System.Windows.Forms.Button();
+            this.btnAgregarHabitacion = new System.Windows.Forms.Button();
+            this.btnBuscarHotel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.udCantHuespedes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHabitacionesReserva)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHabDisponibles)).BeginInit();
@@ -71,6 +71,7 @@
             this.dtpFechaDesde.Name = "dtpFechaDesde";
             this.dtpFechaDesde.Size = new System.Drawing.Size(153, 20);
             this.dtpFechaDesde.TabIndex = 0;
+            this.dtpFechaDesde.ValueChanged += new System.EventHandler(this.dtpFechaDesde_ValueChanged);
             // 
             // dtpFechaHasta
             // 
@@ -80,6 +81,7 @@
             this.dtpFechaHasta.Name = "dtpFechaHasta";
             this.dtpFechaHasta.Size = new System.Drawing.Size(151, 20);
             this.dtpFechaHasta.TabIndex = 1;
+            this.dtpFechaHasta.ValueChanged += new System.EventHandler(this.dtpFechaHasta_ValueChanged);
             // 
             // cmbRegimenHotelRes
             // 
@@ -132,16 +134,6 @@
             this.label5.TabIndex = 10;
             this.label5.Text = "Regimen";
             // 
-            // btnBuscarHotel
-            // 
-            this.btnBuscarHotel.Location = new System.Drawing.Point(517, 35);
-            this.btnBuscarHotel.Name = "btnBuscarHotel";
-            this.btnBuscarHotel.Size = new System.Drawing.Size(43, 46);
-            this.btnBuscarHotel.TabIndex = 15;
-            this.btnBuscarHotel.Text = "button2";
-            this.btnBuscarHotel.UseVisualStyleBackColor = true;
-            this.btnBuscarHotel.Click += new System.EventHandler(this.btnBuscarHotel_Click);
-            // 
             // btnAceptar
             // 
             this.btnAceptar.Location = new System.Drawing.Point(403, 445);
@@ -192,11 +184,14 @@
             // 
             // btnReserva
             // 
-            this.btnReserva.Location = new System.Drawing.Point(298, 8);
+            this.btnReserva.BackgroundImage = global::FrbaHotel.Properties.Resources._24x24search;
+            this.btnReserva.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnReserva.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReserva.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnReserva.Location = new System.Drawing.Point(298, 1);
             this.btnReserva.Name = "btnReserva";
-            this.btnReserva.Size = new System.Drawing.Size(58, 21);
+            this.btnReserva.Size = new System.Drawing.Size(32, 36);
             this.btnReserva.TabIndex = 60;
-            this.btnReserva.Text = "btnBuscarReserva";
             this.btnReserva.UseVisualStyleBackColor = true;
             this.btnReserva.Click += new System.EventHandler(this.btnReserva_Click);
             // 
@@ -285,28 +280,8 @@
             this.dgvHabitacionesReserva.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black;
             this.dgvHabitacionesReserva.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
             this.dgvHabitacionesReserva.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHabitacionesReserva.Size = new System.Drawing.Size(452, 116);
+            this.dgvHabitacionesReserva.Size = new System.Drawing.Size(450, 116);
             this.dgvHabitacionesReserva.TabIndex = 74;
-            // 
-            // btnAgregarHabitacion
-            // 
-            this.btnAgregarHabitacion.Location = new System.Drawing.Point(532, 273);
-            this.btnAgregarHabitacion.Name = "btnAgregarHabitacion";
-            this.btnAgregarHabitacion.Size = new System.Drawing.Size(26, 21);
-            this.btnAgregarHabitacion.TabIndex = 75;
-            this.btnAgregarHabitacion.Text = "btnAgregarHabitacion";
-            this.btnAgregarHabitacion.UseVisualStyleBackColor = true;
-            this.btnAgregarHabitacion.Click += new System.EventHandler(this.btnAgregarHabitacion_Click);
-            // 
-            // btnQuitarHabitacion
-            // 
-            this.btnQuitarHabitacion.Location = new System.Drawing.Point(532, 300);
-            this.btnQuitarHabitacion.Name = "btnQuitarHabitacion";
-            this.btnQuitarHabitacion.Size = new System.Drawing.Size(26, 21);
-            this.btnQuitarHabitacion.TabIndex = 76;
-            this.btnQuitarHabitacion.Text = "button5";
-            this.btnQuitarHabitacion.UseVisualStyleBackColor = true;
-            this.btnQuitarHabitacion.Click += new System.EventHandler(this.btnQuitarHabitacion_Click);
             // 
             // dgvHabDisponibles
             // 
@@ -340,18 +315,53 @@
             this.dgvHabDisponibles.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black;
             this.dgvHabDisponibles.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
             this.dgvHabDisponibles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHabDisponibles.Size = new System.Drawing.Size(452, 92);
+            this.dgvHabDisponibles.Size = new System.Drawing.Size(446, 92);
             this.dgvHabDisponibles.TabIndex = 77;
             // 
             // btnAgregarHabTipo
             // 
-            this.btnAgregarHabTipo.Location = new System.Drawing.Point(532, 151);
+            this.btnAgregarHabTipo.BackgroundImage = global::FrbaHotel.Properties.Resources._24x24pedit;
+            this.btnAgregarHabTipo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnAgregarHabTipo.Location = new System.Drawing.Point(528, 151);
             this.btnAgregarHabTipo.Name = "btnAgregarHabTipo";
-            this.btnAgregarHabTipo.Size = new System.Drawing.Size(26, 21);
+            this.btnAgregarHabTipo.Size = new System.Drawing.Size(32, 34);
             this.btnAgregarHabTipo.TabIndex = 78;
-            this.btnAgregarHabTipo.Text = "button2";
             this.btnAgregarHabTipo.UseVisualStyleBackColor = true;
             this.btnAgregarHabTipo.Click += new System.EventHandler(this.btnAgregarTipoHabitacion_Click);
+            // 
+            // btnQuitarHabitacion
+            // 
+            this.btnQuitarHabitacion.BackgroundImage = global::FrbaHotel.Properties.Resources._24x24editcancel;
+            this.btnQuitarHabitacion.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnQuitarHabitacion.Location = new System.Drawing.Point(528, 313);
+            this.btnQuitarHabitacion.Name = "btnQuitarHabitacion";
+            this.btnQuitarHabitacion.Size = new System.Drawing.Size(32, 33);
+            this.btnQuitarHabitacion.TabIndex = 76;
+            this.btnQuitarHabitacion.UseVisualStyleBackColor = true;
+            this.btnQuitarHabitacion.Click += new System.EventHandler(this.btnQuitarHabitacion_Click);
+            // 
+            // btnAgregarHabitacion
+            // 
+            this.btnAgregarHabitacion.BackgroundImage = global::FrbaHotel.Properties.Resources._24x24pedit;
+            this.btnAgregarHabitacion.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnAgregarHabitacion.Location = new System.Drawing.Point(528, 273);
+            this.btnAgregarHabitacion.Name = "btnAgregarHabitacion";
+            this.btnAgregarHabitacion.Size = new System.Drawing.Size(32, 34);
+            this.btnAgregarHabitacion.TabIndex = 75;
+            this.btnAgregarHabitacion.UseVisualStyleBackColor = true;
+            this.btnAgregarHabitacion.Click += new System.EventHandler(this.btnAgregarHabitacion_Click);
+            // 
+            // btnBuscarHotel
+            // 
+            this.btnBuscarHotel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscarHotel.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnBuscarHotel.Image = global::FrbaHotel.Properties.Resources._24x24search;
+            this.btnBuscarHotel.Location = new System.Drawing.Point(517, 28);
+            this.btnBuscarHotel.Name = "btnBuscarHotel";
+            this.btnBuscarHotel.Size = new System.Drawing.Size(30, 30);
+            this.btnBuscarHotel.TabIndex = 15;
+            this.btnBuscarHotel.UseVisualStyleBackColor = true;
+            this.btnBuscarHotel.Click += new System.EventHandler(this.btnBuscarHotel_Click);
             // 
             // Reserva
             // 
