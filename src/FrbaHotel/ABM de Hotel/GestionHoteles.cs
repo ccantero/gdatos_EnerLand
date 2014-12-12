@@ -26,7 +26,7 @@ namespace FrbaHotel.ABM_de_Hotel
         {
             this.parentForm = parent;
             InitializeComponent();
-            this.tbHideDate.Text = @FrbaHotel.Properties.Settings.Default.Fecha.ToShortDateString();
+            dtpFechaCreacion.Value = @FrbaHotel.Properties.Settings.Default.Fecha;
         }
 
         private void GestionHoteles_Load(object sender, EventArgs e)

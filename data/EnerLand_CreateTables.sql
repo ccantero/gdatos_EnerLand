@@ -609,6 +609,14 @@ UPDATE ENER_LAND.Factura
 	SET Total = ( SELECT SUM(Cantidad * PrecioUnitario) FROM ENER_LAND.Item_Factura it WHERE it.idFactura = F.idFactura GROUP BY it.idFactura)
 FROM ENER_LAND.Factura f
 
+UPDATE ENER_LAND.Hotel
+SET Fecha_Creacion = (	SELECT MIN(FechaDesde) 
+						FROM ENER_LAND.Reserva R, ENER_LAND.Reserva_Habitacion RH
+						WHERE R.idReserva = RH.idReserva 
+						AND RH.idHotel = x1.idHotel
+					)
+FROM ENER_LAND.Hotel x1						
+
 /* STORE PROCEDURES */
 GO
 
