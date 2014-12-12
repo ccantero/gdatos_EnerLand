@@ -1054,6 +1054,9 @@ AS
 				WHERE E.idReserva = R.idReserva
 				AND R.idRegimen = 4 
 				AND E.idEstadia = @EstadiaId
+				AND EXISTS ( SELECT 1 FROM ENER_LAND.Consumible_Estadia CE
+							 WHERE CE.idEstadia = @EstadiaId 
+						   )
 			  )
 		BEGIN			  
 			INSERT INTO ENER_LAND.Item_Factura 
@@ -1286,6 +1289,86 @@ AS
 					WHERE H1.idHotel = H2.IdHotel
 					AND @FechaActual BETWEEN FechaInicio AND DATEADD(d, H2.Cantidad_Dias, H2.FechaInicio)
 				)
+GO
+
+CREATE FUNCTION ENER_LAND.CHECK_Hotel_Habilitado
+(
+	@idHotel INT,
+	@FechaInicioReserva DATETIME,
+	@FechaFinReserva DATETIME
+)
+RETURNS INT
+AS
+	BEGIN
+		DECLARE @Resultado INT
+	
+		IF EXISTS ( SELECT 1
+					FROM ENER_LAND.Hotel_Inhabilitado
+					WHERE IdHotel = @idHotel
+					AND @FechaInicioReserva BETWEEN FechaInicio AND DATEADD(d, Cantidad_Dias, FechaInicio)
+				)
+			SET @Resultado = 1
+		
+		IF EXISTS ( SELECT 1
+					FROM ENER_LAND.Hotel_Inhabilitado
+					WHERE IdHotel = @idHotel
+					AND @FechaFinReserva BETWEEN FechaInicio AND DATEADD(d, Cantidad_Dias, FechaInicio)
+				)
+			SET @Resultado = 1
+			
+		IF EXISTS ( SELECT 1
+					FROM ENER_LAND.Hotel_Inhabilitado
+					WHERE IdHotel = @idHotel
+					AND FechaInicio BETWEEN @FechaInicioReserva AND @FechaFinReserva
+				)
+			SET @Resultado = 1
+		
+			SET @Resultado = 0
+			
+		RETURN @Resultado
+	END
+GO
+
+CREATE FUNCTION ENER_LAND.CHECK_Habitacion_Habilitada
+(
+	@idHotel INT,
+	@Numero_Habitacion INT,
+	@FechaInicioReserva DATETIME,
+	@FechaFinReserva DATETIME
+)
+RETURNS INT
+AS
+	BEGIN
+		DECLARE @Resultado INT
+	
+		IF EXISTS ( SELECT 1
+					FROM ENER_LAND.Habitacion_Inhabilitada
+					WHERE IdHotel = @idHotel
+					AND idHabitacion = @Numero_Habitacion
+					AND @FechaInicioReserva BETWEEN FechaInicio AND DATEADD(d, Cantidad_Dias, FechaInicio)
+				)
+			SET @Resultado = 1
+		
+		IF EXISTS ( SELECT 1
+					FROM ENER_LAND.Habitacion_Inhabilitada
+					WHERE IdHotel = @idHotel
+					AND idHabitacion = @Numero_Habitacion
+					AND @FechaFinReserva BETWEEN FechaInicio AND DATEADD(d, Cantidad_Dias, FechaInicio)
+				)
+			SET @Resultado = 1
+			
+		IF EXISTS ( SELECT 1
+					FROM ENER_LAND.Habitacion_Inhabilitada
+					WHERE IdHotel = @idHotel
+					AND idHabitacion = @Numero_Habitacion
+					AND FechaInicio BETWEEN @FechaInicioReserva AND @FechaFinReserva
+				)
+			SET @Resultado = 1
+		
+			SET @Resultado = 0
+			
+		RETURN @Resultado
+	END
 GO
 
 /* Vistas */

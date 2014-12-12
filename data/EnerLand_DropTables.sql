@@ -42,6 +42,7 @@ DROP PROCEDURE ENER_LAND.Process_CheckOut;
 DROP PROCEDURE ENER_LAND.Process_CheckIn;
 DROP PROCEDURE ENER_LAND.InhabilitarHoteles;
 DROP FUNCTION ENER_LAND.CHECK_Hotel_Habilitado;
+DROP FUNCTION ENER_LAND.CHECK_Habitacion_Habilitada;
 DROP VIEW ENER_LAND.ReservasCanceladas;
 DROP VIEW ENER_LAND.ConsumiblesFacturados;
 DROP VIEW ENER_LAND.HabitacionesOcupadas;
