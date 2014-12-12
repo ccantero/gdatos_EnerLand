@@ -15,7 +15,6 @@ namespace FrbaHotel.ABM_de_Hotel
         int idHotel;
         String hotelDesc;
         DataGridViewRow habitacion;
-        int numHabitacion;
         ABM_de_Hotel.GestionHoteles parentForm;
 
         int optype;

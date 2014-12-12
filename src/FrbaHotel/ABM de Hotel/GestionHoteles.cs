@@ -503,30 +503,8 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void bajaAltaHabitacion()
         {
-            int i;
-            for (i = 0; i < dgvHabitaciones.SelectedRows.Count; i++)
-            {
-                MessageBox.Show("Hotel: " + cmbHoteles.SelectedValue + "tipo " +  dgvHabitaciones.SelectedRows[i].Cells[1].Value.ToString() + " habilitado: " +  dgvHabitaciones.SelectedRows[i].Cells[6].Value.ToString());
-
-                using (SqlConnection connection = DbManager.dbConnect())
-                {
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.Connection = connection;
-                        command.CommandType = CommandType.Text;
-                        command.CommandText = "UPDATE ENER_LAND.Habitacion SET HABILITADO= CASE HABILITADO WHEN 0 THEN 1 ELSE 0 END " +
-                                              "WHERE idHotel = @idHotel " + 
-                                              "AND NUMERO = @idHabitacion";
-                        command.Parameters.AddWithValue("@idHotel", cmbHoteles.SelectedValue); //Todo tomar de usuario
-                        command.Parameters.AddWithValue("@idHabitacion", dgvHabitaciones.SelectedRows[i].Cells[0].Value);
-                        int recordsAffected = command.ExecuteNonQuery();
-                        connection.Close();
-
-                    }
-                }
-
-            }
-            getHabitacionesHotel(Convert.ToInt32(cmbHoteles.SelectedValue));
+            ABM_de_Hotel.BajaHabitacion formBajaHabitacion = new BajaHabitacion(this, (int)cmbHoteles.SelectedValue, (int)dgvHabitaciones.SelectedRows[0].Cells[0].Value);
+            formBajaHabitacion.Show();
         }
 
         private void btnDisableRoom_Click(object sender, EventArgs e)
@@ -554,7 +532,7 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void GestionHoteles_EnabledChanged(object sender, EventArgs e)
         {
-            if (this.Enabled == true) 
+            if (this.Enabled == true)
                 getHabitacionesHotel(Convert.ToInt32(cmbHoteles.SelectedValue));
         }
 
