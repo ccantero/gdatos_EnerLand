@@ -143,6 +143,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     command.Parameters.AddWithValue("@hotelAnterior", dtpFechaDesde.Value);
                     command.Parameters.AddWithValue("@fechaResDesde", dtpFechaDesde.Value);
                     command.Parameters.AddWithValue("@fechaResHasta", dtpFechaHasta.Value);
+
                     DataTable dt = new DataTable();
                     dt.Load(command.ExecuteReader());
                     DataRow drow = dt.NewRow();

@@ -4,6 +4,7 @@ DROP TABLE ENER_LAND.Huespedes_Alojados;
 DROP TABLE ENER_LAND.Consumible_Estadia;
 DROP TABLE ENER_LAND.Usuario_Hoteles;
 DROP TABLE ENER_LAND.Hotel_Inhabilitado;
+DROP TABLE ENER_LAND.Habitacion_Inhabilitada;
 DROP TABLE ENER_LAND.Auditoria_Reserva;
 DROP TABLE ENER_LAND.Habitacion;
 DROP TABLE ENER_LAND.Rol_Usuario;

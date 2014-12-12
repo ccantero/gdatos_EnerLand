@@ -289,8 +289,16 @@ CREATE TABLE ENER_LAND.Hotel_Inhabilitado (
   Motivo VARCHAR(50) NULL
   FOREIGN KEY(idHotel)
     REFERENCES ENER_LAND.Hotel(IdHotel)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
+);
+
+CREATE TABLE ENER_LAND.Habitacion_Inhabilitada (
+  IdHotel INTEGER NOT NULL,
+  idHabitacion INTEGER NOT NULL,
+  FechaInicio DATE NOT NULL,
+  Cantidad_Dias INTEGER NULL,
+  Motivo VARCHAR(50) NULL,
+  FOREIGN KEY(idHabitacion, IdHotel)
+  REFERENCES ENER_LAND.Habitacion(Numero, IdHotel)
 );
 
 CREATE TABLE ENER_LAND.Usuario_Hoteles (
