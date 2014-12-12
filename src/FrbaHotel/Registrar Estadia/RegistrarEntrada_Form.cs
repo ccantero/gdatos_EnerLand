@@ -115,9 +115,11 @@ namespace FrbaHotel.Registrar_Estadia
                                    "R1.Cantidad_Huespedes, " +
                                    "R1.FechaDesde, " +
                                    "R1.idHuesped, " +
+                                   "H.Habilitado, " +
                                    "R2.Descripcion " +
-                          "FROM ENER_LAND.Reserva R1, ENER_LAND.Regimen R2 " +
+                          "FROM ENER_LAND.Reserva R1, ENER_LAND.Regimen R2, ENER_LAND.Huesped H " +
                           "WHERE R1.idRegimen = R2.idRegimen " +
+                          "AND H.idHuesped = R1.idHuesped " +
                           "AND R1.idReserva = " + textBox_idReserva.Text;
 
                 rs = DbManager.GetDataTable(myQuery);
@@ -127,11 +129,10 @@ namespace FrbaHotel.Registrar_Estadia
                     int idEstado_Reserva;
                     int Cantidad_Dias;
                     int Cantidad_Huespedes;
+                    int habilitado;
                     DateTime FechaDesde;
                     int idHuesped;
                     string Regimen_Descripcion;
-
-                    button_Save.Text = "Submit";
 
                     idReserva = Convert.ToInt32(rs.dataTable.Rows[0]["idReserva"].ToString());
                     idEstado_Reserva = Convert.ToInt32(rs.dataTable.Rows[0]["idEstado_Reserva"].ToString());
@@ -139,6 +140,7 @@ namespace FrbaHotel.Registrar_Estadia
                     Cantidad_Huespedes = Convert.ToInt32(rs.dataTable.Rows[0]["Cantidad_Huespedes"].ToString());
                     FechaDesde = Convert.ToDateTime(rs.dataTable.Rows[0]["FechaDesde"].ToString());
                     idHuesped = Convert.ToInt32(rs.dataTable.Rows[0]["idHuesped"].ToString());
+                    habilitado = Convert.ToInt32(rs.dataTable.Rows[0]["Habilitado"].ToString());
                     Regimen_Descripcion = rs.dataTable.Rows[0]["Descripcion"].ToString();
 
                     if (idEstado_Reserva == 3 || idEstado_Reserva == 4 || idEstado_Reserva == 5)
@@ -147,6 +149,15 @@ namespace FrbaHotel.Registrar_Estadia
                                                 "Reserva cancelada",
                                                 MessageBoxButtons.OK,
                                                 MessageBoxIcon.Hand);
+                        return;
+                    }
+
+                    if (habilitado == 0)
+                    {
+                        MessageBox.Show("El Huesped se encuentra inhabilitado",
+                                        "Huesped Incorrecto",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Hand);
                         return;
                     }
 

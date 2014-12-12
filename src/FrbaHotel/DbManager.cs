@@ -225,7 +225,6 @@ namespace FrbaHotel
             }
         }
 
-
         //Inserta datos en DB desde una sentencia predefinida.
         static public DbResultSet dbSqlStatementExec(string insertCommand)
         {
@@ -354,7 +353,8 @@ namespace FrbaHotel
                 if (unHuesped.Habilitado)
                     cmd.Parameters.Add(new SqlParameter("@Habilitado", 1));
                 else
-                    cmd.Parameters.Add(new SqlParameter("@Habilitado", 0));
+                    cmd.Parameters.Add(new SqlParameter("@Habilitado", Convert.ToChar("0")));
+
                 
                 SqlParameter ValorDeRetorno = cmd.Parameters.Add("returnParameter", SqlDbType.Int);
                 ValorDeRetorno.Direction = ParameterDirection.ReturnValue;
@@ -417,7 +417,7 @@ namespace FrbaHotel
                 if (unHuesped.Habilitado)
                     cmd.Parameters.Add(new SqlParameter("@Habilitado", 1));
                 else
-                    cmd.Parameters.Add(new SqlParameter("@Habilitado", 0));
+                    cmd.Parameters.Add(new SqlParameter("@Habilitado", Convert.ToChar("0")));
 
                 SqlParameter ValorDeRetorno = cmd.Parameters.Add("returnParameter", SqlDbType.Int);
                 ValorDeRetorno.Direction = ParameterDirection.ReturnValue;
@@ -481,7 +481,7 @@ namespace FrbaHotel
                 if (unUsuario.Habilitado)
                     cmd.Parameters.Add(new SqlParameter("@Habilitado", 1));
                 else
-                    cmd.Parameters.Add(new SqlParameter("@Habilitado", 0));
+                    cmd.Parameters.Add(new SqlParameter("@Habilitado", Convert.ToChar("0")));
 
                 SqlParameter ValorDeRetorno = cmd.Parameters.Add("returnParameter", SqlDbType.Int);
                 ValorDeRetorno.Direction = ParameterDirection.ReturnValue;
@@ -545,7 +545,7 @@ namespace FrbaHotel
                 if (unUsuario.Habilitado)
                     cmd.Parameters.Add(new SqlParameter("@Habilitado", 1));
                 else
-                    cmd.Parameters.Add(new SqlParameter("@Habilitado", 0));
+                    cmd.Parameters.Add(new SqlParameter("@Habilitado", Convert.ToChar("0")));
 
                 SqlParameter ValorDeRetorno = cmd.Parameters.Add("returnParameter", SqlDbType.Int);
                 ValorDeRetorno.Direction = ParameterDirection.ReturnValue;

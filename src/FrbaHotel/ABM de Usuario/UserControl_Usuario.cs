@@ -208,7 +208,7 @@ namespace FrbaHotel.ABM_de_Usuario
 
         private void CargarHoteles()
         {
-            DbResultSet rs = DbManager.GetDataTable("SELECT * FROM ENER_LAND.Hotel WHERE Habilitado = 1");
+            DbResultSet rs = DbManager.GetDataTable("SELECT * FROM ENER_LAND.Hotel");
             TablaHoteles = rs.dataTable;
 
             foreach (DataRow Row in TablaHoteles.Rows)
@@ -397,7 +397,7 @@ namespace FrbaHotel.ABM_de_Usuario
                 return false;
             }
 
-            if (!System.Text.RegularExpressions.Regex.Match(textBox_Numero.Text, "^[1-9][0-9]+$").Success)
+            if (!System.Text.RegularExpressions.Regex.Match(textBox_Numero.Text, "^[1-9][0-9]*$").Success)
             {
                 MessageBox.Show("Numero de Calle debe contener unicamente numeros",
                                 "Numero de Calle Incorrecto",
@@ -467,6 +467,8 @@ namespace FrbaHotel.ABM_de_Usuario
                 return false;
             }
 
+            flag = true;
+
             foreach (var item in this.ComboBox_Localidad.Items)
             {
                 if (ComboBox_Localidad.Text.Equals(item.ToString()))
@@ -481,6 +483,7 @@ namespace FrbaHotel.ABM_de_Usuario
                 return false;
             }
 
+            flag = true;
             foreach (var item in this.ComboBox_PaisOrigen.Items)
             {
                 if (ComboBox_PaisOrigen.Text.Equals(item.ToString()))

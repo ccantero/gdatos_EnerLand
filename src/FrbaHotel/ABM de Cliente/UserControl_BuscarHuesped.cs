@@ -70,7 +70,7 @@ namespace FrbaHotel.ABM_de_Cliente
             if (!this.textbox_NroDocumento.Text.Trim().Equals(""))
                 myQuery = myQuery + " AND Nro_Documento = " + this.textbox_NroDocumento.Text.Trim();
 
-            if (flag_deletion)
+            if (flag_deletion || flag_busqueda)
                 myQuery = myQuery + " AND Habilitado = 1";
 
             rs = DbManager.GetDataTable(myQuery);

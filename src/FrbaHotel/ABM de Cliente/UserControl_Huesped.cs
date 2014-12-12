@@ -363,6 +363,8 @@ namespace FrbaHotel.ABM_de_Cliente
                 return false;
             }
 
+            flag = true;
+
             foreach (var item in this.ComboBox_Localidad.Items)
             {
                 if (ComboBox_Localidad.Text.Equals(item.ToString()))
@@ -376,6 +378,8 @@ namespace FrbaHotel.ABM_de_Cliente
                 MessageBox.Show("Localidad desconocida.");
                 return false;
             }
+
+            flag = true;
 
             foreach (var item in this.ComboBox_PaisOrigen.Items)
             {
