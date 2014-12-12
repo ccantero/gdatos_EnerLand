@@ -15,6 +15,7 @@ namespace FrbaHotel.ABM_de_Cliente
         public static DataTable TablaHuespedes = new DataTable();
         public Boolean flag_deletion;
         public Boolean flag_busqueda;
+        public Boolean flag_busquedaReserva;
 
         public UserControl_BuscarHuesped(Form parentForm)
         {
@@ -22,6 +23,7 @@ namespace FrbaHotel.ABM_de_Cliente
             FormPadre = parentForm;
             flag_deletion = false;
             flag_busqueda = false;
+            flag_busquedaReserva = false;
         }
 
         private void UserControl_BuscarHuesped_Load(object sender, EventArgs e)
@@ -147,6 +149,16 @@ namespace FrbaHotel.ABM_de_Cliente
 
                 if (flag_busqueda)
                 {
+                    if (flag_busquedaReserva)
+                    {
+                        GestionHuesped Form_GestionHuesped = (GestionHuesped)FormPadre;
+                        Generar_Modificar_Reserva.Reserva Form_Reserva = (Generar_Modificar_Reserva.Reserva)Form_GestionHuesped.MenuPrincipal;
+                        Form_Reserva.AgregarReserva(unHuesped.idHuesped);
+                        Form_Reserva.Visible = true;
+                        Form_GestionHuesped.Dispose();
+                        return;
+                    }
+                    
                     ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Huespedes.Add(unHuesped.idHuesped);
                     ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Cargar_Huespedes();
                     ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Visible = true;
@@ -249,10 +261,11 @@ namespace FrbaHotel.ABM_de_Cliente
             ((GestionHuesped)FormPadre).UserControlHuesped.flag_NOTABM = true; ;
         }
 
-        public void BuscarHuesped()
+        public void BuscarHuesped(Boolean busquedaReserva)
         {
             button_AddHuesped.Visible = true;
             flag_busqueda = true;
+            flag_busquedaReserva = busquedaReserva;
         }
 
         private Boolean Check_Fields()

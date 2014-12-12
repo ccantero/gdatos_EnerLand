@@ -90,10 +90,10 @@ namespace FrbaHotel.ABM_de_Cliente
             UserControlBuscarHuesped.flag_deletion = true;
         }
 
-        public void Cargar_Busqueda()
+        public void Cargar_Busqueda(Boolean busquedaReserva)
         {
             this.menuStrip1.Visible = false;
-            UserControlBuscarHuesped.BuscarHuesped();
+            UserControlBuscarHuesped.BuscarHuesped(busquedaReserva);
         }
 
         public void AgregarHuesped()

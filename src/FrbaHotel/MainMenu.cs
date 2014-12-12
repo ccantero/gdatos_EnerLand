@@ -152,7 +152,7 @@ namespace FrbaHotel
 
         private void cancelarReservaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Generar_Modificar_Reserva.Reserva formReserva = new FrbaHotel.Generar_Modificar_Reserva.Reserva(parentForm, 0);
+            Generar_Modificar_Reserva.Reserva formReserva = new FrbaHotel.Generar_Modificar_Reserva.Reserva(parentForm, 3);
             formReserva.currentHotel = actualHotel;
             formReserva.currentUser = actualUser; 
             formReserva.Show();

@@ -14,7 +14,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
     {
         public Form parentForm;
         public int operationType;
-        public const int opCancelarReserva = 0;
+        public const int opCancelarReserva = 3; /* El cero choca con la FK idEstado_Reserva de Auditoria_Reserva */
         public const int opNuevaReserva = 1;
         public const int opModificarReserva = 2;
         public int currentHotel;
@@ -191,7 +191,6 @@ namespace FrbaHotel.Generar_Modificar_Reserva
             }
         }
 
-
         private void btnReserva_Click(object sender, EventArgs e)
         {
             if (tbCodReserva.Text.Length > 0)
@@ -257,6 +256,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
             if ((int)cmbRegimenHotelRes.SelectedValue > 0)
                 cmbRegHotel.SelectedValue = cmbRegimenHotelRes.SelectedValue;
         }
+        
         private void cmbHotelesDisponibles_SelectionChangeCommitted(object sender, EventArgs e)
         {
             obtenerRegimenesEnHotel();
@@ -350,59 +350,114 @@ namespace FrbaHotel.Generar_Modificar_Reserva
 
             int diffDate = (int)Math.Round(Convert.ToDouble(ts.TotalDays), 0);
             int codReserva;
-            if (operationType == 1)
+            if (operationType == 1) /* Agregar Reserva */
             {
-
-               
-                using (SqlConnection connection = DbManager.dbConnect())
-                {
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.Connection = connection;
-                        command.CommandType = CommandType.Text;
-                        DbResultSet rs = DbManager.dbGetInt("SELECT MAX(idReserva) FROM ENER_LAND.Reserva");
-                        codReserva = rs.intValue + 1;
-                        command.CommandText = " INSERT INTO ENER_LAND.Reserva VALUES (@idReserva,1,1,@idRegimen,@fechaDesde,@cantDias,@cantHuespedes) ";
-
-                        command.Parameters.AddWithValue("@idReserva", codReserva);
-                        command.Parameters.AddWithValue("@idRegimen", cmbRegHotel.SelectedValue);
-                        command.Parameters.AddWithValue("@fechaDesde", dtpFechaDesde.Value);
-                        command.Parameters.AddWithValue("@cantDias", diffDate);
-                        command.Parameters.AddWithValue("@cantHuespedes", udCantHuespedes.Value); //TODO validar > 0
-                        command.ExecuteNonQuery();
-                    }
-                }
+                ABM_de_Cliente.GestionHuesped formBusqueda = new FrbaHotel.ABM_de_Cliente.GestionHuesped(this);
+                formBusqueda.Show();
+                formBusqueda.Cargar_Busqueda(true); // Es Busqueda en Reserva
+                return;
             }
-            else 
+            else
             {
                 codReserva = Convert.ToInt32(tbCodReserva.Text);
-                using (SqlConnection connection = DbManager.dbConnect())
+                if (operationType == 2)
                 {
-                    using (SqlCommand command = new SqlCommand())
+                    using (SqlConnection connection = DbManager.dbConnect())
                     {
-                        command.Connection = connection;
-                        command.CommandType = CommandType.Text;
-                        command.CommandText = " UPDATE ENER_LAND.Reserva " +
-                                              " SET idRegimen=@idRegimen, " +
-                                              " fechaDesde=@fechaDesde, " +
-                                              " Cantidad_dias=@cantDias, " +
-                                              " Cantidad_huespedes=@cantHuespedes, " +
-                                              " IdEstado_Reserva=2 " +
-                                              " WHERE idReserva = @idReserva ";
+                        using (SqlCommand command = new SqlCommand())
+                        {
+                            command.Connection = connection;
+                            command.CommandType = CommandType.Text;
+                            command.CommandText = " UPDATE ENER_LAND.Reserva " +
+                                                  " SET idRegimen=@idRegimen, " +
+                                                  " fechaDesde=@fechaDesde, " +
+                                                  " Cantidad_dias=@cantDias, " +
+                                                  " Cantidad_huespedes=@cantHuespedes, " +
+                                                  " IdEstado_Reserva=2 " +
+                                                  " WHERE idReserva = @idReserva ";
 
-                        command.Parameters.AddWithValue("@idReserva", codReserva);
-                        command.Parameters.AddWithValue("@idRegimen", cmbRegHotel.SelectedValue);
-                        command.Parameters.AddWithValue("@fechaDesde", dtpFechaDesde.Value);
-                        command.Parameters.AddWithValue("@cantDias", diffDate);
-                        command.Parameters.AddWithValue("@cantHuespedes", udCantHuespedes.Value); //TODO validar > 0
-                        command.ExecuteNonQuery();
-                    }
+                            command.Parameters.AddWithValue("@idReserva", codReserva);
+                            command.Parameters.AddWithValue("@idRegimen", cmbRegHotel.SelectedValue);
+                            command.Parameters.AddWithValue("@fechaDesde", dtpFechaDesde.Value);
+                            command.Parameters.AddWithValue("@cantDias", diffDate);
+                            command.Parameters.AddWithValue("@cantHuespedes", udCantHuespedes.Value); //TODO validar > 0
+                            command.ExecuteNonQuery();
+                        }
+                        
+		                DbManager.dbSqlStatementExec("DELETE FROM ENER_LAND.Reserva_Habitacion WHERE idReserva =" + codReserva);
+                        reservarHabitaciones(codReserva);
+                        registrarAuditoria(codReserva, operationType);
+                	}
                 }
-                DbManager.dbSqlStatementExec("DELETE FROM ENER_LAND.Reserva_Habitacion WHERE idReserva =" + codReserva);
+                else /* Cancelacion de Reserva */
+                {
+                    //TODO
+                }
+            }
+
+            
+        }
+
+        public void AgregarReserva(int idHuesped)
+        {
+            TimeSpan ts = dtpFechaHasta.Value - dtpFechaDesde.Value;
+
+            int diffDate = (int)Math.Round(Convert.ToDouble(ts.TotalDays), 0);
+            int codReserva;
+            
+            using (SqlConnection connection = DbManager.dbConnect())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+                    DbResultSet rs = DbManager.dbGetInt("SELECT MAX(idReserva) FROM ENER_LAND.Reserva");
+                    codReserva = rs.intValue + 1;
+                    command.CommandText = " INSERT INTO ENER_LAND.Reserva VALUES (@idReserva,1,@idHuesped,@idRegimen,@fechaDesde,@cantDias,@cantHuespedes) ";
+
+                    command.Parameters.AddWithValue("@idReserva", codReserva);
+                    command.Parameters.AddWithValue("@idHuesped", idHuesped);
+                    command.Parameters.AddWithValue("@idRegimen", cmbRegHotel.SelectedValue);
+                    command.Parameters.AddWithValue("@fechaDesde", dtpFechaDesde.Value);
+                    command.Parameters.AddWithValue("@cantDias", diffDate);
+                    command.Parameters.AddWithValue("@cantHuespedes", udCantHuespedes.Value); //TODO validar > 0
+                    command.ExecuteNonQuery();
+                }
             }
             reservarHabitaciones(codReserva);
             registrarAuditoria(codReserva, operationType);
         }
+        
+        public void CancelarReserva(string Motivo)
+        {
+            codReserva = Convert.ToInt32(tbCodReserva.Text);
+            using (SqlConnection connection = DbManager.dbConnect())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = " UPDATE ENER_LAND.Reserva " +
+                                          " SET IdEstado_Reserva=@idEstado_Reserva, " +
+                                          " Motivo_Cancelacion=@Motivo, " +
+                                          " fechaDesde=@fechaDesde, " +
+                                          " Cantidad_dias=@cantDias, " +
+                                          " Cantidad_huespedes=@cantHuespedes, " +
+                                          " = 3 " +
+                                          " WHERE idReserva = @idReserva " +
+                                          " AND FechaDesde = @fechaDesde " + 
+                                          " AND FechaDesde = @fechaDesde;
+
+                    command.Parameters.AddWithValue("@idReserva", codReserva);
+                    command.Parameters.AddWithValue("@idRegimen", cmbRegHotel.SelectedValue);
+                    command.Parameters.AddWithValue("@fechaDesde", dtpFechaDesde.Value);
+                    command.Parameters.AddWithValue("@cantDias", diffDate);
+                    command.Parameters.AddWithValue("@cantHuespedes", udCantHuespedes.Value); //TODO validar > 0
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         private void registrarAuditoria(int codRes, int cod)
         {
             using (SqlConnection connection = DbManager.dbConnect())
@@ -506,6 +561,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
         {
             dtHabReserva.Rows.Clear();
         }
+        
         private void dtpFechaHasta_ValueChanged(object sender, EventArgs e)
         {
             dtHabReserva.Rows.Clear();

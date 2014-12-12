@@ -286,7 +286,7 @@ CREATE TABLE ENER_LAND.Hotel_Inhabilitado (
   IdHotel INTEGER NOT NULL,
   FechaInicio DATE NOT NULL,
   Cantidad_Dias INTEGER NULL,
-  Motivo VARCHAR NULL
+  Motivo VARCHAR(50) NULL
   FOREIGN KEY(idHotel)
     REFERENCES ENER_LAND.Hotel(IdHotel)
       ON DELETE NO ACTION

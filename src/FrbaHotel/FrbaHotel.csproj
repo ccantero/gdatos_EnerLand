@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BAFE3016-AC06-4C43-ABEF-87F21AB5699B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -143,6 +143,18 @@
     <Compile Include="Facturar\TarjetaCredito_Form.Designer.cs">
       <DependentUpon>TarjetaCredito_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Generar Modificar Reserva\DialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Modificar Reserva\DialogForm.Designer.cs">
+      <DependentUpon>DialogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generar Modificar Reserva\Dialog_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Modificar Reserva\Dialog_Form.Designer.cs">
+      <DependentUpon>Dialog_Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="Generar Modificar Reserva\Reserva.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -232,6 +244,13 @@
     <EmbeddedResource Include="Facturar\TarjetaCredito_Form.resx">
       <DependentUpon>TarjetaCredito_Form.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generar Modificar Reserva\DialogForm.resx">
+      <DependentUpon>DialogForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generar Modificar Reserva\Dialog_Form.resx">
+      <DependentUpon>Dialog_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Modificar Reserva\Reserva.resx">
       <DependentUpon>Reserva.cs</DependentUpon>

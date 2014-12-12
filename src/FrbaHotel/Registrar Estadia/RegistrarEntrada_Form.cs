@@ -82,7 +82,7 @@ namespace FrbaHotel.Registrar_Estadia
             {
                 ABM_de_Cliente.GestionHuesped formBusqueda = new FrbaHotel.ABM_de_Cliente.GestionHuesped(this);
                 formBusqueda.Show();
-                formBusqueda.Cargar_Busqueda();
+                formBusqueda.Cargar_Busqueda(false); // No es Busqueda Reserva
             }
 
             if (this.button_Save.Text.Equals("Check"))
