@@ -641,6 +641,47 @@ namespace FrbaHotel
 
         }
 
+        //Verifica si un hotel esta inhabilitado dado un rango de fechas
+        static public bool CHECK_Hotel_Habilitado(int idHotel, DateTime FechaInicio, DateTime FechaFin)
+        {
+            try
+            {
+                SqlConnection dbsession = DbManager.dbConnect();
+                SqlCommand cmd = new SqlCommand("ENER_LAND.CHECK_Hotel_Habilitado", dbsession);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@idHotel", idHotel));
+                cmd.Parameters.Add(new SqlParameter("@FechaInicioReserva", FechaInicio));
+                cmd.Parameters.Add(new SqlParameter("@FechaFinReserva", FechaFin));
+
+                SqlParameter ValorDeRetorno = cmd.Parameters.Add("returnParameter", SqlDbType.Int);
+                ValorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    int resultado = Convert.ToInt32(ValorDeRetorno.SqlValue.ToString());
+                    if (resultado != 0)
+                        return false;
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("[ERROR] - " + e.ToString());
+                    MessageBox.Show("[ERROR] - " + e.Message);
+                    return false;
+                    throw;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+
+        }
+
         //Verifica si la reserva es correcta para Facturar
         static public bool Check_Reserva(int idReserva, int idHotel)
         {
