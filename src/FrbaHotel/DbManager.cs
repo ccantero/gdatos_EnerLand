@@ -607,6 +607,40 @@ namespace FrbaHotel
 
         }
 
+        //Actualiza el estado de habilitado de un hotel
+        static public bool Inhabilitar_Hoteles()
+        {
+            DateTime FechaActual = @FrbaHotel.Properties.Settings.Default.Fecha;
+
+            try
+            {
+                SqlConnection dbsession = DbManager.dbConnect();
+                SqlCommand cmd = new SqlCommand("ENER_LAND.InhabilitarHoteles", dbsession);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@FechaActual", FechaActual));
+
+                try
+                {
+                    cmd.ExecuteReader();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("[ERROR] - " + e.ToString());
+                    MessageBox.Show("[ERROR] - " + e.Message);
+                    return false;
+                    throw;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+
+        }
+
         //Verifica si la reserva es correcta para Facturar
         static public bool Check_Reserva(int idReserva, int idHotel)
         {

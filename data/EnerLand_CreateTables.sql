@@ -1263,6 +1263,23 @@ AS
 	
 GO
 
+CREATE PROCEDURE ENER_LAND.InhabilitarHoteles
+(
+	@FechaActual	DateTime
+)
+AS
+	UPDATE ENER_LAND.Hotel
+	SET Habilitado = 1
+	
+	UPDATE ENER_LAND.Hotel
+	SET Habilitado = 0
+	WHERE EXISTS (	SELECT 1
+					FROM ENER_LAND.Hotel H1, ENER_LAND.Hotel_Inhabilitado H2
+					WHERE H1.idHotel = H2.IdHotel
+					AND @FechaActual BETWEEN FechaInicio AND DATEADD(d, H2.Cantidad_Dias, H2.FechaInicio)
+				)
+GO
+
 /* Vistas */
 
 CREATE VIEW ENER_LAND.ReservasCanceladas 

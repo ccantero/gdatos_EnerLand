@@ -17,6 +17,7 @@ namespace FrbaHotel
         {
             InitializeComponent();
             DbManager.Actualizar_Reserva();
+            DbManager.Inhabilitar_Hoteles();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
