@@ -113,6 +113,9 @@ namespace FrbaHotel.ABM_de_Hotel
             if (cmbEstrellas.SelectedIndex > 0)
                 query +=" AND Cantidad_Estrellas = " + cmbEstrellas.Text;
 
+            if (currentHotel >= 1)
+                query += " AND idHotel = " + currentHotel;
+
             query += " ORDER BY Nombre ASC";
 
             DbResultSet rs = DbManager.GetDataTable(query);

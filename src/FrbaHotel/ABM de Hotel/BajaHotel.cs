@@ -106,9 +106,17 @@ namespace FrbaHotel.ABM_de_Hotel
                        command.Parameters.AddWithValue("@cantDias", udDiasDeshabilitados.Value);
                        command.Parameters.AddWithValue("@motivo", tbMotivo.Text);
                        command.ExecuteNonQuery();
+                       
+                       this.Close();
+                       this.Dispose();
                    }
                }
            }
+        }
+
+        private void BajaHotel_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.parentForm.Enabled = true;
         }
     }
 }

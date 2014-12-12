@@ -118,7 +118,7 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            
+
             this.Close();
             this.Dispose();
         }

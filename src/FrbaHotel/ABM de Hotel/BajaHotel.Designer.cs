@@ -114,6 +114,7 @@
             this.Name = "BajaHotel";
             this.Text = "BajaHotel";
             this.Load += new System.EventHandler(this.BajaHotel_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BajaHotel_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.udDiasDeshabilitados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
