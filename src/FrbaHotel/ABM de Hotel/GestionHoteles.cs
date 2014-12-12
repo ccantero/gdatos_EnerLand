@@ -543,13 +543,19 @@ namespace FrbaHotel.ABM_de_Hotel
         private void btnEditRoom_Click(object sender, EventArgs e)
         {
 
-            ABM_de_Hotel.GestionHabitacion formHabitacion = new ABM_de_Hotel.GestionHabitacion(this,(int)cmbHoteles.SelectedValue, cmbHoteles.Text, dgvHabitaciones.SelectedRows[0].Cells);
+            ABM_de_Hotel.GestionHabitacion formHabitacion = new ABM_de_Hotel.GestionHabitacion(this,(int)cmbHoteles.SelectedValue, cmbHoteles.Text, dgvHabitaciones.SelectedRows[0]);
             formHabitacion.Show();
         }
 
         private void tbdigits_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+        }
+
+        private void GestionHoteles_EnabledChanged(object sender, EventArgs e)
+        {
+            if (this.Enabled == true) 
+                getHabitacionesHotel(Convert.ToInt32(cmbHoteles.SelectedValue));
         }
 
 

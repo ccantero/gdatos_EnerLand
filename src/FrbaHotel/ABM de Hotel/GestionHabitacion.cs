@@ -14,7 +14,8 @@ namespace FrbaHotel.ABM_de_Hotel
     {
         int idHotel;
         String hotelDesc;
-        DataGridViewCellCollection habitacion;
+        DataGridViewRow habitacion;
+        int numHabitacion;
         ABM_de_Hotel.GestionHoteles parentForm;
 
         int optype;
@@ -31,7 +32,7 @@ namespace FrbaHotel.ABM_de_Hotel
             optype = 0; //alta
         }
 
-        public GestionHabitacion(ABM_de_Hotel.GestionHoteles parent, int inIdHotel, String inHotelDesc, DataGridViewCellCollection inHabitacion)
+        public GestionHabitacion(ABM_de_Hotel.GestionHoteles parent, int inIdHotel, String inHotelDesc, DataGridViewRow inHabitacion)
         {
             idHotel = inIdHotel;
             hotelDesc = inHotelDesc;
@@ -42,15 +43,15 @@ namespace FrbaHotel.ABM_de_Hotel
             parent.Enabled = false;
             lblHotel.Text = hotelDesc;
             getTipos();
-            tbNumHabitacion.Text = habitacion[0].Value.ToString();
-            cbTipoHabitacion.SelectedValue = habitacion[1].Value;
-            tbPisoHabitacion.Text = habitacion[3].Value.ToString();
+            tbNumHabitacion.Text = habitacion.Cells[0].Value.ToString();
+            cbTipoHabitacion.SelectedValue = habitacion.Cells[1].Value;
+            tbPisoHabitacion.Text = habitacion.Cells[3].Value.ToString();
 
-            if (habitacion[4].Value.ToString() == "Contrafrente")
+            if (habitacion.Cells[4].Value.ToString() == "Contrafrente")
                 cbUbicacionHab.SelectedIndex = 0;
             else
                 cbUbicacionHab.SelectedIndex = 1;
-            tbDescHabitacion.Text = habitacion[5].Value.ToString();
+            tbDescHabitacion.Text = habitacion.Cells[5].Value.ToString();
 
             optype = 1; //modificacion
             cbTipoHabitacion.Enabled = false;
@@ -59,7 +60,7 @@ namespace FrbaHotel.ABM_de_Hotel
         private void btnAccept_Click(object sender, EventArgs e)
         {
 
-            DbResultSet rs = DbManager.dbGetInt("SELECT COUNT(1) FROM ENER_LAND.Habitacion WHERE idHotel = " + idHotel + " AND Numero = " + habitacion[0].Value);
+            DbResultSet rs = DbManager.dbGetInt("SELECT COUNT(1) FROM ENER_LAND.Habitacion WHERE idHotel = " + idHotel + " AND Numero = " + tbNumHabitacion.Text + " AND Numero != " + habitacion.Cells[0].Value.ToString());
 
             if (rs.intValue == 0)
             {
@@ -101,7 +102,7 @@ namespace FrbaHotel.ABM_de_Hotel
                             command.Parameters.AddWithValue("@ubicacion", tipoUbicacion);
                             command.Parameters.AddWithValue("@desc", tbDescHabitacion.Text);
                             command.Parameters.AddWithValue("@idHotel", idHotel);
-                            command.Parameters.AddWithValue("@prevNumHab", habitacion[0].Value);
+                            command.Parameters.AddWithValue("@prevNumHab", habitacion.Cells[0].Value);
                         }
 
                         int recordsAffected = command.ExecuteNonQuery();
@@ -111,6 +112,7 @@ namespace FrbaHotel.ABM_de_Hotel
                 }
                 this.Close();
                 this.Dispose();
+                
             }
             else
                 MessageBox.Show("Error al impactar cambios, el numero de habitación ingresado ya se encuentra registrado.", "ABM Habitaciones", MessageBoxButtons.OK, MessageBoxIcon.Error);
