@@ -276,6 +276,8 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void btnStatusChange_Click(object sender, EventArgs e)
         {
+            ABM_de_Hotel.BajaHotel formBaja = new ABM_de_Hotel.BajaHotel(this, (int)cmbHoteles.SelectedValue);
+            formBaja.Show();
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
