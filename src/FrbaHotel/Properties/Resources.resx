@@ -121,8 +121,8 @@
   <data name="_32x32accept" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\img\32x32accept.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_24x24accept" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\24x24accept.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="_24x24pedit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\img\24x24pedit.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="_32x32cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\img\32x32cancel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -130,14 +130,14 @@
   <data name="_32x32edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\img\32x32edit.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="_24x24search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\img\24x24search.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="_32x32pedit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\img\32x32pedit.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_24x24pedit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\24x24pedit.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_32x32editcancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\32x32editcancel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="_24x24accept" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\img\24x24accept.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="_24x24editcancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\img\24x24editcancel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -154,7 +154,7 @@
   <data name="_24x24cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\img\24x24cancel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="24x24search" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\24x24search.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="_32x32editcancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\img\32x32editcancel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

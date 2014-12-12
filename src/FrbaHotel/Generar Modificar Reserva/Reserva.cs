@@ -194,27 +194,30 @@ namespace FrbaHotel.Generar_Modificar_Reserva
 
         private void btnReserva_Click(object sender, EventArgs e)
         {
-            DbResultSet rs = DbManager.dbGetInt("SELECT COUNT(1) FROM ENER_LAND.Reserva WHERE idReserva = " + tbCodReserva.Text);
-
-            if (rs.intValue > 0)
+            if (tbCodReserva.Text.Length > 0)
             {
-                rs = DbManager.GetDataTable("SELECT DISTINCT  idRegimen,FechaDesde, DATEADD(DAY, Cantidad_Dias, FechaDesde) AS FechaHasta, x1.IdHotel ,x0.cantidad_huespedes " + 
-                                               "FROM ENER_LAND.Reserva x0, ENER_LAND.Reserva_Habitacion x1 "+ 
-                                              "WHERE x0.idReserva = x1.idReserva " + 
-                                                "AND x0.idReserva = " + tbCodReserva.Text);
-                dtpFechaDesde.Value = rs.dataTable.Rows[0].Field<DateTime>(1);
-                 dtpFechaHasta.Value = rs.dataTable.Rows[0].Field<DateTime>(2);
-                 udCantHuespedes.Value =rs.dataTable.Rows[0].Field<Int32>(4);
-                 obtenerRegimenesBusqueda();
-                 cmbRegimenHotelRes.SelectedValue =  rs.dataTable.Rows[0].Field<Int32>(0);
+                DbResultSet rs = DbManager.dbGetInt("SELECT COUNT(1) FROM ENER_LAND.Reserva WHERE idReserva = " + tbCodReserva.Text);
 
-                 obtenerHotelesDisponibles((int)udCantHuespedes.Value, rs.dataTable.Rows[0].Field<Int32>(3));
-                 cmbHotelesDisponibles.SelectedValue = rs.dataTable.Rows[0].Field<Int32>(3);
-                 obtenerRegimenesEnHotel();
-                 cmbRegHotel.SelectedValue = cmbRegimenHotelRes.SelectedValue;
-                 obtenerHabitacionesDisponibles();
-                 obtenerHabitacionesReservaDB();
-                 updateTotalReserva();
+                if (rs.intValue > 0)
+                {
+                    rs = DbManager.GetDataTable("SELECT DISTINCT  idRegimen,FechaDesde, DATEADD(DAY, Cantidad_Dias, FechaDesde) AS FechaHasta, x1.IdHotel ,x0.cantidad_huespedes " +
+                                                   "FROM ENER_LAND.Reserva x0, ENER_LAND.Reserva_Habitacion x1 " +
+                                                  "WHERE x0.idReserva = x1.idReserva " +
+                                                    "AND x0.idReserva = " + tbCodReserva.Text);
+                    dtpFechaDesde.Value = rs.dataTable.Rows[0].Field<DateTime>(1);
+                    dtpFechaHasta.Value = rs.dataTable.Rows[0].Field<DateTime>(2);
+                    udCantHuespedes.Value = rs.dataTable.Rows[0].Field<Int32>(4);
+                    obtenerRegimenesBusqueda();
+                    cmbRegimenHotelRes.SelectedValue = rs.dataTable.Rows[0].Field<Int32>(0);
+
+                    obtenerHotelesDisponibles((int)udCantHuespedes.Value, rs.dataTable.Rows[0].Field<Int32>(3));
+                    cmbHotelesDisponibles.SelectedValue = rs.dataTable.Rows[0].Field<Int32>(3);
+                    obtenerRegimenesEnHotel();
+                    cmbRegHotel.SelectedValue = cmbRegimenHotelRes.SelectedValue;
+                    obtenerHabitacionesDisponibles();
+                    obtenerHabitacionesReservaDB();
+                    updateTotalReserva();
+                }
             }
         }
 

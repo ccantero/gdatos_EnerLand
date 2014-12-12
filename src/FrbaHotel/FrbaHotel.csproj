@@ -327,6 +327,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\FrbaHotel.vshost.exe" />
+    <None Include="img\24x24search.png" />
     <Content Include="obj\Debug\FrbaHotel.csproj.FileListAbsolute.txt" />
   </ItemGroup>
   <ItemGroup>
