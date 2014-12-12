@@ -119,26 +119,54 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                 {
                     command.Connection = connection;
                     command.CommandType = CommandType.Text;
-                    command.CommandText = " SELECT ht.idHotel,RTRIM(ht.Nombre) + ' | ' + ht.Calle + ' ' + CONVERT(VARCHAR(50),ht.Numero) + ' - ' + RTRIM(loc.Nombre) + ', ' + ps.Nombre + ' (' + CONVERT(VARCHAR(5),ht.Cantidad_Estrellas) + '*)' Hotel" +
-                    " FROM ENER_LAND.Habitacion hab , ENER_LAND.Tipo_Habitacion thab, ENER_LAND.Hotel ht, ENER_LAND.Localidad loc, ENER_LAND.Pais ps" +
-                    " WHERE hab.Habilitado = 1" +
-                    " AND (ht.idHotel = @hotelAnterior OR EXISTS (" +
-                    " SELECT 1" +
-                    " FROM ENER_LAND.Reserva res, ENER_LAND.Reserva_Habitacion rhab" +
-                    " WHERE res.idReserva=rhab.idReserva" +
-                    "  AND NOT (@fechaResDesde BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde)" +
-                    "       OR " + 
-                    "       @fechaResHasta BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde))" +
-                    "  AND rhab.idHotel=hab.idHotel" +
-                    "  AND hab.numero=rhab.Habitacion_numero " + 
-                    " ))" +
-                    " AND hab.idTipo_Habitacion=thab.idTipo_Habitacion" +
-                    " AND hab.IdHotel=ht.idHotel" +
-                    " AND ht.idLocalidad=loc.idLocalidad" +
-                    " AND ht.idPais=ps.idPais" +
-                    " GROUP BY ht.idHotel,ht.Nombre,ht.Calle,ht.Numero,ps.Nombre,loc.Nombre,ht.Cantidad_Estrellas" +
-                    " HAVING SUM(CASE hab.idTipo_Habitacion WHEN 1 THEN 0  ELSE hab.idTipo_habitacion % 1000 END)>=" + cantHuespuedes +
-                    " ORDER BY 1,2 ASC";
+                    if (currentHotel == -1)
+                    {
+                        command.CommandText = " SELECT ht.idHotel,RTRIM(ht.Nombre) + ' | ' + ht.Calle + ' ' + CONVERT(VARCHAR(50),ht.Numero) + ' - ' + RTRIM(loc.Nombre) + ', ' + ps.Nombre + ' (' + CONVERT(VARCHAR(5),ht.Cantidad_Estrellas) + '*)' Hotel" +
+                                                " FROM ENER_LAND.Habitacion hab , ENER_LAND.Tipo_Habitacion thab, ENER_LAND.Hotel ht, ENER_LAND.Localidad loc, ENER_LAND.Pais ps" +
+                                                " WHERE hab.Habilitado = 1" +
+                                                " AND (ht.idHotel = @hotelAnterior OR EXISTS (" +
+                                                " SELECT 1" +
+                                                " FROM ENER_LAND.Reserva res, ENER_LAND.Reserva_Habitacion rhab" +
+                                                " WHERE res.idReserva=rhab.idReserva" +
+                                                "  AND NOT (@fechaResDesde BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde)" +
+                                                "       OR " +
+                                                "       @fechaResHasta BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde))" +
+                                                "  AND rhab.idHotel=hab.idHotel" +
+                                                "  AND hab.numero=rhab.Habitacion_numero " +
+                                                " ))" +
+                                                " AND hab.idTipo_Habitacion=thab.idTipo_Habitacion" +
+                                                " AND hab.IdHotel=ht.idHotel" +
+                                                " AND ht.idLocalidad=loc.idLocalidad" +
+                                                " AND ht.idPais=ps.idPais" +
+                                                " GROUP BY ht.idHotel,ht.Nombre,ht.Calle,ht.Numero,ps.Nombre,loc.Nombre,ht.Cantidad_Estrellas" +
+                                                " HAVING SUM(CASE hab.idTipo_Habitacion WHEN 1 THEN 0  ELSE hab.idTipo_habitacion % 1000 END)>=" + cantHuespuedes +
+                                                " ORDER BY 1,2 ASC";
+                    }
+                    else
+                    {
+                        command.CommandText = " SELECT ht.idHotel,RTRIM(ht.Nombre) + ' | ' + ht.Calle + ' ' + CONVERT(VARCHAR(50),ht.Numero) + ' - ' + RTRIM(loc.Nombre) + ', ' + ps.Nombre + ' (' + CONVERT(VARCHAR(5),ht.Cantidad_Estrellas) + '*)' Hotel" +
+                                                " FROM ENER_LAND.Habitacion hab , ENER_LAND.Tipo_Habitacion thab, ENER_LAND.Hotel ht, ENER_LAND.Localidad loc, ENER_LAND.Pais ps" +
+                                                " WHERE hab.Habilitado = 1" +
+                                                " AND (ht.idHotel = @hotelAnterior OR EXISTS (" +
+                                                " SELECT 1" +
+                                                " FROM ENER_LAND.Reserva res, ENER_LAND.Reserva_Habitacion rhab" +
+                                                " WHERE res.idReserva=rhab.idReserva" +
+                                                "  AND NOT (@fechaResDesde BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde)" +
+                                                "       OR " +
+                                                "       @fechaResHasta BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde))" +
+                                                "  AND rhab.idHotel=hab.idHotel" +
+                                                "  AND hab.numero=rhab.Habitacion_numero " +
+                                                " ))" +
+                                                " AND hab.idTipo_Habitacion=thab.idTipo_Habitacion" +
+                                                " AND hab.IdHotel=ht.idHotel" +
+                                                " AND ht.idLocalidad=loc.idLocalidad" +
+                                                " AND ht.idPais=ps.idPais" +
+                                                " AND hab.idHotel = " + currentHotel.ToString() +
+                                                " GROUP BY ht.idHotel,ht.Nombre,ht.Calle,ht.Numero,ps.Nombre,loc.Nombre,ht.Cantidad_Estrellas" +
+                                                " HAVING SUM(CASE hab.idTipo_Habitacion WHEN 1 THEN 0  ELSE hab.idTipo_habitacion % 1000 END)>=" + cantHuespuedes +
+                                                " ORDER BY 1,2 ASC";
+                    }
+                    
 
                     command.Parameters.AddWithValue("@hotelAnterior", dtpFechaDesde.Value);
                     command.Parameters.AddWithValue("@fechaResDesde", dtpFechaDesde.Value);
@@ -200,7 +228,19 @@ namespace FrbaHotel.Generar_Modificar_Reserva
         {
             if (tbCodReserva.Text.Length > 0)
             {
-                DbResultSet rs = DbManager.dbGetInt("SELECT COUNT(1) FROM ENER_LAND.Reserva WHERE idReserva = " + tbCodReserva.Text);
+                DbResultSet rs;
+                if (currentHotel == -1)
+                {
+                    rs = DbManager.dbGetInt("SELECT COUNT(1) FROM ENER_LAND.Reserva WHERE idReserva = " + tbCodReserva.Text);
+                }
+                else
+                {
+                    rs = DbManager.dbGetInt("SELECT COUNT(1) " +
+                                            "FROM ENER_LAND.Reserva x1, ENER_LAND.Reserva_Habitacion x2 " +
+                                            "WHERE x1.idReserva = x2.idReserva " +
+                                            "AND x2.idHotel = " + currentHotel.ToString() + " " + 
+                                            "AND x1.idReserva = " + tbCodReserva.Text);
+                }
 
                 if (rs.intValue > 0)
                 {
@@ -221,6 +261,10 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     obtenerHabitacionesDisponibles();
                     obtenerHabitacionesReservaDB();
                     updateTotalReserva();
+                }
+                else
+                {
+                    MessageBox.Show("Reserva no encontrada. Probablemente proceda de un hotel distinto");
                 }
             }
         }
@@ -293,6 +337,23 @@ namespace FrbaHotel.Generar_Modificar_Reserva
             if (cmbRegHotel.Text.Equals(string.Empty))
             {
                 MessageBox.Show("Debe especificar el regimen de la habitacion");
+                return;
+            }
+            
+            if (!DbManager.CHECK_Hotel_Habilitado(  Convert.ToInt32(cmbHotelesDisponibles.SelectedValue.ToString()),
+                                                    this.dtpFechaDesde.Value, 
+                                                    this.dtpFechaHasta.Value))
+            {
+                MessageBox.Show("El hotel no se encontrará disponible durante el interavalo seleccionado.");
+                return;
+            }
+
+            if (!DbManager.CHECK_Habitacion_Habilitada(Convert.ToInt32(cmbHotelesDisponibles.SelectedValue.ToString()),
+                                                    Convert.ToInt32(dgvHabDisponibles.SelectedRows[0].Cells[2].Value),
+                                                    this.dtpFechaDesde.Value,
+                                                    this.dtpFechaHasta.Value))
+            {
+                MessageBox.Show("La Habitacion no se encontrará disponible durante el interavalo seleccionado.");
                 return;
             }
 
@@ -416,11 +477,13 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                 }
                 else /* Cancelacion de Reserva */
                 {
-                    //TODO
+                    Dialog_Form dialogForm = new Dialog_Form("Motivo de Cancelacion",
+                                                            "Favor ingrese el motivo para cancelar la reserva",
+                                                            this);
+                    dialogForm.Show();
+                    this.Visible = false;
                 }
             }
-
-            
         }
 
         public void AgregarReserva(int idHuesped)
@@ -467,7 +530,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     command.Connection = connection;
                     command.CommandType = CommandType.Text;
                     command.CommandText = " UPDATE ENER_LAND.Reserva " +
-                                          " IdEstado_Reserva=@IdEstado_Reserva " +
+                                          " SET IdEstado_Reserva=@IdEstado_Reserva " +
                                           " WHERE idReserva = @idReserva ";
 
                     command.Parameters.AddWithValue("@idReserva", codReserva);
@@ -482,6 +545,9 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                 }
             }
             registrarAuditoria(codReserva, operationType, Motivo);
+            MessageBox.Show("Reserva cancelada");
+            this.Dispose();
+            parentForm.Show();
         }
 
         private void registrarAuditoria(int codRes, int cod, string motivoCancelacion)
@@ -599,6 +665,21 @@ namespace FrbaHotel.Generar_Modificar_Reserva
         }
 
         private void Reserva_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            parentForm.Show();
+            this.Dispose();
+        }
+
+        private void cmbRegHotel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(operationType == 2)
+                if (dgvHabitacionesReserva.Rows.Count > 0)
+                {
+                    updateTotalReserva();
+                }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
             parentForm.Show();
             this.Dispose();

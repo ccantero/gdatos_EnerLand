@@ -153,8 +153,9 @@ namespace FrbaHotel.ABM_de_Cliente
                     {
                         GestionHuesped Form_GestionHuesped = (GestionHuesped)FormPadre;
                         Generar_Modificar_Reserva.Reserva Form_Reserva = (Generar_Modificar_Reserva.Reserva)Form_GestionHuesped.MenuPrincipal;
-                        Form_Reserva.AgregarReserva(unHuesped.idHuesped);
                         Form_Reserva.Visible = true;
+                        this.Visible = false;
+                        Form_Reserva.AgregarReserva(unHuesped.idHuesped);
                         Form_GestionHuesped.Dispose();
                         return;
                     }
@@ -282,8 +283,13 @@ namespace FrbaHotel.ABM_de_Cliente
                 return false;
             }
 
-            Boolean flag = true;
+            if (!comboBox_TipoDocumento.Text.Equals(String.Empty) && textbox_NroDocumento.Text.Equals(String.Empty))
+            {
+                MessageBox.Show("Al seleccionar Tipo de Documento debe ingresar el Nro de Documento a buscar");
+                return false;
+            }
 
+            Boolean flag = true;
 
             foreach (var item in this.comboBox_TipoDocumento.Items)
             {
