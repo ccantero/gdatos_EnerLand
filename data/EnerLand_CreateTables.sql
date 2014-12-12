@@ -124,8 +124,8 @@ CREATE TABLE ENER_LAND.Hotel (
   PorcentajeRecarga NUMERIC(18,2) NOT NULL,
   Calle VARCHAR(50) NULL,
   Numero INTEGER NULL,
-  idLocalidad INTEGER,  
-  idPais INTEGER,
+  idLocalidad INTEGER NULL,  
+  idPais INTEGER NULL,
   Fecha_Creacion DATE NULL,
   Habilitado CHAR NOT NULL
   PRIMARY KEY(idHotel),
@@ -1434,4 +1434,3 @@ AS
 	AND F.idFactura = I1.idFactura
 	AND I1.idItem <> 1
 GO
-

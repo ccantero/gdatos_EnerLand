@@ -19,10 +19,14 @@ namespace FrbaHotel.ABM_de_Hotel
         //1 Alta
         //2 Edicion
         public Form parentForm;
+
+        private int idHotel_Creado = -1;
+
         public GestionHoteles(Form parent)
         {
             this.parentForm = parent;
             InitializeComponent();
+            this.tbHideDate.Text = @FrbaHotel.Properties.Settings.Default.Fecha.ToShortDateString();
         }
 
         private void GestionHoteles_Load(object sender, EventArgs e)
@@ -163,6 +167,7 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void cmbHoteles_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            
             if (Convert.ToInt32(cmbHoteles.SelectedValue) > 0)
             {
                 getDatosHotel();
@@ -193,13 +198,18 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void getDatosHotel()
         {
+            int idLocalidad;
+            int Cantidad_Estrellas;
+
             if (Convert.ToInt32(cmbHoteles.SelectedValue) > 0)
             {
-                DbResultSet rs = DbManager.GetDataTable("SELECT  Calle,Numero as Altura,ISNULL(mail,'') Mail,ISNULL(telefono,'') Telefono,ISNULL(fecha_creacion,'') FechaCreacion FROM ENER_LAND.Hotel WHERE idHotel = " + cmbHoteles.SelectedValue);
+                DbResultSet rs = DbManager.GetDataTable("SELECT  Calle,Numero as Altura,ISNULL(mail,'') Mail,ISNULL(telefono,'') Telefono,ISNULL(fecha_creacion,'') FechaCreacion, idLocalidad, Cantidad_Estrellas FROM ENER_LAND.Hotel WHERE idHotel = " + cmbHoteles.SelectedValue);
                 tbCalle.Text = rs.dataTable.Rows[0].Field<String>(0);
                 tbAltura.Text = rs.dataTable.Rows[0].Field<Int32>(1).ToString();
                 tbMail.Text = rs.dataTable.Rows[0].Field<String>(2);
                 tbTelefono.Text = rs.dataTable.Rows[0].Field<Int32>(3).ToString();
+                idLocalidad = Convert.ToInt32(rs.dataTable.Rows[0]["idLocalidad"].ToString());
+                Cantidad_Estrellas = Convert.ToInt32(rs.dataTable.Rows[0]["Cantidad_Estrellas"].ToString());
                 dtpFechaCreacion.Value = rs.dataTable.Rows[0].Field<DateTime>(4);
                 tbHideDate.Visible = false;
                 dtpFechaCreacion.Visible = true;
@@ -207,6 +217,9 @@ namespace FrbaHotel.ABM_de_Hotel
                 btnNewRoom.Visible = true;
                 btnEditRoom.Visible = true;
                 btnDisableRoom.Visible = true;
+                   
+                cmbLocalidades.SelectedIndex = idLocalidad;
+                cmbEstrellas.SelectedIndex = Cantidad_Estrellas;
             }
             else
             {
@@ -229,7 +242,7 @@ namespace FrbaHotel.ABM_de_Hotel
             btnNewRoom.Visible = true;
             btnEditRoom.Visible = true;
             btnDisableRoom.Visible = true;
-
+            
         }
 
         private void btnNew_Click(object sender, EventArgs e)
@@ -322,7 +335,7 @@ namespace FrbaHotel.ABM_de_Hotel
                             command.Parameters.AddWithValue("@habilitado", getEstadoHotelCodificado());
                             int recordsAffected = command.ExecuteNonQuery();
                             idHotel = Convert.ToInt32(cmbHoteles.SelectedValue);
-
+                            idHotel_Creado = -1;
                         }
 
                         if (mode == 1)
@@ -345,14 +358,20 @@ namespace FrbaHotel.ABM_de_Hotel
                             //var returnParameter = command.Parameters.Add("@idHotel", SqlDbType.Int);
                             //returnParameter.Direction = ParameterDirection.ReturnValue;
                             //MessageBox.Show(command.ExecuteScalar().ToString());
-                            MessageBox.Show(command.ExecuteScalar().ToString());
                              idHotel = Convert.ToInt32(command.ExecuteScalar());
                             //= Convert.ToInt32(command.Parameters["@idHotel"].Value);
                         }
 
                         updateRegimenHotel(idHotel);
                         connection.Close();
+                        getHabitacionesHotel(idHotel);
 
+                        btnNewRoom.Enabled = true;
+                        btnEditRoom.Enabled = true;
+                        btnDisableRoom.Enabled = true;
+
+                        idHotel_Creado = idHotel;
+                        return;
                     }
                 }
 
@@ -423,7 +442,6 @@ namespace FrbaHotel.ABM_de_Hotel
 
         }
 
-
         private void clearFields()
         {
             if (cmbLocalidades.Enabled)
@@ -484,8 +502,6 @@ namespace FrbaHotel.ABM_de_Hotel
             else return "0";
         }
 
- 
-
         private void updateRegimenHotel(int hotel){
 
             DbResultSet rs;
@@ -514,14 +530,28 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void btnNewRoom_Click(object sender, EventArgs e)
         {
-            ABM_de_Hotel.GestionHabitacion formHabitacion = new ABM_de_Hotel.GestionHabitacion(this,(int)cmbHoteles.SelectedValue, cmbHoteles.Text);
+            ABM_de_Hotel.GestionHabitacion formHabitacion;
+
+            if (idHotel_Creado != -1)
+            {
+                formHabitacion  = new ABM_de_Hotel.GestionHabitacion(this, idHotel_Creado, cmbHoteles.Text);
+            }
+            else
+            {
+                formHabitacion = new ABM_de_Hotel.GestionHabitacion(this, (int)cmbHoteles.SelectedValue, cmbHoteles.Text);
+            }
+            
             formHabitacion.Show();
         }
 
         private void btnEditRoom_Click(object sender, EventArgs e)
         {
+            ABM_de_Hotel.GestionHabitacion formHabitacion;
 
-            ABM_de_Hotel.GestionHabitacion formHabitacion = new ABM_de_Hotel.GestionHabitacion(this,(int)cmbHoteles.SelectedValue, cmbHoteles.Text, dgvHabitaciones.SelectedRows[0]);
+            if (idHotel_Creado != -1)
+                formHabitacion = new ABM_de_Hotel.GestionHabitacion(this,idHotel_Creado, cmbHoteles.Text, dgvHabitaciones.SelectedRows[0]);
+            else
+                formHabitacion = new ABM_de_Hotel.GestionHabitacion(this,(int)cmbHoteles.SelectedValue, cmbHoteles.Text, dgvHabitaciones.SelectedRows[0]);
             formHabitacion.Show();
         }
 
@@ -533,7 +563,13 @@ namespace FrbaHotel.ABM_de_Hotel
         private void GestionHoteles_EnabledChanged(object sender, EventArgs e)
         {
             if (this.Enabled == true)
-                getHabitacionesHotel(Convert.ToInt32(cmbHoteles.SelectedValue));
+                if (idHotel_Creado == -1)
+                {
+                    getHabitacionesHotel(Convert.ToInt32(cmbHoteles.SelectedValue));    
+                }
+                else
+                    getHabitacionesHotel(Convert.ToInt32(idHotel_Creado));    
+                
         }
 
 

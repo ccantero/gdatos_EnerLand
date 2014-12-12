@@ -58,9 +58,9 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-
-            DbResultSet rs = DbManager.dbGetInt("SELECT COUNT(1) FROM ENER_LAND.Habitacion WHERE idHotel = " + idHotel + " AND Numero = " + tbNumHabitacion.Text + " AND Numero != " + habitacion.Cells[0].Value.ToString());
-
+            DbResultSet rs;
+            //rs = DbManager.dbGetInt("SELECT COUNT(1) FROM ENER_LAND.Habitacion WHERE idHotel = " + idHotel + " AND Numero = " + tbNumHabitacion.Text + " AND Numero != " + habitacion.Cells[0].Value.ToString());
+            rs = DbManager.dbGetInt("SELECT COUNT(1) FROM ENER_LAND.Habitacion WHERE idHotel = " + idHotel + " AND Numero = " + tbNumHabitacion.Text);
             if (rs.intValue == 0)
             {
                 char tipoUbicacion;
