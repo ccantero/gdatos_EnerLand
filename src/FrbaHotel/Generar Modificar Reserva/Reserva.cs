@@ -430,6 +430,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
         
         public void CancelarReserva(string Motivo)
         {
+            /*
             codReserva = Convert.ToInt32(tbCodReserva.Text);
             using (SqlConnection connection = DbManager.dbConnect())
             {
@@ -446,7 +447,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                                           " = 3 " +
                                           " WHERE idReserva = @idReserva " +
                                           " AND FechaDesde = @fechaDesde " + 
-                                          " AND FechaDesde = @fechaDesde;
+                                          " AND FechaDesde = @fechaDesde";
 
                     command.Parameters.AddWithValue("@idReserva", codReserva);
                     command.Parameters.AddWithValue("@idRegimen", cmbRegHotel.SelectedValue);
@@ -456,6 +457,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     command.ExecuteNonQuery();
                 }
             }
+             * */
         }
 
         private void registrarAuditoria(int codRes, int cod)
