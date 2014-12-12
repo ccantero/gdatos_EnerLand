@@ -146,7 +146,7 @@ namespace FrbaHotel
         {
             Generar_Modificar_Reserva.Reserva formReserva = new FrbaHotel.Generar_Modificar_Reserva.Reserva(parentForm, 1);
             formReserva.currentHotel = actualHotel;
-            formReserva.currentUser = actualUser; 
+            formReserva.currentUser = actualUser;
             formReserva.Show();
         }
 

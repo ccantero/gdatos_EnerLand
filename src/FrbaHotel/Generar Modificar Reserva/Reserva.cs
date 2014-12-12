@@ -26,7 +26,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
             this.parentForm = parent;
             this.operationType = opType;
             InitializeComponent();
-
+            parent.Hide();
         }
 
         private void GenerarReserva_Load(object sender, EventArgs e)
@@ -38,6 +38,8 @@ namespace FrbaHotel.Generar_Modificar_Reserva
 
             dtpFechaDesde.CustomFormat = "dd-MM-yyyy";
             dtpFechaHasta.CustomFormat = "dd-MM-yyyy";
+            
+
             obtenerRegimenesBusqueda();
 
             dtHabReserva = new DataTable();
@@ -55,7 +57,9 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                 default:break;
 
             }
-            
+
+            dtpFechaDesde.Value = @FrbaHotel.Properties.Settings.Default.Fecha;
+            dtpFechaHasta.Value = @FrbaHotel.Properties.Settings.Default.Fecha;
         }
 
         private void cancelarReserva()
@@ -222,7 +226,13 @@ namespace FrbaHotel.Generar_Modificar_Reserva
 
         private void btnBuscarHotel_Click(object sender, EventArgs e)
         {
+            if (udCantHuespedes.Value <= 0)
+            {
+                MessageBox.Show("Debe seleccionar la cantidad de huespedes");
+                return;
+            }
             obtenerHotelesDisponibles((int)udCantHuespedes.Value,0);
+            cmbHotelesDisponibles.Text = String.Empty;
         }
 
         private void obtenerRegimenesEnHotel()
@@ -253,8 +263,9 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     cmbRegHotel.Enabled = true;
                 }
             }
-            if ((int)cmbRegimenHotelRes.SelectedValue > 0)
-                cmbRegHotel.SelectedValue = cmbRegimenHotelRes.SelectedValue;
+            if(cmbRegimenHotelRes.SelectedValue != null)
+                if ((int)cmbRegimenHotelRes.SelectedValue > 0)
+                    cmbRegHotel.SelectedValue = cmbRegimenHotelRes.SelectedValue;
         }
         
         private void cmbHotelesDisponibles_SelectionChangeCommitted(object sender, EventArgs e)
@@ -271,6 +282,19 @@ namespace FrbaHotel.Generar_Modificar_Reserva
         private void btnAgregarTipoHabitacion_Click(object sender, EventArgs e)
         {
             int found = 0;
+
+            if (udCantHuespedes.Value <= 0)
+            {
+                MessageBox.Show("Debe especificar la cantidad de Huespedes");
+                return;
+            }
+
+            if (cmbRegHotel.Text.Equals(string.Empty))
+            {
+                MessageBox.Show("Debe especificar el regimen de la habitacion");
+                return;
+            }
+
             for (int i = 0; i < dgvHabitacionesReserva.Rows.Count; i++)
             {
                 if ((int)dgvHabitacionesReserva.Rows[i].Cells[0].Value == (int)dgvHabDisponibles.SelectedRows[0].Cells[0].Value)
@@ -386,7 +410,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                         
 		                DbManager.dbSqlStatementExec("DELETE FROM ENER_LAND.Reserva_Habitacion WHERE idReserva =" + codReserva);
                         reservarHabitaciones(codReserva);
-                        registrarAuditoria(codReserva, operationType);
+                        registrarAuditoria(codReserva, operationType, "");
                 	}
                 }
                 else /* Cancelacion de Reserva */
@@ -425,13 +449,16 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                 }
             }
             reservarHabitaciones(codReserva);
-            registrarAuditoria(codReserva, operationType);
+            registrarAuditoria(codReserva, operationType, "");
+            MessageBox.Show("Reserva creada exitosamente = " + codReserva);
+            parentForm.Show();
+            this.Dispose();
         }
         
         public void CancelarReserva(string Motivo)
         {
-            /*
-            codReserva = Convert.ToInt32(tbCodReserva.Text);
+            int codReserva = Convert.ToInt32(tbCodReserva.Text);
+
             using (SqlConnection connection = DbManager.dbConnect())
             {
                 using (SqlCommand command = new SqlCommand())
@@ -439,28 +466,24 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     command.Connection = connection;
                     command.CommandType = CommandType.Text;
                     command.CommandText = " UPDATE ENER_LAND.Reserva " +
-                                          " SET IdEstado_Reserva=@idEstado_Reserva, " +
-                                          " Motivo_Cancelacion=@Motivo, " +
-                                          " fechaDesde=@fechaDesde, " +
-                                          " Cantidad_dias=@cantDias, " +
-                                          " Cantidad_huespedes=@cantHuespedes, " +
-                                          " = 3 " +
-                                          " WHERE idReserva = @idReserva " +
-                                          " AND FechaDesde = @fechaDesde " + 
-                                          " AND FechaDesde = @fechaDesde";
+                                          " IdEstado_Reserva=@IdEstado_Reserva " +
+                                          " WHERE idReserva = @idReserva ";
 
                     command.Parameters.AddWithValue("@idReserva", codReserva);
-                    command.Parameters.AddWithValue("@idRegimen", cmbRegHotel.SelectedValue);
-                    command.Parameters.AddWithValue("@fechaDesde", dtpFechaDesde.Value);
-                    command.Parameters.AddWithValue("@cantDias", diffDate);
-                    command.Parameters.AddWithValue("@cantHuespedes", udCantHuespedes.Value); //TODO validar > 0
+                    if (currentUser == 2) /* Usuario Guest */
+                    {
+                        command.Parameters.AddWithValue("@IdEstado_Reserva", 4); /* Cancelada por el Cliente */
+                    }
+                    else
+                        command.Parameters.AddWithValue("@IdEstado_Reserva", 3); /* Cancelada por el Cliente */
+                    
                     command.ExecuteNonQuery();
                 }
             }
-             * */
+            registrarAuditoria(codReserva, operationType, Motivo);
         }
 
-        private void registrarAuditoria(int codRes, int cod)
+        private void registrarAuditoria(int codRes, int cod, string motivoCancelacion)
         {
             using (SqlConnection connection = DbManager.dbConnect())
             {
@@ -468,11 +491,15 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                 {
                     command.Connection = connection;
                     command.CommandType = CommandType.Text;
-                    command.CommandText = " INSERT INTO ENER_LAND.Auditoria_Reserva VALUES(@audIdReserva,@audFechaSistema,@codigoEstado,@audIdUsuario,NULL)";
+                    command.CommandText = " INSERT INTO ENER_LAND.Auditoria_Reserva VALUES(@audIdReserva,@audFechaSistema,@codigoEstado,@audIdUsuario,@motivo)";
                     command.Parameters.AddWithValue("@audIdReserva", codRes);
                     command.Parameters.AddWithValue("@audFechaSistema", Properties.Settings.Default.Fecha);
                     command.Parameters.AddWithValue("@codigoEstado", cod);
                     command.Parameters.AddWithValue("@audIdUsuario", currentUser);
+                    if(motivoCancelacion.Equals(string.Empty))
+                        command.Parameters.AddWithValue("@motivo", DBNull.Value);
+                    else    
+                        command.Parameters.AddWithValue("@motivo", motivoCancelacion);
 
                     command.ExecuteNonQuery();
                 }
@@ -523,6 +550,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
 
             }
         }
+        
         private void obtenerHabitacionesReservaDB()
         {
             using (SqlConnection connection = DbManager.dbConnect())
@@ -561,12 +589,18 @@ namespace FrbaHotel.Generar_Modificar_Reserva
 
         private void dtpFechaDesde_ValueChanged(object sender, EventArgs e)
         {
-            dtHabReserva.Rows.Clear();
+            dtHabReserva.Rows.Clear();    
         }
         
         private void dtpFechaHasta_ValueChanged(object sender, EventArgs e)
         {
             dtHabReserva.Rows.Clear();
+        }
+
+        private void Reserva_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            parentForm.Show();
+            this.Dispose();
         }
     }
 }

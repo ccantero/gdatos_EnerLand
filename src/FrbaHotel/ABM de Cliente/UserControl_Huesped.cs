@@ -13,6 +13,7 @@ namespace FrbaHotel.ABM_de_Cliente
     {
         public Boolean flag_Modificacion;
         public Boolean flag_NOTABM = false;
+        public Boolean flag_busquedaReserva = false;
         public Huesped huesped_A_Modificar;
         public static DataTable TablaLocalidades;
         public static DataTable TablaPaises;
@@ -205,7 +206,18 @@ namespace FrbaHotel.ABM_de_Cliente
                 }
 
                 if (flag_NOTABM )
-                {                    
+                {
+                    if (flag_busquedaReserva)
+                    {
+                        this.Visible = false;
+                        GestionHuesped Form_GestionHuesped = (GestionHuesped)FormPadre;
+                        Generar_Modificar_Reserva.Reserva Form_Reserva = (Generar_Modificar_Reserva.Reserva)Form_GestionHuesped.MenuPrincipal;
+                        Form_Reserva.Visible = true;
+                        Form_Reserva.AgregarReserva(idHuesped);
+                        Form_GestionHuesped.Dispose();
+                        return;
+                    }
+                    
                     ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Huespedes.Add(idHuesped);
                     ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Cargar_Huespedes();
                     ((Registrar_Estadia.RegistrarEntrada_Form)((GestionHuesped)FormPadre).MenuPrincipal).Visible = true;
@@ -323,18 +335,19 @@ namespace FrbaHotel.ABM_de_Cliente
                 return false;
             }
 
-            if (!System.Text.RegularExpressions.Regex.Match(textBox_Piso.Text, "^[1-9][0-9]*$").Success)
-            {
-                if (!textBox_Piso.Text.Equals("PB"))
+            if (!textBox_Piso.Text.Equals(""))
+                if (!System.Text.RegularExpressions.Regex.Match(textBox_Piso.Text, "^[1-9][0-9]*$").Success)
                 {
-                    MessageBox.Show("Numero de Piso debe contener unicamente numeros o ser PB",
-                                    "Numero de Piso Incorrecto",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Hand
-                                    );
-                    return false;
+                    if (!textBox_Piso.Text.Equals("PB"))
+                    {
+                        MessageBox.Show("Numero de Piso debe contener unicamente numeros o ser PB",
+                                        "Numero de Piso Incorrecto",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Hand
+                                        );
+                        return false;
+                    }
                 }
-            }
 
             if (ComboBox_TipoDoc.Text.Equals(String.Empty))
             {

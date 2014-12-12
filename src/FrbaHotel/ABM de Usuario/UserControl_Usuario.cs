@@ -427,18 +427,19 @@ namespace FrbaHotel.ABM_de_Usuario
                 return false;
             }
             
-            if (!System.Text.RegularExpressions.Regex.Match(textBox_Piso.Text, "^[1-9][0-9]*$").Success)
-            {
-                if (!textBox_Piso.Text.Equals("PB"))
+            if(!textBox_Piso.Text.Equals(""))
+                if (!System.Text.RegularExpressions.Regex.Match(textBox_Piso.Text, "^[1-9][0-9]*$").Success)
                 {
-                    MessageBox.Show("Numero de Piso debe contener unicamente numeros o ser PB",
-                                    "Numero de Piso Incorrecto",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Hand
-                                    );
-                    return false;
+                    if (!textBox_Piso.Text.Equals("PB"))
+                    {
+                        MessageBox.Show("Numero de Piso debe contener unicamente numeros o ser PB",
+                                        "Numero de Piso Incorrecto",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Hand
+                                        );
+                        return false;
+                    }
                 }
-            }
 
             if (ComboBox_TipoDoc.Text.Equals(String.Empty))
             {

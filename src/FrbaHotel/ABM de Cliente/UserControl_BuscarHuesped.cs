@@ -259,6 +259,7 @@ namespace FrbaHotel.ABM_de_Cliente
             ((GestionHuesped)FormPadre).Load_Menu();
             ((GestionHuesped)FormPadre).AgregarHuesped();
             ((GestionHuesped)FormPadre).UserControlHuesped.flag_NOTABM = true; ;
+            ((GestionHuesped)FormPadre).UserControlHuesped.flag_busquedaReserva = flag_busquedaReserva;
         }
 
         public void BuscarHuesped(Boolean busquedaReserva)
