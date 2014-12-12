@@ -330,7 +330,7 @@ namespace FrbaHotel.ABM_de_Hotel
                             command.CommandText = "ENER_LAND.Nuevo_Hotel  @idAdmin,@nombre,@mail, @telefono,@cantEstrellas,@calle,@numero,@idLocalidad,@idPais,@fechaCreacion,@habilitado";
                             //command.Parameters.AddWithValue("@idHotel", newId);
 
-                            command.Parameters.AddWithValue("@idAdmin", 1); //Todo tomar de usuario
+                            command.Parameters.AddWithValue("@idAdmin", currentUser); //Todo tomar de usuario
                             command.Parameters.AddWithValue("@nombre", cmbHoteles.Text);
                             command.Parameters.AddWithValue("@telefono", tbTelefono.Text);
                             command.Parameters.AddWithValue("@mail", tbMail.Text);
@@ -345,6 +345,7 @@ namespace FrbaHotel.ABM_de_Hotel
                             //var returnParameter = command.Parameters.Add("@idHotel", SqlDbType.Int);
                             //returnParameter.Direction = ParameterDirection.ReturnValue;
                             //MessageBox.Show(command.ExecuteScalar().ToString());
+                            MessageBox.Show(command.ExecuteScalar().ToString());
                              idHotel = Convert.ToInt32(command.ExecuteScalar());
                             //= Convert.ToInt32(command.Parameters["@idHotel"].Value);
                         }
@@ -544,6 +545,11 @@ namespace FrbaHotel.ABM_de_Hotel
 
             ABM_de_Hotel.GestionHabitacion formHabitacion = new ABM_de_Hotel.GestionHabitacion(this,(int)cmbHoteles.SelectedValue, cmbHoteles.Text, dgvHabitaciones.SelectedRows[0].Cells);
             formHabitacion.Show();
+        }
+
+        private void tbdigits_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
 
 

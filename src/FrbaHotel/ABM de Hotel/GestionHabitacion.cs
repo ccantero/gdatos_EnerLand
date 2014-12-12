@@ -147,5 +147,10 @@ namespace FrbaHotel.ABM_de_Hotel
         {
             parentForm.Enabled = true;
         }
+
+        private void tbdigits_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+        }
     }
 }

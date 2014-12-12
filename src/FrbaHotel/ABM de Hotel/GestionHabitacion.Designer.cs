@@ -66,8 +66,10 @@
             // 
             this.tbNumHabitacion.Location = new System.Drawing.Point(106, 50);
             this.tbNumHabitacion.Name = "tbNumHabitacion";
+            this.tbNumHabitacion.ShortcutsEnabled = false;
             this.tbNumHabitacion.Size = new System.Drawing.Size(100, 20);
             this.tbNumHabitacion.TabIndex = 2;
+            this.tbNumHabitacion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbdigits_KeyPress);
             // 
             // cbUbicacionHab
             // 
@@ -111,6 +113,7 @@
             this.tbPisoHabitacion.Name = "tbPisoHabitacion";
             this.tbPisoHabitacion.Size = new System.Drawing.Size(100, 20);
             this.tbPisoHabitacion.TabIndex = 8;
+            this.tbPisoHabitacion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbdigits_KeyPress);
             // 
             // btnCancel
             // 

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GestionHoteles));
             this.cmbPaises = new System.Windows.Forms.ComboBox();
             this.cmbLocalidades = new System.Windows.Forms.ComboBox();
@@ -164,10 +164,13 @@
             // tbAltura
             // 
             this.tbAltura.Location = new System.Drawing.Point(292, 90);
+            this.tbAltura.MaxLength = 10;
             this.tbAltura.Name = "tbAltura";
             this.tbAltura.ReadOnly = true;
+            this.tbAltura.ShortcutsEnabled = false;
             this.tbAltura.Size = new System.Drawing.Size(90, 20);
             this.tbAltura.TabIndex = 10;
+            this.tbAltura.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbdigits_KeyPress);
             // 
             // lblCalle
             // 
@@ -207,10 +210,13 @@
             // tbTelefono
             // 
             this.tbTelefono.Location = new System.Drawing.Point(76, 117);
+            this.tbTelefono.MaxLength = 10;
             this.tbTelefono.Name = "tbTelefono";
             this.tbTelefono.ReadOnly = true;
+            this.tbTelefono.ShortcutsEnabled = false;
             this.tbTelefono.Size = new System.Drawing.Size(164, 20);
             this.tbTelefono.TabIndex = 15;
+            this.tbTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbdigits_KeyPress);
             // 
             // lblTelefono
             // 
@@ -246,14 +252,14 @@
             this.dgvHabitaciones.AllowUserToResizeRows = false;
             this.dgvHabitaciones.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvHabitaciones.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvHabitaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvHabitaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvHabitaciones.ColumnHeadersHeight = 20;
             this.dgvHabitaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvHabitaciones.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -265,9 +271,9 @@
             this.dgvHabitaciones.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvHabitaciones.RowHeadersVisible = false;
             this.dgvHabitaciones.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvHabitaciones.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvHabitaciones.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvHabitaciones.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black;
             this.dgvHabitaciones.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
             this.dgvHabitaciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
