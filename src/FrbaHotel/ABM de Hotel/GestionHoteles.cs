@@ -27,6 +27,7 @@ namespace FrbaHotel.ABM_de_Hotel
             this.parentForm = parent;
             InitializeComponent();
             dtpFechaCreacion.Value = @FrbaHotel.Properties.Settings.Default.Fecha;
+            this.checkBox_Habilitado.Enabled = false;
         }
 
         private void GestionHoteles_Load(object sender, EventArgs e)
@@ -58,28 +59,35 @@ namespace FrbaHotel.ABM_de_Hotel
             this.btnNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             refreshHoteles(sender,e);
             getRegimenes(0);
+
+            dtpFechaCreacion.Format = DateTimePickerFormat.Short;
         }
 
         private void cmbPaises_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbPaises.SelectedIndex != 0 )
             {
-                DbResultSet rs = DbManager.GetDataTable("SELECT idLocalidad, Nombre FROM ENER_LAND.Localidad ORDER BY Nombre ASC"/* WHERE + Join para obtener localidades en funcion de area padre, no necesario según alcance */);
-                DataRow drow = rs.dataTable.NewRow();
-                drow[0] = -1;
-                drow[1] = "<Seleccionar>";
-                rs.dataTable.Rows.InsertAt(drow, 0);
-                cmbLocalidades.ValueMember = "idLocalidad";
-                cmbLocalidades.DisplayMember = "Nombre";
-                cmbLocalidades.DataSource = rs.dataTable;
-                cmbLocalidades.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmbLocalidades.Enabled = true;
+                cargarLocalidades();
             }
             if (mode == 0)
             {
                 refreshHoteles(sender, e);
                 clearDataFields();
             }
+        }
+
+        private void cargarLocalidades()
+        {
+            DbResultSet rs = DbManager.GetDataTable("SELECT idLocalidad, Nombre FROM ENER_LAND.Localidad ORDER BY Nombre ASC"/* WHERE + Join para obtener localidades en funcion de area padre, no necesario según alcance */);
+            DataRow drow = rs.dataTable.NewRow();
+            drow[0] = -1;
+            drow[1] = "<Seleccionar>";
+            rs.dataTable.Rows.InsertAt(drow, 0);
+            cmbLocalidades.ValueMember = "idLocalidad";
+            cmbLocalidades.DisplayMember = "Nombre";
+            cmbLocalidades.DataSource = rs.dataTable;
+            cmbLocalidades.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbLocalidades.Enabled = true;
         }
 
         private void GestionHoteles_FormClosing(object sender, FormClosingEventArgs e)
@@ -117,12 +125,19 @@ namespace FrbaHotel.ABM_de_Hotel
             if (cmbEstrellas.SelectedIndex > 0)
                 query +=" AND Cantidad_Estrellas = " + cmbEstrellas.Text;
 
+            
             if (currentHotel >= 1)
-                query += " AND idHotel = " + currentHotel;
-
+                query += "AND ( idHotel = " + currentHotel.ToString() + " OR Administrador = " + currentUser.ToString() + ") ";
+            
             query += " ORDER BY Nombre ASC";
 
             DbResultSet rs = DbManager.GetDataTable(query);
+            if (rs.operationState == 1)
+            {
+                MessageBox.Show("Fallo en query Select Hoteles");
+                return;
+            }
+
             DataRow drow = rs.dataTable.NewRow();
             drow[0] = -1;
             drow[1] = "";
@@ -137,6 +152,7 @@ namespace FrbaHotel.ABM_de_Hotel
         private void btnClear_Click(object sender, EventArgs e)
         {
             clearFields();
+            cmbLocalidades.DataSource = null;
             if (mode == 0) refreshHoteles(sender, e);
         }
 
@@ -170,10 +186,10 @@ namespace FrbaHotel.ABM_de_Hotel
             
             if (Convert.ToInt32(cmbHoteles.SelectedValue) > 0)
             {
-                getDatosHotel();
+                getDatosHotel(); 
                 getEstadoHotel();
                 getRegimenes(Convert.ToInt32(cmbHoteles.SelectedValue));
-                btnEdit.Enabled = true;
+                btnEdit.Enabled = true; 
                 btnStatusChange.Enabled = true;
                 btnNewRoom.Visible = true;
                 btnEditRoom.Visible = true;
@@ -199,16 +215,18 @@ namespace FrbaHotel.ABM_de_Hotel
         private void getDatosHotel()
         {
             int idLocalidad;
+            int idPais;
             int Cantidad_Estrellas;
 
             if (Convert.ToInt32(cmbHoteles.SelectedValue) > 0)
             {
-                DbResultSet rs = DbManager.GetDataTable("SELECT  Calle,Numero as Altura,ISNULL(mail,'') Mail,ISNULL(telefono,'') Telefono,ISNULL(fecha_creacion,'') FechaCreacion, idLocalidad, Cantidad_Estrellas FROM ENER_LAND.Hotel WHERE idHotel = " + cmbHoteles.SelectedValue);
+                DbResultSet rs = DbManager.GetDataTable("SELECT  Calle,Numero as Altura,ISNULL(mail,'') Mail,ISNULL(telefono,'') Telefono,ISNULL(fecha_creacion,'') FechaCreacion, idLocalidad, idPais, Cantidad_Estrellas FROM ENER_LAND.Hotel WHERE idHotel = " + cmbHoteles.SelectedValue);
                 tbCalle.Text = rs.dataTable.Rows[0].Field<String>(0);
                 tbAltura.Text = rs.dataTable.Rows[0].Field<Int32>(1).ToString();
                 tbMail.Text = rs.dataTable.Rows[0].Field<String>(2);
                 tbTelefono.Text = rs.dataTable.Rows[0].Field<Int32>(3).ToString();
                 idLocalidad = Convert.ToInt32(rs.dataTable.Rows[0]["idLocalidad"].ToString());
+                idPais = Convert.ToInt32(rs.dataTable.Rows[0]["idPais"].ToString());
                 Cantidad_Estrellas = Convert.ToInt32(rs.dataTable.Rows[0]["Cantidad_Estrellas"].ToString());
                 dtpFechaCreacion.Value = rs.dataTable.Rows[0].Field<DateTime>(4);
                 tbHideDate.Visible = false;
@@ -217,9 +235,17 @@ namespace FrbaHotel.ABM_de_Hotel
                 btnNewRoom.Visible = true;
                 btnEditRoom.Visible = true;
                 btnDisableRoom.Visible = true;
-                   
+
+                if (cmbLocalidades.Items.Count == 0)
+                {
+                    cargarLocalidades();
+                }
+
+                getEstadoHotel();
+
                 cmbLocalidades.SelectedIndex = idLocalidad;
                 cmbEstrellas.SelectedIndex = Cantidad_Estrellas;
+                cmbPaises.SelectedIndex = idPais;
             }
             else
             {
@@ -264,14 +290,13 @@ namespace FrbaHotel.ABM_de_Hotel
             clbRegimenes.Enabled = true;
             dtpFechaCreacion.Visible = true;
             tbHideDate.Visible = false;
-            tbEstadoHotel.Text = "No";
+            this.checkBox_Habilitado.CheckState = CheckState.Checked;
             lblHabitaciones.Visible = false;
             dgvHabitaciones.Visible = false;
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-
             mode = 2;
             cmbHoteles.DropDownStyle = ComboBoxStyle.Simple;
             btnNew.Visible = false;
@@ -279,7 +304,7 @@ namespace FrbaHotel.ABM_de_Hotel
             btnStatusChange.Visible = false;
             btnAccept.Visible = true;
             btnCancel.Visible = true;
-
+            this.checkBox_Habilitado.Enabled = true;
             tbTelefono.ReadOnly = false;
             tbMail.ReadOnly = false;
             tbAltura.ReadOnly = false;
@@ -371,7 +396,7 @@ namespace FrbaHotel.ABM_de_Hotel
                         btnDisableRoom.Enabled = true;
 
                         idHotel_Creado = idHotel;
-                        return;
+                        //return;
                     }
                 }
 
@@ -391,7 +416,8 @@ namespace FrbaHotel.ABM_de_Hotel
                 tbCalle.ReadOnly = true;
                 clbRegimenes.Enabled = false;
                 cmbHoteles.DropDownStyle = ComboBoxStyle.DropDown;
-                clearFields();
+                checkBox_Habilitado.Enabled = false;
+                //clearFields();
 
             }
             else
@@ -432,11 +458,12 @@ namespace FrbaHotel.ABM_de_Hotel
         {
             if (cmbHoteles.SelectedIndex > 0)
             {
-                DbResultSet rs = DbManager.dbGetString("SELECT  Habilitado  FROM ENER_LAND.Hotel WHERE idHotel = " + cmbHoteles.SelectedIndex);
+                DbResultSet rs = DbManager.dbGetString("SELECT  Habilitado  FROM ENER_LAND.Hotel WHERE idHotel = " +
+                                                        ((DataRowView)cmbHoteles.SelectedItem).Row[0].ToString());
                 if (rs.strValue == "1")
-                    tbEstadoHotel.Text = "Sí";
+                    this.checkBox_Habilitado.CheckState = CheckState.Checked;
                 if (rs.strValue == "0")
-                    tbEstadoHotel.Text = "No";
+                    this.checkBox_Habilitado.CheckState = CheckState.Unchecked;
             }
 
 
@@ -450,8 +477,8 @@ namespace FrbaHotel.ABM_de_Hotel
                 cmbEstrellas.SelectedIndex = -1;
             cmbPaises.SelectedIndex = 0;
             //cmbEstrellas.Enabled = false;
-            cmbLocalidades.Enabled = false;
-            cmbHoteles.SelectedIndex = -1;
+            //cmbLocalidades.Enabled = false;
+            //cmbHoteles.SelectedIndex = -1;
             clearDataFields();
         }
 
@@ -461,7 +488,7 @@ namespace FrbaHotel.ABM_de_Hotel
             tbCalle.Text = "";
             tbMail.Text = "";
             tbTelefono.Text = "";
-            tbEstadoHotel.Text = "";
+            this.checkBox_Habilitado.CheckState = CheckState.Checked;
             dtpFechaCreacion.Visible = false;
             tbHideDate.Visible = true;
             clbRegimenes.Items.Clear();
@@ -494,10 +521,10 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private String getEstadoHotelCodificado()
         {
-            if (tbEstadoHotel.Text == "Sí")
+            if (this.checkBox_Habilitado.CheckState == CheckState.Checked)
+            {
                 return "1";
-            if (tbEstadoHotel.Text == "No")
-                return "0";
+            }
 
             else return "0";
         }
@@ -570,6 +597,11 @@ namespace FrbaHotel.ABM_de_Hotel
                 else
                     getHabitacionesHotel(Convert.ToInt32(idHotel_Creado));    
                 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
 
 

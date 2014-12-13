@@ -32,70 +32,50 @@ namespace FrbaHotel.ABM_de_Hotel
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
-        { Int32 count;
-           using (SqlConnection connection = DbManager.dbConnect())
+        {   
+            Int32 count;
+            using (SqlConnection connection = DbManager.dbConnect())
             {
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.Connection = connection;
-                    command.CommandType = CommandType.Text;
-                    
-                    command.CommandText = " SELECT COUNT(1) "+
-                                          " FROM ENER_LAND.Reserva res, ENER_LAND.Reserva_Habitacion hab "+
-                                          " WHERE res.idReserva=hab.idReserva AND IdHotel=@idHotel "+
-                                          " AND" +
-                                          " ( res.FechaDesde BETWEEN @fechaDesde AND DATEADD(DAY,@cantDias,@fechaDesde) " +
-                                          " OR "+
-                                          " DATEADD(DAY,Cantidad_dias,res.FechaDesde) BETWEEN @fechaDesde AND DATEADD(DAY,@cantDias,@fechaDesde) " +
-                                          " ) ";
+                   command.Connection = connection;
+                   command.CommandType = CommandType.Text;
+                   /*
+                   command.CommandText = "SELECT COUNT(1) " +
+                                         "FROM ENER_LAND.Reserva res, " +
+                                         "ENER_LAND.Reserva_Habitacion RH, ENER_LAND.Reservas R " +
+                                         "WHERE rr.idReserva=rh.idReserva " +
+                                         "AND rh.IdHotel=@idHotel " +
+                                         "AND " +
+                                         "( est.Fecha_Ingreso BETWEEN @fechaDesde AND DATEADD(DAY,@cantDias,@fechaDesde) " +
+                                         "OR " +
+                                         "DATEADD(DAY,est.Cantidad_Dias,est.Fecha_Ingreso)  BETWEEN @fechaDesde AND DATEADD(DAY,@cantDias,@fechaDesde) " +
+                                         ") " +
+                                         "AND res.idReserva=est.idReserva ";
+                   */
+                   command.CommandText = "SELECT COUNT(1) " +
+                                         "FROM ENER_LAND.Reserva R, ENER_LAND.Reserva_Habitacion RH " +
+                                         "WHERE R.idReserva = RH.idReserva " +
+                                         "AND RH.IdHotel = @idHotel " +
+                                         "AND R.idEstado_Reserva IN ( 1, 2, 6 ) " +
+                                         "AND ( " +
+	                                     "@FechaBaja BETWEEN R.FechaDesde AND DATEADD(d, Cantidad_Dias, R.FechaDesde) " +
+                                         "OR	DATEADD(d, @CantDiasBaja, @FechaBaja) BETWEEN R.FechaDesde AND DATEADD(d, Cantidad_Dias, R.FechaDesde) " +
+                                         "OR	R.FechaDesde BETWEEN @FechaBaja AND DATEADD(d, @CantDiasBaja, @FechaBaja) " +
+                                         ") ";
 
-                    command.Parameters.AddWithValue("@idHotel", idHotel);
-                    command.Parameters.AddWithValue("@fechaDesde", dtpFechaInicioDeshabilitado.Value);
-                    command.Parameters.AddWithValue("@cantDias", udDiasDeshabilitados.Value);
-                     count = (Int32)command.ExecuteScalar();
-                    if (count != 0)
-                        MessageBox.Show("No se puede deshabilitar el hotel, reservas en curso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                   command.Parameters.AddWithValue("@idHotel", idHotel);
+                   command.Parameters.AddWithValue("@FechaBaja", dtpFechaInicioDeshabilitado.Value);
+                   command.Parameters.AddWithValue("@CantDiasBaja", udDiasDeshabilitados.Value);
+                   count = (Int32)command.ExecuteScalar();
+                   if (count != 0)
+                       MessageBox.Show("No se puede deshabilitar el hotel, reservas en curso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-           if (count == 0)
-           {
-               using (SqlConnection connection = DbManager.dbConnect())
-               {
-                   using (SqlCommand command = new SqlCommand())
-                   {
-                       command.Connection = connection;
-                       command.CommandType = CommandType.Text;
-
-                       command.CommandText = "SELECT COUNT(1) " +
-                                             "FROM ENER_LAND.Reserva res, " +
-                                             "ENER_LAND.Reserva_Habitacion hab,ENER_LAND.Estadias est " +
-                                             "WHERE res.idReserva=hab.idReserva AND IdHotel=@idHotel " +
-                                             "AND " +
-                                             "( est.Fecha_Ingreso BETWEEN @fechaDesde AND DATEADD(DAY,@cantDias,@fechaDesde) " +
-                                             "OR " +
-                                             "DATEADD(DAY,est.Cantidad_Dias,est.Fecha_Ingreso)  BETWEEN @fechaDesde AND DATEADD(DAY,@cantDias,@fechaDesde) " +
-                                             ") " +
-                                             "AND res.idReserva=est.idReserva ";
-
-                       command.Parameters.AddWithValue("@idHotel", idHotel);
-                       command.Parameters.AddWithValue("@fechaDesde", dtpFechaInicioDeshabilitado.Value);
-                       command.Parameters.AddWithValue("@cantDias", udDiasDeshabilitados.Value);
-                       count = (Int32)command.ExecuteScalar();
-                       if (count != 0)
-                           MessageBox.Show("No se puede deshabilitar el hotel, estadias en curso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                   }
-               }
-
-           }
-           if (count == 0)
-           {
-               DbManager.dbSqlStatementExec("UPDATE ENER_LAND.Hotel SET Habilitado =0 WHERE idHotel=" +idHotel);
-               
-               using (SqlConnection connection = DbManager.dbConnect())
-               {
-                   using (SqlCommand command = new SqlCommand())
-                   {
+           
+                if (count == 0)
+                {              
+                    using (SqlCommand command = new SqlCommand())
+                    {
                        command.Connection = connection;
                        command.CommandType = CommandType.Text;
 
@@ -109,14 +89,15 @@ namespace FrbaHotel.ABM_de_Hotel
                        
                        this.Close();
                        this.Dispose();
-                   }
-               }
-           }
+                    }
+                }
+            }
         }
 
         private void BajaHotel_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.parentForm.Enabled = true;
+            this.parentForm.Dispose();
         }
     }
 }

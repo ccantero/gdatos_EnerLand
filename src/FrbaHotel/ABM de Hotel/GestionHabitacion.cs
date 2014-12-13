@@ -65,6 +65,18 @@ namespace FrbaHotel.ABM_de_Hotel
             {
                 char tipoUbicacion;
 
+                if (cbUbicacionHab.Text.Equals(""))
+                {
+                    MessageBox.Show("Debe seleccionar una ubicacion para la habitacion");
+                    return;
+                }
+
+                if (cbTipoHabitacion.Text.Equals(""))
+                {
+                    MessageBox.Show("Debe seleccionar un tipo para la habitacion");
+                    return;
+                }
+
                 if (cbUbicacionHab.Text == "Contrafrente")
                     tipoUbicacion = 'N';
                 else tipoUbicacion = 'S';
@@ -77,7 +89,7 @@ namespace FrbaHotel.ABM_de_Hotel
                         if (optype == 0)
                         {
                             command.CommandText = "INSERT INTO ENER_LAND.Habitacion " +
-                                                  "VALUES (@numHab,@idHotel,@tipo,@piso,@ubicacion,@desc,0)";
+                                                  "VALUES (@numHab,@idHotel,@tipo,@piso,@ubicacion,@desc,1)";
                             command.Parameters.AddWithValue("@numHab", tbNumHabitacion.Text);
                             command.Parameters.AddWithValue("@idHotel", idHotel);
                             command.Parameters.AddWithValue("@tipo", cbTipoHabitacion.SelectedValue);

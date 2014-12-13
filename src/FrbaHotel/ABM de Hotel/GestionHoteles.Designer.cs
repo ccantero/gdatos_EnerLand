@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GestionHoteles));
             this.cmbPaises = new System.Windows.Forms.ComboBox();
             this.cmbLocalidades = new System.Windows.Forms.ComboBox();
@@ -53,7 +53,6 @@
             this.clbRegimenes = new System.Windows.Forms.CheckedListBox();
             this.lblHabitaciones = new System.Windows.Forms.Label();
             this.lblHabilitado = new System.Windows.Forms.Label();
-            this.tbEstadoHotel = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnAccept = new System.Windows.Forms.Button();
             this.btnStatusChange = new System.Windows.Forms.Button();
@@ -65,6 +64,7 @@
             this.btnDisableRoom = new System.Windows.Forms.Button();
             this.btnEditRoom = new System.Windows.Forms.Button();
             this.btnNewRoom = new System.Windows.Forms.Button();
+            this.checkBox_Habilitado = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHabitaciones)).BeginInit();
             this.SuspendLayout();
             // 
@@ -252,14 +252,14 @@
             this.dgvHabitaciones.AllowUserToResizeRows = false;
             this.dgvHabitaciones.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvHabitaciones.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvHabitaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvHabitaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvHabitaciones.ColumnHeadersHeight = 20;
             this.dgvHabitaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvHabitaciones.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -271,9 +271,9 @@
             this.dgvHabitaciones.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvHabitaciones.RowHeadersVisible = false;
             this.dgvHabitaciones.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvHabitaciones.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvHabitaciones.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvHabitaciones.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black;
             this.dgvHabitaciones.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
             this.dgvHabitaciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -309,15 +309,6 @@
             this.lblHabilitado.Size = new System.Drawing.Size(54, 13);
             this.lblHabilitado.TabIndex = 29;
             this.lblHabilitado.Text = "Habilitado";
-            // 
-            // tbEstadoHotel
-            // 
-            this.tbEstadoHotel.Enabled = false;
-            this.tbEstadoHotel.Location = new System.Drawing.Point(555, 117);
-            this.tbEstadoHotel.Name = "tbEstadoHotel";
-            this.tbEstadoHotel.ReadOnly = true;
-            this.tbEstadoHotel.Size = new System.Drawing.Size(37, 20);
-            this.tbEstadoHotel.TabIndex = 30;
             // 
             // btnCancel
             // 
@@ -472,11 +463,21 @@
             this.btnNewRoom.UseVisualStyleBackColor = false;
             this.btnNewRoom.Click += new System.EventHandler(this.btnNewRoom_Click);
             // 
+            // checkBox_Habilitado
+            // 
+            this.checkBox_Habilitado.Location = new System.Drawing.Point(562, 117);
+            this.checkBox_Habilitado.Name = "checkBox_Habilitado";
+            this.checkBox_Habilitado.Size = new System.Drawing.Size(30, 23);
+            this.checkBox_Habilitado.TabIndex = 39;
+            this.checkBox_Habilitado.UseVisualStyleBackColor = true;
+            this.checkBox_Habilitado.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // GestionHoteles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.checkBox_Habilitado);
             this.Controls.Add(this.btnDisableRoom);
             this.Controls.Add(this.btnEditRoom);
             this.Controls.Add(this.btnNewRoom);
@@ -485,7 +486,6 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.btnStatusChange);
-            this.Controls.Add(this.tbEstadoHotel);
             this.Controls.Add(this.lblHabilitado);
             this.Controls.Add(this.lblHabitaciones);
             this.Controls.Add(this.clbRegimenes);
@@ -549,7 +549,6 @@
         private System.Windows.Forms.CheckedListBox clbRegimenes;
         private System.Windows.Forms.Label lblHabitaciones;
         private System.Windows.Forms.Label lblHabilitado;
-        private System.Windows.Forms.TextBox tbEstadoHotel;
         private System.Windows.Forms.Button btnStatusChange;
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Button btnCancel;
@@ -558,6 +557,7 @@
         private System.Windows.Forms.Button btnDisableRoom;
         private System.Windows.Forms.Button btnEditRoom;
         private System.Windows.Forms.Button btnNewRoom;
+        private System.Windows.Forms.CheckBox checkBox_Habilitado;
 
     }
 }
