@@ -1309,6 +1309,7 @@ RETURNS INT
 AS
 	BEGIN
 		DECLARE @Resultado INT
+		SET @Resultado = 0
 	
 		IF EXISTS ( SELECT 1
 					FROM ENER_LAND.Hotel_Inhabilitado
@@ -1330,9 +1331,7 @@ AS
 					AND FechaInicio BETWEEN @FechaInicioReserva AND @FechaFinReserva
 				)
 			SET @Resultado = 1
-		
-			SET @Resultado = 0
-			
+				
 		RETURN @Resultado
 	END
 GO
@@ -1348,6 +1347,7 @@ RETURNS INT
 AS
 	BEGIN
 		DECLARE @Resultado INT
+		SET @Resultado = 0
 	
 		IF EXISTS ( SELECT 1
 					FROM ENER_LAND.Habitacion_Inhabilitada
@@ -1372,9 +1372,7 @@ AS
 					AND FechaInicio BETWEEN @FechaInicioReserva AND @FechaFinReserva
 				)
 			SET @Resultado = 1
-		
-			SET @Resultado = 0
-			
+				
 		RETURN @Resultado
 	END
 GO

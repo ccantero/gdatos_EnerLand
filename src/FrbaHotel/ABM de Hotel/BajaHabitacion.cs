@@ -31,6 +31,7 @@ namespace FrbaHotel.ABM_de_Hotel
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             dtpFechaInicioDeshabilitado.CustomFormat = "dd-MM-yyyy";
+            dtpFechaInicioDeshabilitado.Value = @FrbaHotel.Properties.Settings.Default.Fecha;
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)

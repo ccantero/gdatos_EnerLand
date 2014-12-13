@@ -99,7 +99,7 @@
             this.lbMotivo.TabIndex = 6;
             this.lbMotivo.Text = "Motivo";
             // 
-            // BajaHotel
+            // BajaHabitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -111,8 +111,8 @@
             this.Controls.Add(this.tbMotivo);
             this.Controls.Add(this.udDiasDeshabilitados);
             this.Controls.Add(this.dtpFechaInicioDeshabilitado);
-            this.Name = "BajaHotel";
-            this.Text = "BajaHotel";
+            this.Name = "BajaHabitacion";
+            this.Text = "BajaHabitacion";
             this.Load += new System.EventHandler(this.BajaHotel_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BajaHotel_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.udDiasDeshabilitados)).EndInit();

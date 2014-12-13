@@ -31,7 +31,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva
         private void button1_Click(object sender, EventArgs e)
         {
             ((Reserva)parent_Form).CancelarReserva(this.Textbox.Text);
-            parent_Form.Show();
+            //parent_Form.Show();
             this.Dispose();
         }
     }
