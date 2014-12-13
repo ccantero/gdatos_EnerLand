@@ -53,7 +53,7 @@ namespace FrbaHotel.ABM_de_Hotel
             tbDescHabitacion.Text = habitacion.Cells[5].Value.ToString();
 
             optype = 1; //modificacion
-            cbTipoHabitacion.Enabled = false;
+            //cbTipoHabitacion.Enabled = false;
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -61,72 +61,73 @@ namespace FrbaHotel.ABM_de_Hotel
             DbResultSet rs;
             //rs = DbManager.dbGetInt("SELECT COUNT(1) FROM ENER_LAND.Habitacion WHERE idHotel = " + idHotel + " AND Numero = " + tbNumHabitacion.Text + " AND Numero != " + habitacion.Cells[0].Value.ToString());
             rs = DbManager.dbGetInt("SELECT COUNT(1) FROM ENER_LAND.Habitacion WHERE idHotel = " + idHotel + " AND Numero = " + tbNumHabitacion.Text);
-            if (rs.intValue == 0)
+            if (rs.intValue != 0 && optype != 1 )
             {
-                char tipoUbicacion;
-
-                if (cbUbicacionHab.Text.Equals(""))
-                {
-                    MessageBox.Show("Debe seleccionar una ubicacion para la habitacion");
-                    return;
-                }
-
-                if (cbTipoHabitacion.Text.Equals(""))
-                {
-                    MessageBox.Show("Debe seleccionar un tipo para la habitacion");
-                    return;
-                }
-
-                if (cbUbicacionHab.Text == "Contrafrente")
-                    tipoUbicacion = 'N';
-                else tipoUbicacion = 'S';
-                using (SqlConnection connection = DbManager.dbConnect())
-                {
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.Connection = connection;
-                        command.CommandType = CommandType.Text;
-                        if (optype == 0)
-                        {
-                            command.CommandText = "INSERT INTO ENER_LAND.Habitacion " +
-                                                  "VALUES (@numHab,@idHotel,@tipo,@piso,@ubicacion,@desc,1)";
-                            command.Parameters.AddWithValue("@numHab", tbNumHabitacion.Text);
-                            command.Parameters.AddWithValue("@idHotel", idHotel);
-                            command.Parameters.AddWithValue("@tipo", cbTipoHabitacion.SelectedValue);
-                            command.Parameters.AddWithValue("@piso", tbPisoHabitacion.Text);
-                            command.Parameters.AddWithValue("@ubicacion", tipoUbicacion);
-                            command.Parameters.AddWithValue("@desc", tbDescHabitacion.Text);
-                        }
-                        else
-                        {
-                            command.CommandText = "UPDATE ENER_LAND.Habitacion " +
-                                                  "SET Numero = @numHab , " +
-                                                  "idTipo_Habitacion = @tipo , " +
-                                                  "Piso = @piso , " +
-                                                  "Ubicacion =  @ubicacion ," +
-                                                  "Descripcion = @desc " +
-                                                  "WHERE IdHotel = @idHotel " +
-                                                  "AND Numero = @prevNumHab";
-                            command.Parameters.AddWithValue("@numHab", tbNumHabitacion.Text);
-                            command.Parameters.AddWithValue("@tipo", cbTipoHabitacion.SelectedValue);
-                            command.Parameters.AddWithValue("@piso", tbPisoHabitacion.Text);
-                            command.Parameters.AddWithValue("@ubicacion", tipoUbicacion);
-                            command.Parameters.AddWithValue("@desc", tbDescHabitacion.Text);
-                            command.Parameters.AddWithValue("@idHotel", idHotel);
-                            command.Parameters.AddWithValue("@prevNumHab", habitacion.Cells[0].Value);
-                        }
-
-                        int recordsAffected = command.ExecuteNonQuery();
-                        connection.Close();
-
-                    }
-                }
-                this.Close();
-                this.Dispose();
-                
-            }
-            else
                 MessageBox.Show("Error al impactar cambios, el numero de habitación ingresado ya se encuentra registrado.", "ABM Habitaciones", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            char tipoUbicacion;
+
+            if (cbUbicacionHab.Text.Equals(""))
+            {
+                MessageBox.Show("Debe seleccionar una ubicacion para la habitacion");
+                return;
+            }
+
+            if (cbTipoHabitacion.Text.Equals(""))
+            {
+                MessageBox.Show("Debe seleccionar un tipo para la habitacion");
+                return;
+            }
+
+            if (cbUbicacionHab.Text == "Contrafrente")
+                tipoUbicacion = 'N';
+            else tipoUbicacion = 'S';
+            using (SqlConnection connection = DbManager.dbConnect())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+                    if (optype == 0)
+                    {
+                        command.CommandText = "INSERT INTO ENER_LAND.Habitacion " +
+                                              "VALUES (@numHab,@idHotel,@tipo,@piso,@ubicacion,@desc,1)";
+                        command.Parameters.AddWithValue("@numHab", tbNumHabitacion.Text);
+                        command.Parameters.AddWithValue("@idHotel", idHotel);
+                        command.Parameters.AddWithValue("@tipo", cbTipoHabitacion.SelectedValue);
+                        command.Parameters.AddWithValue("@piso", tbPisoHabitacion.Text);
+                        command.Parameters.AddWithValue("@ubicacion", tipoUbicacion);
+                        command.Parameters.AddWithValue("@desc", tbDescHabitacion.Text);
+                    }
+                    else
+                    {
+                        command.CommandText = "UPDATE ENER_LAND.Habitacion " +
+                                              "SET Numero = @numHab , " +
+                                              "idTipo_Habitacion = @tipo , " +
+                                              "Piso = @piso , " +
+                                              "Ubicacion =  @ubicacion ," +
+                                              "Descripcion = @desc " +
+                                              "WHERE IdHotel = @idHotel " +
+                                              "AND Numero = @prevNumHab";
+                        command.Parameters.AddWithValue("@numHab", tbNumHabitacion.Text);
+                        command.Parameters.AddWithValue("@tipo", cbTipoHabitacion.SelectedValue);
+                        command.Parameters.AddWithValue("@piso", tbPisoHabitacion.Text);
+                        command.Parameters.AddWithValue("@ubicacion", tipoUbicacion);
+                        command.Parameters.AddWithValue("@desc", tbDescHabitacion.Text);
+                        command.Parameters.AddWithValue("@idHotel", idHotel);
+                        command.Parameters.AddWithValue("@prevNumHab", habitacion.Cells[0].Value);
+                    }
+
+                    int recordsAffected = command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+            }
+            this.Close();
+            parentForm.Show();
+            this.Dispose();
+                
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -159,6 +160,8 @@ namespace FrbaHotel.ABM_de_Hotel
         private void GestionHabitacion_FormClosing(object sender, FormClosingEventArgs e)
         {
             parentForm.Enabled = true;
+            parentForm.Show();
+            this.Dispose();
         }
 
         private void tbdigits_KeyPress(object sender, KeyPressEventArgs e)

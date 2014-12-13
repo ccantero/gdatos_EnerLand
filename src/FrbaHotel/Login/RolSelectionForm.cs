@@ -27,6 +27,8 @@ namespace FrbaHotel.Login
 			{
                 this.comboBox1.Items.Add(roles[i, 1]);
 			}
+            
+            this.ControlBox = false;
         }
 
         private void RolChoosing()

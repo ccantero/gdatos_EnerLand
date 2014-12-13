@@ -29,6 +29,7 @@ namespace FrbaHotel.ABM_de_Hotel
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             dtpFechaInicioDeshabilitado.CustomFormat = "dd-MM-yyyy";
+            dtpFechaInicioDeshabilitado.Value = @FrbaHotel.Properties.Settings.Default.Fecha;
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
@@ -86,7 +87,8 @@ namespace FrbaHotel.ABM_de_Hotel
                        command.Parameters.AddWithValue("@cantDias", udDiasDeshabilitados.Value);
                        command.Parameters.AddWithValue("@motivo", tbMotivo.Text);
                        command.ExecuteNonQuery();
-                       
+
+                       parentForm.Show();
                        this.Close();
                        this.Dispose();
                     }
@@ -97,7 +99,7 @@ namespace FrbaHotel.ABM_de_Hotel
         private void BajaHotel_FormClosing(object sender, FormClosingEventArgs e)
         {
             parentForm.Show();
-            this.parentForm.Dispose();
+            this.Dispose();
         }
     }
 }

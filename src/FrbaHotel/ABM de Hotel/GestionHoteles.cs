@@ -346,7 +346,7 @@ namespace FrbaHotel.ABM_de_Hotel
                                               "IdLocalidad = @idLocalidad, " +
                                               "IdPais = @idPais, " +
                                               "Fecha_Creacion = @fechaCreacion," +
-                                              "Habilitado = @habilitado " +
+                                              "Habilitado = @habilitado, " +
                                               "Administrador = @idAdministrador " +
                                               "WHERE idHotel = @idHotel";
                             command.Parameters.AddWithValue("@idHotel", cmbHoteles.SelectedValue);
@@ -641,4 +641,4 @@ namespace FrbaHotel.ABM_de_Hotel
 
     }
 
-    }
+}

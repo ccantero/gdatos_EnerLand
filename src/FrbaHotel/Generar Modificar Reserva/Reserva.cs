@@ -121,6 +121,16 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     command.CommandType = CommandType.Text;
                     if (currentHotel == -1)
                     {
+                        command.CommandText =   "SELECT DISTINCT ht.idHotel, RTRIM(ht.Nombre) + ' | ' + ht.Calle + ' ' + CONVERT(VARCHAR(50),ht.Numero) + ' - ' + RTRIM(loc.Nombre) + ', ' + ps.Nombre + ' (' + CONVERT(VARCHAR(5),ht.Cantidad_Estrellas) + '*)' Hotel " +
+                                                "FROM ENER_LAND.Habitacion hab , ENER_LAND.Tipo_Habitacion thab, ENER_LAND.Hotel ht, ENER_LAND.Localidad loc, ENER_LAND.Pais ps " +
+                                                "WHERE hab.idHotel = ht.idHotel " +
+                                                "AND hab.idTipo_Habitacion = thab.idTipo_Habitacion " +
+                                                "AND ht.idLocalidad = loc.idLocalidad " +
+                                                "AND ht.idpais = ps.idPais " +
+                                                "AND ENER_LAND.CHECK_Hotel_Habilitado(ht.idHotel,@fechaInicioReserva,@FechaFinReserva) = 0 " +
+                                                "AND ENER_LAND.CHECK_Habitacion_Habilitada(ht.idHotel,hab.numero, @fechaInicioReserva,@FechaFinReserva) = 0 ";
+                        
+                        /*
                         command.CommandText = " SELECT ht.idHotel,RTRIM(ht.Nombre) + ' | ' + ht.Calle + ' ' + CONVERT(VARCHAR(50),ht.Numero) + ' - ' + RTRIM(loc.Nombre) + ', ' + ps.Nombre + ' (' + CONVERT(VARCHAR(5),ht.Cantidad_Estrellas) + '*)' Hotel" +
                                                 " FROM ENER_LAND.Habitacion hab , ENER_LAND.Tipo_Habitacion thab, ENER_LAND.Hotel ht, ENER_LAND.Localidad loc, ENER_LAND.Pais ps" +
                                                 " WHERE hab.Habilitado = 1" +
@@ -141,36 +151,25 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                                                 " GROUP BY ht.idHotel,ht.Nombre,ht.Calle,ht.Numero,ps.Nombre,loc.Nombre,ht.Cantidad_Estrellas" +
                                                 " HAVING SUM(CASE hab.idTipo_Habitacion WHEN 1 THEN 0  ELSE hab.idTipo_habitacion % 1000 END)>=" + cantHuespuedes +
                                                 " ORDER BY 1,2 ASC";
+                         */
                     }
                     else
                     {
-                        command.CommandText = " SELECT ht.idHotel,RTRIM(ht.Nombre) + ' | ' + ht.Calle + ' ' + CONVERT(VARCHAR(50),ht.Numero) + ' - ' + RTRIM(loc.Nombre) + ', ' + ps.Nombre + ' (' + CONVERT(VARCHAR(5),ht.Cantidad_Estrellas) + '*)' Hotel" +
-                                                " FROM ENER_LAND.Habitacion hab , ENER_LAND.Tipo_Habitacion thab, ENER_LAND.Hotel ht, ENER_LAND.Localidad loc, ENER_LAND.Pais ps" +
-                                                " WHERE hab.Habilitado = 1" +
-                                                " AND (ht.idHotel = @hotelAnterior OR EXISTS (" +
-                                                " SELECT 1" +
-                                                " FROM ENER_LAND.Reserva res, ENER_LAND.Reserva_Habitacion rhab" +
-                                                " WHERE res.idReserva=rhab.idReserva" +
-                                                "  AND NOT (@fechaResDesde BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde)" +
-                                                "       OR " +
-                                                "       @fechaResHasta BETWEEN res.FechaDesde AND DATEADD(DAY,res.Cantidad_Dias,res.FechaDesde))" +
-                                                "  AND rhab.idHotel=hab.idHotel" +
-                                                "  AND hab.numero=rhab.Habitacion_numero " +
-                                                " ))" +
-                                                " AND hab.idTipo_Habitacion=thab.idTipo_Habitacion" +
-                                                " AND hab.IdHotel=ht.idHotel" +
-                                                " AND ht.idLocalidad=loc.idLocalidad" +
-                                                " AND ht.idPais=ps.idPais" +
-                                                " AND hab.idHotel = " + currentHotel.ToString() +
-                                                " GROUP BY ht.idHotel,ht.Nombre,ht.Calle,ht.Numero,ps.Nombre,loc.Nombre,ht.Cantidad_Estrellas" +
-                                                " HAVING SUM(CASE hab.idTipo_Habitacion WHEN 1 THEN 0  ELSE hab.idTipo_habitacion % 1000 END)>=" + cantHuespuedes +
-                                                " ORDER BY 1,2 ASC";
+                        command.CommandText =   "SELECT DISTINCT ht.idHotel, RTRIM(ht.Nombre) + ' | ' + ht.Calle + ' ' + CONVERT(VARCHAR(50),ht.Numero) + ' - ' + RTRIM(loc.Nombre) + ', ' + ps.Nombre + ' (' + CONVERT(VARCHAR(5),ht.Cantidad_Estrellas) + '*)' Hotel " +
+                                                "FROM ENER_LAND.Habitacion hab , ENER_LAND.Tipo_Habitacion thab, ENER_LAND.Hotel ht, ENER_LAND.Localidad loc, ENER_LAND.Pais ps " +
+                                                "WHERE hab.idHotel = ht.idHotel " +
+                                                "AND hab.idTipo_Habitacion = thab.idTipo_Habitacion " +
+                                                "AND ht.idLocalidad = loc.idLocalidad " +
+                                                "AND ht.idpais = ps.idPais " +
+                                                "AND ENER_LAND.CHECK_Hotel_Habilitado(ht.idHotel,@fechaInicioReserva,@FechaFinReserva) = 0 " +
+                                                "AND ENER_LAND.CHECK_Habitacion_Habilitada(ht.idHotel,hab.numero, @fechaInicioReserva,@FechaFinReserva) = 0 " + 
+                                                "AND ht.idHotel = " + currentHotel.ToString();
                     }
                     
 
-                    command.Parameters.AddWithValue("@hotelAnterior", dtpFechaDesde.Value);
-                    command.Parameters.AddWithValue("@fechaResDesde", dtpFechaDesde.Value);
-                    command.Parameters.AddWithValue("@fechaResHasta", dtpFechaHasta.Value);
+                    //command.Parameters.AddWithValue("@hotelAnterior", dtpFechaDesde.Value);
+                    command.Parameters.AddWithValue("@fechaInicioReserva", dtpFechaDesde.Value);
+                    command.Parameters.AddWithValue("@FechaFinReserva", dtpFechaHasta.Value);
 
                     DataTable dt = new DataTable();
                     dt.Load(command.ExecuteReader());
@@ -210,8 +209,19 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     " AND hab.IdHotel= @idHotel " +
                     " GROUP BY ht.idHotel,ht.Nombre,ht.Calle,ht.Numero,hab.idTipo_Habitacion,thab.Descripcion";
 
-                    command.Parameters.AddWithValue("@fechaResDesde", dtpFechaDesde.Value);
-                    command.Parameters.AddWithValue("@fechaResHasta", dtpFechaHasta.Value);
+                    command.CommandText =   "SELECT hab.idTipo_Habitacion,thab.Descripcion + ' - Capacidad: ' + CONVERT(VARCHAR(5),CASE hab.idTipo_Habitacion WHEN 1 THEN 0  ELSE hab.idTipo_habitacion % 1000 END) + ' p.' Descripcion, COUNT(1) Disponibles " +
+                                            "FROM ENER_LAND.Habitacion hab , ENER_LAND.Tipo_Habitacion thab, ENER_LAND.Hotel ht, ENER_LAND.Localidad loc, ENER_LAND.Pais ps " +
+                                            "WHERE hab.idHotel = ht.idHotel " +
+                                            "AND hab.idTipo_Habitacion = thab.idTipo_Habitacion " +
+                                            "AND ht.idLocalidad = loc.idLocalidad " +
+                                            "AND ht.idpais = ps.idPais " +
+                                            "AND ENER_LAND.CHECK_Hotel_Habilitado(ht.idHotel,@fechaInicioReserva,@FechaFinReserva) = 0 " +
+                                            "AND ENER_LAND.CHECK_Habitacion_Habilitada(ht.idHotel,hab.numero, @fechaInicioReserva,@FechaFinReserva) = 0 " +
+                                            "AND ht.idHotel = @idHotel " + 
+                                            "GROUP BY ht.idHotel, ht.Nombre, hab.idTipo_Habitacion,thab.Descripcion";
+
+                    command.Parameters.AddWithValue("@fechaInicioReserva", dtpFechaDesde.Value);
+                    command.Parameters.AddWithValue("@FechaFinReserva", dtpFechaHasta.Value);
                     command.Parameters.AddWithValue("@idHotel", cmbHotelesDisponibles.SelectedValue);
                     DataTable dt = new DataTable();
                     dt.Load(command.ExecuteReader());
@@ -473,6 +483,9 @@ namespace FrbaHotel.Generar_Modificar_Reserva
 		                DbManager.dbSqlStatementExec("DELETE FROM ENER_LAND.Reserva_Habitacion WHERE idReserva =" + codReserva);
                         reservarHabitaciones(codReserva);
                         registrarAuditoria(codReserva, operationType, "");
+                        MessageBox.Show("Modifcacion Exitosa");
+                        parentForm.Show();
+                        this.Dispose();
                 	}
                 }
                 else /* Cancelacion de Reserva */

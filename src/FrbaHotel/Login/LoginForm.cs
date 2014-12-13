@@ -269,11 +269,21 @@ namespace FrbaHotel.Login
             string query;
             DbResultSet rs;
 
-            query = "SELECT x1.idHotel, x2.Nombre " +
-                    "FROM ENER_LAND.Usuario_Hoteles x1, ENER_LAND.Hotel x2 " +
-                    "WHERE x1.idHotel = x2.idHotel " +
-                    "AND x2.Habilitado = 1 " +
-                    "AND x1.idUsuario = " + idUsuario.ToString();
+            if (idUsuario == 1)
+            {
+                query = "SELECT idHotel, Nombre FROM ENER_LAND.Hotel";
+            }
+            else
+                query = "SELECT x1.idHotel, x2.Nombre " +
+                        "FROM ENER_LAND.Usuario_Hoteles x1, ENER_LAND.Hotel x2 " +
+                        "WHERE x1.idHotel = x2.idHotel " +
+                        "AND x2.Habilitado = 1 " +
+                        "AND x1.idUsuario = " + idUsuario.ToString() + " " +
+                        "UNION " +
+                        "SELECT idHotel, Nombre " +
+                        "FROM ENER_LAND.Hotel " +
+                        "WHERE Habilitado = 1 " +
+                        "AND Administrador = " + idUsuario.ToString();
 
             rs = DbManager.GetDataTable(query);
 
