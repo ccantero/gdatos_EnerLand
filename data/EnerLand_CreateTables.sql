@@ -372,7 +372,7 @@ INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Registrar Consumible
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Facturar');
 INSERT [ENER_LAND].[Funcionalidad] ([Descripcion]) VALUES ('Estadisticas');	
 
-INSERT [ENER_LAND].[Usuario] ([username], [Contraseña], [intentosFallidos], [Habilitado]) VALUES ('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 0, 1);
+INSERT [ENER_LAND].[Usuario] ([username], [Contraseña], [Nombre], [Apellido], [intentosFallidos], [Habilitado]) VALUES ('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7','Administrador' ,'General' ,0, 1);
 -- w23e encriptado en SHA256 es e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7
 INSERT [ENER_LAND].[Usuario] ([username], [Contraseña], [intentosFallidos], [Habilitado]) VALUES ('guest', '280d44ab1e9f79b5cce2dd4f58f5fe91f0fbacdac9f7447dffc318ceb79f2d02', 0, 1);
 -- welcome encriptado en SHA256 es 280d44ab1e9f79b5cce2dd4f58f5fe91f0fbacdac9f7447dffc318ceb79f2d02

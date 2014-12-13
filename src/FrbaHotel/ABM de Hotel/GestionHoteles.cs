@@ -125,9 +125,10 @@ namespace FrbaHotel.ABM_de_Hotel
             if (cmbEstrellas.SelectedIndex > 0)
                 query +=" AND Cantidad_Estrellas = " + cmbEstrellas.Text;
 
-            
-            if (currentHotel >= 1)
-                query += "AND ( idHotel = " + currentHotel.ToString() + " OR Administrador = " + currentUser.ToString() + ") ";
+
+            if (currentUser != 1)
+                if (currentHotel >= 1)
+                    query += "AND ( idHotel = " + currentHotel.ToString() + " OR Administrador = " + currentUser.ToString() + ") ";
             
             query += " ORDER BY Nombre ASC";
 
@@ -291,6 +292,7 @@ namespace FrbaHotel.ABM_de_Hotel
             dtpFechaCreacion.Visible = true;
             tbHideDate.Visible = false;
             this.checkBox_Habilitado.CheckState = CheckState.Checked;
+            this.checkBox_Habilitado.Enabled = false;
             lblHabitaciones.Visible = false;
             dgvHabitaciones.Visible = false;
         }
@@ -321,9 +323,9 @@ namespace FrbaHotel.ABM_de_Hotel
             formBaja.Show();
         }
 
-        private void btnAccept_Click(object sender, EventArgs e)
+        public void SaveData(int idAdministrador)
         {
-            Int32 idHotel = 0 ;
+            Int32 idHotel = 0;
 
             if (Convert.ToInt32(cmbPaises.SelectedValue) > 0 && Convert.ToInt32(cmbLocalidades.SelectedValue) > 0 && (cmbHoteles.SelectedIndex > 0 || mode == 1) && cmbEstrellas.SelectedIndex > 0)
             {
@@ -345,6 +347,7 @@ namespace FrbaHotel.ABM_de_Hotel
                                               "IdPais = @idPais, " +
                                               "Fecha_Creacion = @fechaCreacion," +
                                               "Habilitado = @habilitado " +
+                                              "Administrador = @idAdministrador " +
                                               "WHERE idHotel = @idHotel";
                             command.Parameters.AddWithValue("@idHotel", cmbHoteles.SelectedValue);
                             command.Parameters.AddWithValue("@idAdmin", 1); //Todo tomar de usuario
@@ -358,6 +361,7 @@ namespace FrbaHotel.ABM_de_Hotel
                             command.Parameters.AddWithValue("@idPais", cmbPaises.SelectedValue);
                             command.Parameters.AddWithValue("@fechaCreacion", dtpFechaCreacion.Value);
                             command.Parameters.AddWithValue("@habilitado", getEstadoHotelCodificado());
+                            command.Parameters.AddWithValue("@idAdministrador", idAdministrador);
                             int recordsAffected = command.ExecuteNonQuery();
                             idHotel = Convert.ToInt32(cmbHoteles.SelectedValue);
                             idHotel_Creado = -1;
@@ -368,7 +372,7 @@ namespace FrbaHotel.ABM_de_Hotel
                             command.CommandText = "ENER_LAND.Nuevo_Hotel  @idAdmin,@nombre,@mail, @telefono,@cantEstrellas,@calle,@numero,@idLocalidad,@idPais,@fechaCreacion,@habilitado";
                             //command.Parameters.AddWithValue("@idHotel", newId);
 
-                            command.Parameters.AddWithValue("@idAdmin", currentUser); //Todo tomar de usuario
+                            command.Parameters.AddWithValue("@idAdmin", idAdministrador);
                             command.Parameters.AddWithValue("@nombre", cmbHoteles.Text);
                             command.Parameters.AddWithValue("@telefono", tbTelefono.Text);
                             command.Parameters.AddWithValue("@mail", tbMail.Text);
@@ -383,7 +387,7 @@ namespace FrbaHotel.ABM_de_Hotel
                             //var returnParameter = command.Parameters.Add("@idHotel", SqlDbType.Int);
                             //returnParameter.Direction = ParameterDirection.ReturnValue;
                             //MessageBox.Show(command.ExecuteScalar().ToString());
-                             idHotel = Convert.ToInt32(command.ExecuteScalar());
+                            idHotel = Convert.ToInt32(command.ExecuteScalar());
                             //= Convert.ToInt32(command.Parameters["@idHotel"].Value);
                         }
 
@@ -422,8 +426,38 @@ namespace FrbaHotel.ABM_de_Hotel
             }
             else
             {
-                MessageBox.Show("Error al impactar cambios, faltan datos obligatorios.", "ABM Hoteles",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al impactar cambios, faltan datos obligatorios.", "ABM Hoteles", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnAccept_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            string query;
+            DbResultSet rs;
+
+            query = "SELECT x1.idUsuario, x2.Nombre + ' ' + x2.Apellido As Administrador " +
+                    "FROM ENER_LAND.Rol_Usuario x1, ENER_LAND.Usuario x2 " +
+                    "WHERE x1.idUsuario = x2.idUsuario " +
+                    "AND x2.Habilitado = 1 " +
+                    "AND x1.idRol = 1 ";
+
+            rs = DbManager.GetDataTable(query);
+            string[,] Administradores = new string[rs.dataTable.Rows.Count, 2];
+
+            foreach (DataRow Row in rs.dataTable.Rows)
+            {
+                Administradores[i, 0] = Row["idUsuario"].ToString();
+                Administradores[i, 1] = Row["Administrador"].ToString();
+                i++;
+            }
+            
+            
+            Choose_Admin chooseAdmin_Form = new Choose_Admin("Seleccion de Administrador",
+                                                            "Seleccione uno de los siguientes Administradores",
+                                                            Administradores,
+                                                            this);
+            chooseAdmin_Form.Show();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

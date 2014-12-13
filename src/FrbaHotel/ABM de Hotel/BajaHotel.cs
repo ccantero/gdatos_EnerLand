@@ -96,7 +96,7 @@ namespace FrbaHotel.ABM_de_Hotel
 
         private void BajaHotel_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.parentForm.Enabled = true;
+            parentForm.Show();
             this.parentForm.Dispose();
         }
     }
