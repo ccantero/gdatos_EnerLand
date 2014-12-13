@@ -165,7 +165,14 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                                                 "AND ENER_LAND.CHECK_Habitacion_Habilitada(ht.idHotel,hab.numero, @fechaInicioReserva,@FechaFinReserva) = 0 " + 
                                                 "AND ht.idHotel = " + currentHotel.ToString();
                     }
-                    
+
+                    if (cmbRegimenHotelRes.SelectedIndex > 0)
+                    {
+                        command.CommandText = command.CommandText +
+                                              " AND EXISTS( SELECT 1 FROM ENER_LAND.Regimen_Hotel x1 " +
+                                              " WHERE x1.idHotel = ht.idHotel " +
+                                              " AND x1.idRegimen = " + cmbRegimenHotelRes.SelectedIndex.ToString() + " ) ";
+                    }
 
                     //command.Parameters.AddWithValue("@hotelAnterior", dtpFechaDesde.Value);
                     command.Parameters.AddWithValue("@fechaInicioReserva", dtpFechaDesde.Value);
@@ -179,6 +186,8 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     cmbHotelesDisponibles.DataSource = dt;
                     cmbHotelesDisponibles.DropDownStyle = ComboBoxStyle.DropDown;
                     cmbHotelesDisponibles.Enabled = true;
+
+                    dgvHabDisponibles.DataSource = null;
                 }
             }
         }
@@ -227,9 +236,6 @@ namespace FrbaHotel.Generar_Modificar_Reserva
                     dt.Load(command.ExecuteReader());
                     dgvHabDisponibles.DataSource = dt;
                     dgvHabDisponibles.Columns[0].Visible = false;
-
-
-
                 }
             }
         }

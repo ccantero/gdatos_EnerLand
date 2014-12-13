@@ -305,10 +305,6 @@
       <DependentUpon>RegistrarSalida_Form.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Test_Forms\DialogForm.resx">
-      <DependentUpon>DialogForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -341,12 +337,6 @@
     </Compile>
     <Compile Include="Registrar Estadia\RegistrarSalida_Form.Designer.cs">
       <DependentUpon>RegistrarSalida_Form.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Test_Forms\DialogForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test_Forms\DialogForm.Designer.cs">
-      <DependentUpon>DialogForm.cs</DependentUpon>
     </Compile>
     <Compile Include="User.cs" />
   </ItemGroup>
